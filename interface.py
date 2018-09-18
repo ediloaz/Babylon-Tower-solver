@@ -17,9 +17,9 @@ from pygame.locals import *
 import components as components;
 
 # declarations
-BG_COLOUR = (0, 0, 0)
-LINE_COLOUR = (255, 255, 255)
-button = components.Button((5, 5), (100, 100))
+BG_COLOUR = (255, 255, 255)
+LINE_COLOUR = (0, 0, 0)
+button = components.ButtonPrimary((50, 5))
 
 def ExitGame():
     pygame.display.quit()
@@ -36,7 +36,6 @@ def CreateScreen():
 
 def run():
     pygame.init()
-
     
     screen = CreateScreen()
     
