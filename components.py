@@ -7,64 +7,27 @@ import pygame, sys
 from pygame.locals import *
 from pygame import *
 
-
-
 def hex2rgb(hex_code):
     hex_code = hex_code.lstrip('#')
     rgb_code = tuple(int(hex_code[i:i+2], 16) for i in (0, 2 ,4))
     return rgb_code;
 
 
-def AAfilledRoundedRect(rect,color,radius=0.4):
-
-    """
-    AAfilledRoundedRect(surface,rect,color,radius=0.4)
-
-    surface : destination
-    rect    : rectangle
-    color   : rgb or rgba
-    radius  : 0 <= radius <= 1
-    """
-
-    rect         = Rect(rect)
-    color        = Color(*color)
-    alpha        = color.a
-    color.a      = 0
-    pos          = rect.topleft
-    rect.topleft = 0,0
-    rectangle    = Surface(rect.size,SRCALPHA)
-
-    circle       = Surface([min(rect.size)*3]*2,SRCALPHA)
-    draw.ellipse(circle,(0,0,0),circle.get_rect(),0)
-    circle       = transform.smoothscale(circle,[int(min(rect.size)*radius)]*2)
-
-    radius              = rectangle.blit(circle,(0,0))
-    radius.bottomright  = rect.bottomright
-    rectangle.blit(circle,radius)
-    radius.topright     = rect.topright
-    rectangle.blit(circle,radius)
-    radius.bottomleft   = rect.bottomleft
-    rectangle.blit(circle,radius)
-
-    rectangle.fill((0,0,0),rect.inflate(-radius.w,0))
-    rectangle.fill((0,0,0),rect.inflate(0,-radius.h))
-
-    rectangle.fill(color,special_flags=BLEND_RGBA_MAX)
-    rectangle.fill((255,255,255,alpha),special_flags=BLEND_RGBA_MIN)
-
-    return rectangle
-
 
 # --- Classes ---
 
-class ButtonPrimary(object):
+
+class ButtonUpload(object):
     def __init__(self, position):
         self._size = (120,30)
         self._images = {
-            "normal" : pygame.image.load("./images/buttons/button_primary_normal.png"),
-            "hover" : pygame.image.load("./images/buttons/button_primary_hover.png"),
-            "active" : pygame.image.load("./images/buttons/button_primary_active.png")
+            "normal" : pygame.image.load("./images/buttons/button_upload_normal.png"),
+            "hover" : pygame.image.load("./images/buttons/button_upload_hover.png"),
+            "active" : pygame.image.load("./images/buttons/button_upload_active.png")
             }
+
+        new_size = (image.get_rect().size)[0]
+        self._images["normal"] = pygame.transform.scale(self._images["normal"], (500, 200))
 
         self._rect = self._images["normal"].get_rect()
         print("size:",self._rect)
@@ -94,57 +57,124 @@ class ButtonPrimary(object):
             self._index = "normal"
 
 
-
-class ButtonSuccess(object):
+class ButtonAccept(object):
     def __init__(self, position):
-        self._position = position
+        self._size = (120,30)
+        self._images = {
+            "normal" : pygame.image.load("./images/buttons/button_accept_normal.png"),
+            "hover" : pygame.image.load("./images/buttons/button_accept_hover.png"),
+            "active" : pygame.image.load("./images/buttons/button_accept_active.png")
+            }
 
-        size = (100, 25)
-        # Static, hover, pressed
-        self._images = [
-            pygame.Surface(size),    
-            pygame.Surface(size),    
-            pygame.Surface(size),    
-        ]
+        self._rect = self._images["normal"].get_rect()
+        print("size:",self._rect)
 
-        # define colors
-        light_color = hex2rgb("#28A745")
-        dark_color = hex2rgb("#218838")
+        self._index = "normal"
+
+        pygame.display.set_mode(self._images["normal"].get_rect().size,0,32)
         
-        # fill images with color
-        self._images[0].fill(light_color)
-        self._images[1].fill(dark_color)
-        self._images[2].fill(dark_color)
-
-        # get image size and position
-        self._rect = pygame.Rect(position, size)
-        
-
-        # select first image
-        self._index = 0
-
-        # text of the button
-        pygame.font.init()
-        myfont = pygame.font.SysFont('Comic Sans MS', 16)
-        self._textsurface = myfont.render("Seleccionar", False, (255,255,255))
-
-        
+        self._images["normal"].convert()
+        self._images["hover"].convert()
+        self._images["active"].convert()
 
     def draw(self, screen):
-        # draw selected image
         screen.blit(self._images[self._index], self._rect)
-        screen.blit(self._textsurface,self._position+(100,0))
 
     def event_handler(self, event):
-        # Hover
-        if self._rect.collidepoint(pygame.mouse.get_pos()):
-            self._index = 1
         # Clicked
-        elif event.type == pygame.MOUSEBUTTONDOWN: # is some button clicked
+        if event.type == pygame.MOUSEBUTTONDOWN: # is some button clicked
+            self._index = "active" # change image
+        # Hover
+        elif self._rect.collidepoint(pygame.mouse.get_pos()):
+            self._index = "hover"
+        # Normal
+        else:
+            self._index = "normal"
+
+
+
+class ButtonUpload(object):
+    def __init__(self, position):
+        self._size = (120,30)
+        self._images = {
+            "normal" : pygame.image.load("./images/buttons/button_upload_normal.png"),
+            "hover" : pygame.image.load("./images/buttons/button_upload_hover.png"),
+            "active" : pygame.image.load("./images/buttons/button_upload_active.png")
+            }
+
+        self._rect = self._images["normal"].get_rect()
+        print("size:",self._rect)
+
+        self._index = "normal"
+
+        pygame.display.set_mode(self._images["normal"].get_rect().size,0,32)
+        
+        self._images["normal"].convert()
+        self._images["hover"].convert()
+        self._images["active"].convert()
+
+    def draw(self, screen):
+        screen.blit(self._images[self._index], self._rect)
+
+    def event_handler(self, event):
+        
+        # Clicked
+        if event.type == pygame.MOUSEBUTTONDOWN: # is some button clicked
             if event.button == 1: # is left button clicked
                 if self._rect.collidepoint(event.pos): # is mouse over button
-                    self._index = 2 # change image
-        # None
+                    self._index = "active" # change image
+        # Hover
+        elif self._rect.collidepoint(pygame.mouse.get_pos()):
+            self._index = "hover"
+        # Normal
         else:
-            self._index = 0;
+            self._index = "normal"
+
+
+
+
+class PickColor(object):
+    def __init__(self, position):
+        self._size = (120,30)
+        self._position = position
+        
+        self._images = [
+                pygame.image.load("./images/balls/Blue.png"),
+                pygame.image.load("./images/balls/Yellow.png"),
+                pygame.image.load("./images/balls/Red.png"),
+                pygame.image.load("./images/balls/Green.png")
+            ]
+
+        self._rect = self._images[0].get_rect()
+        print("size:",self._rect)
+
+        self._index = 0
+
+        pygame.display.set_mode(self._images[0].get_rect().size,0,32)
+        
+        self._images[0].convert()
+        self._images[1].convert()
+        self._images[2].convert()
+        self._images[3].convert()
+
+    def draw(self, screen):
+        screen.blit(self._images[self._index], self._position)
+
+    def event_handler(self, event):
+        # Clicked
+        if event.type == pygame.MOUSEBUTTONDOWN: # is some button clicked
+            print("s",event.button)
+            if event.button == 1: # is left button clicked
+                print("a")
+                if self._rect.collidepoint(event.pos): # is mouse over button
+                    print("b")
+                    self._index = (self._index+1) % 3
+        # Hover
+        elif self._rect.collidepoint(pygame.mouse.get_pos()):
+            pass
+        # Normal
+        else:
+            self._index = self._index
+
+
 

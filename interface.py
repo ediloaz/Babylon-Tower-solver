@@ -19,7 +19,9 @@ import components as components;
 # declarations
 BG_COLOUR = (255, 255, 255)
 LINE_COLOUR = (0, 0, 0)
-button = components.ButtonPrimary((50, 5))
+button_accept = components.ButtonAccept((200, 200))
+button_upload = components.ButtonUpload((200, 450))
+pick_color = components.PickColor((220, 0))
 
 def ExitGame():
     pygame.display.quit()
@@ -29,9 +31,17 @@ def ExitGame():
 def ConfigureScreen():
     pass
 
+def SetIcon(screen):
+    icon = pygame.image.load('./images/icons/icon_screen.jpg')
+    pygame.display.set_icon(icon)
+    return screen
+
 def CreateScreen():
     SIZE = (800, 500)
     screen = pygame.display.set_mode(SIZE)
+    pygame.display.set_caption("Babylon Tower Solver")
+    screen = SetIcon(screen)
+    
     return screen
 
 def run():
@@ -58,12 +68,16 @@ def run():
                     print("Uno")
 
             # --- button events --- #
-            button.event_handler(event)
+            button_accept.event_handler(event)
+            button_upload.event_handler(event)
+            pick_color.event_handler(event)
                         
 
         # --- Draws --- #
         screen.fill(BG_COLOUR)
-        button.draw(screen)
+        button_accept.draw(screen)
+        button_upload.draw(screen)
+        pick_color.draw(screen)
         # pygame.draw.aaline(screen, LINE_COLOUR, (1, 1), (639, 399))
         pygame.display.flip()
         
