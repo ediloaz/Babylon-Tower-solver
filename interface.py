@@ -17,11 +17,10 @@ from pygame.locals import *
 import components as components;
 
 # declarations
-BG_COLOUR = (255, 255, 255)
-LINE_COLOUR = (0, 0, 0)
-button_accept = components.ButtonAccept((200, 200))
-button_upload = components.ButtonUpload((200, 450))
-pick_color = components.PickColor((220, 0))
+BG_COLOUR   = (250, 250, 250)
+button_accept = components.Button((200, 200), "accept")
+button_upload = components.Button((200, 450), "upload")
+pick_color    = components.PickColor((220, 0))
 
 def ExitGame():
     pygame.display.quit()
