@@ -56,7 +56,7 @@ def RotarElOAbajo(PosicionI, PosicionJ):
         Torre[PosicionI+1][PosicionJ] = color
 
 #Se crea la matriz
-colores = ['A','B','N','R'] 
+colores = ['B','G','Y','R'] 
 Filas = 4
 Columnas = Filas+1
 Torre = []
