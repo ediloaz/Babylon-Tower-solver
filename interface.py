@@ -17,9 +17,12 @@ from pygame.locals import *
 import components as components;
 
 # declarations
+SIZE = (1000, 650)
 BG_COLOUR   = (250, 250, 250)
-button_accept = components.Button((200, 200), "accept")
-button_upload = components.Button((200, 450), "upload")
+
+
+button_accept = components.Button(SIZE, (200, 600), "accept")
+button_upload = components.Button(SIZE, (200, 500), "upload")
 pick_color    = components.PickColor((220, 0))
 
 def ExitGame():
@@ -36,7 +39,7 @@ def SetIcon(screen):
     return screen
 
 def CreateScreen():
-    SIZE = (800, 500)
+    
     screen = pygame.display.set_mode(SIZE)
     pygame.display.set_caption("Babylon Tower Solver")
     screen = SetIcon(screen)

@@ -6,6 +6,9 @@
 import pygame, sys
 from pygame.locals import *
 from pygame import *
+import tkinter as tk
+from tkinter import filedialog
+
 
 def hex2rgb(hex_code):
     hex_code = hex_code.lstrip('#')
@@ -15,10 +18,17 @@ def hex2rgb(hex_code):
 
 
 # --- Classes ---
+
+def GetWidth(thing):
+    return thing.get_rect().size[0]
+
+def GetHeight(thing):
+    return thing.get_rect().size[1]
+
 def GetNewDimensions(image):
     height_destiny = 40
-    width_source = image.get_rect().size[0]
-    height_source = image.get_rect().size[1]
+    width_source = GetWidth(image)
+    height_source = GetHeight(image)
     width_destiny = width_source*height_destiny/height_source
     size_destiny = (int(width_destiny), int(height_destiny))
     return size_destiny
@@ -42,20 +52,38 @@ def DefineImages(text):
             "hover" : LoadImage("./images/buttons/button_upload_hover.png"),
             "active" : LoadImage("./images/buttons/button_upload_active.png")
             }
+    elif text == "ball":
+        dictionary = {
+            "blue_normal" : LoadImage("./images/balls/Blue.png"),
+            "blue_hover" : LoadImage("./images/balls/Blue.png"),
+            "red_normal" : LoadImage("./images/balls/Red.png"),
+            "red_hover" : LoadImage("./images/balls/Red.png"),
+            "yellow_normal" : LoadImage("./images/balls/Yellow.png"),
+            "yellow_hover" : LoadImage("./images/balls/Yellow.png"),
+            "green_normal" : LoadImage("./images/balls/Green.png"),
+            "green_hover" : LoadImage("./images/balls/Green.png"),
+            }
     else:
         print("Sucedió un error del sistema")
         exit()
     return dictionary
 
 class Button(object):
-    def __init__(self, position, type_of):
+    def __init__(self, SIZE, position, type_of):
 
         # Definition: set of images
         self._images = DefineImages(type_of)
 
         # Definition: Size and Pos as object's variable
         self._size = self._images["normal"].get_rect().size
-        self._position = position
+
+        width_screen = SIZE[0]
+        width_object = GetWidth(self._images["normal"])
+        width = width_screen/2 - width_object/2
+        height = position[1]
+        self._position = (width, height)
+        self._type_of = type_of
+        self._button_active = False
         
         # Definition: Position and Size of Component
         self._rect = pygame.Rect(self._position,  self._size)
@@ -74,16 +102,86 @@ class Button(object):
     def draw(self, screen):
         screen.blit(self._images[self._index], self._rect)
 
+    def ChooseFile(self):
+        root = tk.Tk()
+        root.withdraw()
+        try:
+            file_path = filedialog.askopenfilename(filetypes=(("Babylon files", "*.by"),("All files", "*.*") ))
+            print (file_path)
+        except:
+            pass
+        root.destroy()
+
     def event_handler(self, event):
         # Clicked
         if (event.type == pygame.MOUSEBUTTONDOWN) and (event.button == 1) and (self._rect.collidepoint(event.pos)):
-            self._index = "active" 
+            self._index = "active"
+            if (self._type_of == "upload"):
+                self._button_active = True
+                self.ChooseFile()
+                self._button_active = False
+            
+            
         # Hover
         elif self._rect.collidepoint(pygame.mouse.get_pos()):
             self._index = "hover"
         # Normal
         else:
-            self._index = "normal"
+            if self._button_active == False:
+                self._index = "normal"
+
+
+
+
+
+class Ball(object):
+    def __init__(self, position):
+
+        # Definition: set of images
+        self._images = DefineImages("ball")
+
+        # Definition: Size and Pos as object's variable
+        self._size = self._images["normal"].get_rect().size
+        self._position = position
+        self._type_of = type_of
+        self._button_active = False
+        
+        # Definition: Position and Size of Component
+        self._rect = pygame.Rect(self._position,  self._size)
+        
+        # Initial State
+        self._index = "normal"
+
+        # Draw the component
+        pygame.display.set_mode(self._images["normal"].get_rect().size,0,32)
+
+        # Convert from images to objects
+        self._images["normal"].convert()
+        self._images["hover"].convert()
+        self._images["active"].convert()
+
+    def draw(self, screen):
+        screen.blit(self._images[self._index], self._rect)
+
+   def NextIndex(self):
+       
+       
+    def event_handler(self, event):
+        # Clicked
+        if (event.type == pygame.MOUSEBUTTONDOWN) and (event.button == 1) and (self._rect.collidepoint(event.pos)):
+            self._index = "active"
+            self.NextIndex()
+            
+        # Hover
+        elif self._rect.collidepoint(pygame.mouse.get_pos()):
+            self._index = "hover"
+        # Normal
+        else:
+            if self._button_active == False:
+                self._index = "normal"
+
+
+
 
 
 
