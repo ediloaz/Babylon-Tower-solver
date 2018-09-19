@@ -12,15 +12,21 @@ def CalcularDistancia (iacutal, jactual, idestino, jdestino):
     return D 
 
 
+
 def Algoritmo(g):
     Sum=0
     for i in range(Columnas):
         for j in range(Filas):
-            #color = Tabla.
-        
-            Sum = Sum + CalcularDistancia (i, j, idestino, jdestino)
-        
-    Tabla.GuardarPeso(self, (g + 1/20 * Sum))
+            #color que queremos sacarle la distancia
+            color = Tabla.ObtenerColor(i,j)
+            if (color != 'X' or color != 'O' ):
+                (idestino,jdestino) = Tabla.CalcularIJdelColorMasCercano(i,j)
+                DistanciaCalculada = CalcularDistancia(i, j, idestino, jdestino)
+                print (DistanciaCalculada)
+                Sum = Sum + DistanciaCalculada
+    
+    print ((g + (1/20) * Sum))
+    #Tabla.GuardarPeso(self, (g + 1/20 * Sum))
 
     
     pass
@@ -30,7 +36,7 @@ def main():
 
     
     Tabla.PrintTorre()
-
+    Algoritmo(1)
     #Tabla.GirarFilaIzquierda(1)
     #Tabla.PrintTorre()
     #Tabla.GirarFilaDerecha(2)
@@ -50,6 +56,7 @@ Columnas = Filas+1
 
 idnuevo=1
 Tabla = Tabla.Tabla(0,idnuevo)
+
 
 
 

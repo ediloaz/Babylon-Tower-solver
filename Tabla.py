@@ -80,6 +80,30 @@ class Tabla(object):
             
             self.tabla[PosicionI+1][PosicionJ] = color
     
+    def CalcularDistancia (self, iacutal, jactual, idestino, jdestino):
+        j = abs(jactual-jdestino) 
+        if (j==3):
+            j=1
+        D = abs(iacutal-idestino) + j
+        return D
+
+
+    def CalcularIJdelColorMasCercano(self, i1,j1):
+        ColorBuscando = self.tabla[i1][j1].getColor()
+        Distancia = 99
+        iFinal = 0
+        jFinal = 0
+        for i in range(Columnas):
+            for j in range(Filas):
+                ColorActual = self.tabla[i][j].getColor()
+                if ( ColorBuscando == ColorActual and i != i1 and j != j1  ):
+                    DistanciaActual = CalcularDistancia (i1, j1, i, j)
+                    if (DistanciaActual < Distancia ):
+                        Distancia = DistanciaActual
+                        iFinal = i
+                        jFinal = j
+                    
+        return (iFinal,jFinal)
     
     def PrintTorre(self):
         for i in range(5):
@@ -90,8 +114,8 @@ class Tabla(object):
         print ('\n  -------  \n')
         
     def ObtenerColor(self,i,j):
-       #self.tabla
-        print ('\n  -------  \n')
+       return self.tabla[i][j].getColor()
+        
         
     def GuardarPeso(self, peso):
         self.peso = peso
