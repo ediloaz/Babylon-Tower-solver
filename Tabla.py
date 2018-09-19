@@ -14,7 +14,10 @@ class celda(object):
 
     def getColor(self):
         return self.color
- 
+
+    def setColor(self, color):
+        self.color = color
+     
 
 class ListaDeTablas(object):
     def __init__(self):
@@ -48,9 +51,22 @@ class Tabla(object):
             self.tabla.append(a)
 
 
-    def GetId(self):
+    def getID(self):
         return self.id
+    def setID(self, ID):
+        self.id = ID
+    def getIDpadre(self):
+        return self.id
+    def setIDpadre((self, ID):
+        self.id = ID
     
+
+    def getTabla(self):
+        return self.tabla
+    
+    def setTabla(self, matriz):
+        self.tabla = matriz
+        
     def EsLaTablaMeta(self):
         if (TablaMeta.tabla == self.tabla):
             return True
@@ -84,14 +100,8 @@ class Tabla(object):
         lista = self.tabla[NumeroFilaGirar]
         self.tabla[NumeroFilaGirar] = self.rotate(lista, 3)
 
-    def NuevaMatrizFilaGiradaIzquierda(self, NumeroFilaGirar):
-        self.GirarFilaIzquierda(NumeroFilaGirar)
-        nueva_tabla = Tabla;
-        self.GirarFilaDerecha(NumeroFilaGirar)
-        return nueva_tabla
-
-    def DefinirMatriz(self, matriz):
-        self.tabla = matriz
+    
+    
         
     #RotarColumnas
             
@@ -126,6 +136,7 @@ class Tabla(object):
             
             self.tabla[PosicionI+1][PosicionJ] = color
     
+    
     def CalcularDistancia (self, iacutal, jactual, idestino, jdestino):
         j = abs(jactual-jdestino) 
         if (j==3):
@@ -152,7 +163,14 @@ class Tabla(object):
                         jFinal = j
                     
         return (iFinal,jFinal)
-    
+
+    def CopiarTabla(self, Fuente):
+        for i in range(5):
+            for j in range(4):
+                print(222222, Fuente.tabla[i][j].color)
+                self.tabla[i][j].color = Fuente.tabla[i][j].color
+                print(1111111, self.tabla[i][j].color)
+        
     def PrintTorre(self):
         for i in range(5):
             texto = ""

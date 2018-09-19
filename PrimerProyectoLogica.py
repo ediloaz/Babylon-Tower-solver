@@ -36,27 +36,49 @@ def AumentarLastID():
     global last_id
     last_id += 1
 
+
 def CrearNuevaTablaFila(TablaIntermedia, fila_a_girar):
     AumentarLastID()
     id_padre = TablaIntermedia.GetId() 
     nueva_tabla = Tabla.Tabla(id_padre, last_id)
-    nueva_tabla = TablaIntermedia.NuevaMatrizFilaGiradaIzquierda(fila_a_girar)
-    #nueva_tabla.DefinirMatriz(nueva_tabla.tabla)
+    nueva_tabla.Llenar("Inicial")
     
+    TablaIntermedia.GirarFilaIzquierda(fila_a_girar)
+    TablaIntermedia.PrintTorre()
+    nueva_tabla = TablaIntermedia.CopiarTabla(nueva_tabla)
+    #matriz = TablaIntermedia.getTabla()
+    #nueva_tabla.setTabla(matriz)
+    TablaIntermedia.GirarFilaDerecha(fila_a_girar)
+    
+    print("se reci")
+    nueva_tabla.PrintTorre()
     return nueva_tabla
 
+# Saca de la lista de no visitados a una tabla y la mete en la de visitados. retorna dicha tabla
+def SiguienteTabla():
+    pass
 
-def CreacionDeTablas(TablaIntermedia):
+def CreacionDeTablas(TablaPadre):
+    # Hacia abajo
+    nueva_tabla = TablaPadre
+    nueva_tabla.setID(last_id)
+    nueva_tabla.setID(last_id)
+    
+    nueva_tabla.CopiarTabla(TablaPadre)
+    nueva_tabla.PrintTorre()
+    AumentarLastID
+"""
     for i in range(5):
         nueva_tabla = CrearNuevaTablaFila(TablaIntermedia, i)
-        if (nueva_tabla.EsLaTablaMeta()):
+        if (nueva_tabla.EsLaTablaMeta() ):
             Finalizado(tabla)
         elif (lista_visitados.Comparar(nueva_tabla)):
             print("se encontro una igual")
         else:
             Algoritmo(1, nueva_tabla)
+        input()
         
-            
+"""            
             
 def Finalizado(tabla):
     pass
