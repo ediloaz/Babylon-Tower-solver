@@ -4,12 +4,14 @@ Filas = 4
 Columnas = Filas+1
 
 class celda(object):
-    def __init__(self , idtabla ):
-        self.id
-        self.idtabla
-        self.color
-        self.distaciaColumna
-        self.distaciaFila
+    def __init__(self , idtabla, color ):
+        self.idtabla = idtabla
+        self.color = color
+        self.distaciaColumna = 99
+        self.distaciaFila = 99
+
+    def getColor(self):
+        return self.color
 
 class Tabla(object):
     def __init__(self , idpadre, idnuevo ):
@@ -19,14 +21,14 @@ class Tabla(object):
         self.tabla = []
         
         for i in range(Columnas):
-            a = ['x'] * Filas
+            a = ['x'] * Filas  * Filas
             self.tabla.append(a)
 
         #Se llena de datos
-        self.tabla[0][0]= 'O'
+        self.tabla[0][0]= celda(self.id, 'O') 
         for i in range(Columnas-1):
             for j in range(Filas):
-                self.tabla[i+1][j]= colores[j]
+                self.tabla[i+1][j]= celda(self.id, colores[j])  #colores[j]
 
 
     
@@ -77,13 +79,18 @@ class Tabla(object):
             self.tabla[PosicionI][PosicionJ] = self.tabla[PosicionI+1][PosicionJ]
             
             self.tabla[PosicionI+1][PosicionJ] = color
-
+    
     
     def PrintTorre(self):
         for i in range(5):
-            print (self.tabla[i])
+            for j in range(4):
+                print (self.tabla[i][j].getColor())
         print ('\n  -------  \n')
-
+        
+    def ObtenerColor(self,i,j):
+       #self.tabla
+        print ('\n  -------  \n')
+        
     def GuardarPeso(self, peso):
         self.peso = peso
 

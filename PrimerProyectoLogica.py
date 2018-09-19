@@ -11,9 +11,15 @@ def CalcularDistancia (iacutal, jactual, idestino, jdestino):
     return D 
 
 
-def Algoritmo():
-    #Formula D = (abs(i-i) + abs(j-j) if j==3 then j=1)
-    #g + 1/20 * Sum(D)
+def Algoritmo(g):
+    Sum=0
+    for i in range(Columnas):
+        for j in range(Filas):
+            #color = Tabla.
+        
+            Sum = Sum + CalcularDistancia (i, j, idestino, jdestino)
+        
+    Tabla.GuardarPeso(self, (g + 1/20 * Sum))
 
     
     pass
@@ -24,16 +30,15 @@ def main():
     
     Tabla.PrintTorre()
 
-    Tabla.GirarFilaIzquierda(1)
-    Tabla.PrintTorre()
-    Tabla.GirarFilaDerecha(2)
+    #Tabla.GirarFilaIzquierda(1)
+    #Tabla.PrintTorre()
+    #Tabla.GirarFilaDerecha(2)
     #Tabla.RotarElOAbajo(0,0)
 
     #Tabla.RotarElOArriba(1, 0)
-    Tabla.PrintTorre()
+    #Tabla.PrintTorre()
 
-    #se agrega el espacio donde entra una bola
-    Extra = 'E'
+    
 
 
 #Se crea la matriz
