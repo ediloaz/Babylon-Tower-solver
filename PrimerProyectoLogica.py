@@ -1,7 +1,7 @@
 
 import Tabla as Tabla
 
-last_id = 1
+
 #funciones
 
 
@@ -33,34 +33,47 @@ def Algoritmo(g, tabla):
     return 
 
 def AumentarLastID():
+    global last_id
     last_id += 1
 
 def CrearNuevaTablaFila(TablaIntermedia, fila_a_girar):
     AumentarLastID()
-    id_padre = TablaIntermedia.GetId() ####
+    id_padre = TablaIntermedia.GetId() 
     nueva_tabla = Tabla.Tabla(id_padre, last_id)
-    matriz_nueva = TablaIntermedia.NuevaMatrizFilaGiradaIzquierda(fila_a_girar)
-    nueva_tabla.DefinirMatriz(matriz_nueva)
+    nueva_tabla = TablaIntermedia.NuevaMatrizFilaGiradaIzquierda(fila_a_girar)
+    #nueva_tabla.DefinirMatriz(nueva_tabla.tabla)
+    
     return nueva_tabla
 
 
 def CreacionDeTablas(TablaIntermedia):
-    
     for i in range(5):
         nueva_tabla = CrearNuevaTablaFila(TablaIntermedia, i)
-        if (nueva_tabla.EsLaTablaMeta()): ###
+        if (nueva_tabla.EsLaTablaMeta()):
+            Finalizado(tabla)
+        elif (lista_visitados.Comparar(nueva_tabla)):
+            print("se encontro una igual")
+        else:
+            Algoritmo(1, nueva_tabla)
+        
             
-    
+            
+def Finalizado(tabla):
+    pass
+
 def main():
     
-
-
-    
-    TablaInicial.Llenar("inicial")
     print("inicial")
+    TablaInicial.Llenar("inicial")   
     TablaInicial.PrintTorre()
     
-    Algoritmo(1, TablaInicial)
+    
+    print("meta")
+    Tabla.LlenarTablaMeta()
+    Tabla.PrintTablaMeta()
+
+    CreacionDeTablas(TablaInicial)
+    
     #Tabla.GirarFilaIzquierda(1)
     #Tabla.PrintTorre()
     #Tabla.GirarFilaDerecha(2)
@@ -76,17 +89,14 @@ def main():
 colores = ['B','G','Y','R'] 
 Filas = 4
 Columnas = Filas+1
+last_id = 1
 
-
+    
 TablaInicial = Tabla.Tabla(last_id, 0)
-
 TablaMeta = Tabla.Tabla(-1, -1)
 
-print("meta")
-Tabla.LlenarTablaMeta()
-Tabla.PrintTablaMeta()
-
-
+lista_visitados = Tabla.ListaDeTablas()
+lista_visitados.Agregar(TablaInicial)
 
     
 main()

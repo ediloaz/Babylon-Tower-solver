@@ -25,6 +25,11 @@ class ListaDeTablas(object):
 
     def Comparar(self, Tabla):
         for tabla_de_lista in self.lista:
+            print("list")
+            tabla_de_lista.PrintTorre()
+            print("nueva")
+            Tabla.PrintTorre()
+            print()
             if (tabla_de_lista.tabla == Tabla.tabla):
                 return True
         return False
@@ -35,12 +40,17 @@ class Tabla(object):
         self.idpadre = idpadre
         self.peso = 0
         self.tabla = []
+        self.g = 0
         
         
         for i in range(Columnas):
             a = [celda(self.id, 'X')] * Filas
             self.tabla.append(a)
 
+
+    def GetId(self):
+        return self.id
+    
     def EsLaTablaMeta(self):
         if (TablaMeta.tabla == self.tabla):
             return True
@@ -74,11 +84,11 @@ class Tabla(object):
         lista = self.tabla[NumeroFilaGirar]
         self.tabla[NumeroFilaGirar] = self.rotate(lista, 3)
 
-    def NuevaMatrizFilaGiradaIzquierda(self, ,NumeroFilaGirar):
+    def NuevaMatrizFilaGiradaIzquierda(self, NumeroFilaGirar):
         self.GirarFilaIzquierda(NumeroFilaGirar)
-        nueva_matriz = self.tabla;
+        nueva_tabla = Tabla;
         self.GirarFilaDerecha(NumeroFilaGirar)
-        return nueva_matriz
+        return nueva_tabla
 
     def DefinirMatriz(self, matriz):
         self.tabla = matriz
