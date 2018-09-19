@@ -15,7 +15,7 @@ class Tabla(object):
     def __init__(self , idpadre, idnuevo ):
         self.id = idnuevo
         self.idpadre = idpadre
-        self.peso = 4
+        self.peso = 0
         self.tabla = []
         
         for i in range(Columnas):
@@ -77,9 +77,14 @@ class Tabla(object):
             self.tabla[PosicionI][PosicionJ] = self.tabla[PosicionI+1][PosicionJ]
             
             self.tabla[PosicionI+1][PosicionJ] = color
+
+    
     def PrintTorre(self):
         for i in range(5):
             print (self.tabla[i])
         print ('\n  -------  \n')
+
+    def GuardarPeso(self, peso):
+        self.peso = peso
 
 

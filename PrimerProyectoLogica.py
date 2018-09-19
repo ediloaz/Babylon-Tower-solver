@@ -3,12 +3,19 @@ import Tabla as Tabla
 #funciones
 
 
-        
+def CalcularDistancia (iacutal, jactual, idestino, jdestino):
+    j = abs(jactual-jdestino) 
+    if (j==3):
+        j=1
+    D = abs(iacutal-idestino) + j
+    return D 
 
 
 def Algoritmo():
     #Formula D = (abs(i-i) + abs(j-j) if j==3 then j=1)
     #g + 1/20 * Sum(D)
+
+    
     pass
 def main():
     
