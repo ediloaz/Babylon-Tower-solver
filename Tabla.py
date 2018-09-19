@@ -14,7 +14,7 @@ class celda(object):
 
     def getColor(self):
         return self.color
-
+ 
 
 class ListaDeTablas(object):
     def __init__(self):
