@@ -1,5 +1,6 @@
 
 import Tabla as Tabla
+from copy import deepcopy
 
 
 #funciones
@@ -58,15 +59,30 @@ def CrearNuevaTablaFila(TablaIntermedia, fila_a_girar):
 def SiguienteTabla():
     pass
 
+def NuevaTablaIzquierda(TablaPadre, numero_fila):
+    nueva_tabla = deepcopy(TablaPadre)
+    nueva_tabla.setID(last_id)
+    nueva_tabla.setIDpadre(TablaPadre.getID())
+    nueva_tabla.GirarFilaIzquierda(numero_fila)
+    if lista_visitados.Comparar(nueva_tabla):
+        return False
+    else:
+        lista_visitados.Agregar(nueva_tabla)
+        return nueva_tabla
+
 def CreacionDeTablas(TablaPadre):
-    # Hacia abajo
-    nueva_tabla = TablaPadre
-    nueva_tabla.setID(last_id)
-    nueva_tabla.setID(last_id)
-    
-    nueva_tabla.CopiarTabla(TablaPadre)
-    nueva_tabla.PrintTorre()
-    AumentarLastID
+    # Hacia derecha
+    for i in range(5):
+        nueva_tabla = NuevaTablaIzquierda(TablaPadre, i)
+        if (nueva_tabla == False):
+            print("se encontro una igual")
+        else:
+            #Algoritmo(1, nueva_tabla)
+            pass
+        
+        print("nueva")
+        nueva_tabla.PrintTorre()
+        AumentarLastID
 """
     for i in range(5):
         nueva_tabla = CrearNuevaTablaFila(TablaIntermedia, i)
