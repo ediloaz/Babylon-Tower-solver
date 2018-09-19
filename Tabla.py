@@ -3,6 +3,8 @@ colores = ['B','G','Y','R']
 Filas = 4
 Columnas = Filas+1
 
+
+
 class celda(object):
     def __init__(self , idtabla, color ):
         self.idtabla = idtabla
@@ -13,6 +15,20 @@ class celda(object):
     def getColor(self):
         return self.color
 
+
+class ListaDeTablas(object):
+    def __init__(self):
+         self.lista = []
+         
+    def Agregar(self, Tabla):
+        self.lista.append(Tabla)
+
+    def Comparar(self, Tabla):
+        for tabla_de_lista in self.lista:
+            if (tabla_de_lista.tabla == Tabla.tabla):
+                return True
+        return False
+
 class Tabla(object):
     def __init__(self , idpadre, idnuevo ):
         self.id = idnuevo
@@ -20,18 +36,30 @@ class Tabla(object):
         self.peso = 0
         self.tabla = []
         
+        
         for i in range(Columnas):
             a = [celda(self.id, 'X')] * Filas
             self.tabla.append(a)
 
-        #Se llena de datos
-        self.tabla[0][0]= celda(self.id, 'O') 
-        for i in range(Columnas-1):
-            for j in range(Filas):
-                self.tabla[i+1][j]= celda(self.id, colores[j])  #colores[j]
-
-
+    def EsLaTablaMeta(self):
+        if (TablaMeta.tabla == self.tabla):
+            return True
+        else:
+            return False
     
+    def Llenar(self, tipo):
+        #Se llena de datos
+        self.tabla[0][0]= celda(self.id, 'O')
+        if (tipo == "inicial"):
+            for i in range(Columnas-1):
+                for j in range(Filas):
+                    self.tabla[i+1][j]= celda(self.id, colores[j])  #colores[j]
+
+        elif (tipo == "final"):
+            for i in range(Columnas-1):
+                for j in range(Filas):
+                    self.tabla[i+1][j]= celda(self.id, colores[(j+2)%4])  #colores[j]
+        
     #Rotar Filas
     #solo se gira un movimiento en las filas
     def rotate(self,l, n):
@@ -45,7 +73,15 @@ class Tabla(object):
     def GirarFilaDerecha(self , NumeroFilaGirar):
         lista = self.tabla[NumeroFilaGirar]
         self.tabla[NumeroFilaGirar] = self.rotate(lista, 3)
-        
+
+    def NuevaMatrizFilaGiradaIzquierda(self, ,NumeroFilaGirar):
+        self.GirarFilaIzquierda(NumeroFilaGirar)
+        nueva_matriz = self.tabla;
+        self.GirarFilaDerecha(NumeroFilaGirar)
+        return nueva_matriz
+
+    def DefinirMatriz(self, matriz):
+        self.tabla = matriz
         
     #RotarColumnas
             
@@ -89,14 +125,16 @@ class Tabla(object):
 
 
     def CalcularIJdelColorMasCercano(self, i1,j1):
+        
         ColorBuscando = self.tabla[i1][j1].getColor()
         Distancia = 99
         iFinal = 0
         jFinal = 0
         for i in range(Columnas):
             for j in range(Filas):
-                ColorActual = self.tabla[i][j].getColor()
-                if ( ColorBuscando == ColorActual and (i != i1 or j != j1)  ):
+                # Color de la tabla meta
+                ColorActual = TablaMeta.tabla[i][j].getColor()
+                if ( ColorBuscando == ColorActual ):
                     DistanciaActual = self.CalcularDistancia (i1, j1, i, j)
                     if (DistanciaActual < Distancia ):
                         Distancia = DistanciaActual
@@ -119,3 +157,15 @@ class Tabla(object):
         
     def GuardarPeso(self, peso):
         self.peso = peso
+
+# definir id y idpadre
+
+TablaMeta = Tabla(-1,9999999999)
+
+def LlenarTablaMeta():
+    TablaMeta.Llenar("final")
+
+def PrintTablaMeta():
+    TablaMeta.PrintTorre()
+
+

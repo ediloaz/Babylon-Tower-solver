@@ -1,6 +1,7 @@
 
 import Tabla as Tabla
 
+last_id = 1
 #funciones
 
 
@@ -13,31 +14,53 @@ def CalcularDistancia (iacutal, jactual, idestino, jdestino):
 
 
 
-def Algoritmo(g):
+def Algoritmo(g, tabla):
     Sum=0
     for i in range(Columnas):
         for j in range(Filas):
             #color que queremos sacarle la distancia
-            color = Tabla.ObtenerColor(i,j)
-            print ("color: ", color)
-            if (color == "R" or color == "G" or color == "B" or color == "Y" ):
-                (idestino,jdestino) = Tabla.CalcularIJdelColorMasCercano(i,j)
-                DistanciaCalculada = CalcularDistancia(i, j, idestino, jdestino)
-                print (idestino, jdestino, DistanciaCalculada)
-                Sum = Sum + DistanciaCalculada
+            color = tabla.ObtenerColor(i,j)
+            print ("Color: ", color)
+            #if (color == "R" or color == "G" or color == "B" or color == "Y" ):
+            (idestino,jdestino) = tabla.CalcularIJdelColorMasCercano(i,j)
+            DistanciaCalculada = CalcularDistancia(i, j, idestino, jdestino)
+            print ("Meta:",idestino,",",jdestino, "distancia",DistanciaCalculada)
+            Sum = Sum + DistanciaCalculada
+            print()
     
     print ((g + (1/20) * Sum))
     #Tabla.GuardarPeso(self, (g + 1/20 * Sum))
+    return 
 
+def AumentarLastID():
+    last_id += 1
+
+def CrearNuevaTablaFila(TablaIntermedia, fila_a_girar):
+    AumentarLastID()
+    id_padre = TablaIntermedia.GetId() ####
+    nueva_tabla = Tabla.Tabla(id_padre, last_id)
+    matriz_nueva = TablaIntermedia.NuevaMatrizFilaGiradaIzquierda(fila_a_girar)
+    nueva_tabla.DefinirMatriz(matriz_nueva)
+    return nueva_tabla
+
+
+def CreacionDeTablas(TablaIntermedia):
     
-    pass
+    for i in range(5):
+        nueva_tabla = CrearNuevaTablaFila(TablaIntermedia, i)
+        if (nueva_tabla.EsLaTablaMeta()): ###
+            
+    
 def main():
     
 
 
     
-    Tabla.PrintTorre()
-    Algoritmo(1)
+    TablaInicial.Llenar("inicial")
+    print("inicial")
+    TablaInicial.PrintTorre()
+    
+    Algoritmo(1, TablaInicial)
     #Tabla.GirarFilaIzquierda(1)
     #Tabla.PrintTorre()
     #Tabla.GirarFilaDerecha(2)
@@ -55,9 +78,13 @@ Filas = 4
 Columnas = Filas+1
 
 
-idnuevo=1
-Tabla = Tabla.Tabla(0,idnuevo)
+TablaInicial = Tabla.Tabla(last_id, 0)
 
+TablaMeta = Tabla.Tabla(-1, -1)
+
+print("meta")
+Tabla.LlenarTablaMeta()
+Tabla.PrintTablaMeta()
 
 
 
