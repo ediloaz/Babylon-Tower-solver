@@ -21,7 +21,7 @@ class Tabla(object):
         self.tabla = []
         
         for i in range(Columnas):
-            a = ['x'] * Filas  * Filas
+            a = [celda(self.id, 'X')] * Filas
             self.tabla.append(a)
 
         #Se llena de datos
@@ -83,8 +83,10 @@ class Tabla(object):
     
     def PrintTorre(self):
         for i in range(5):
+            texto = ""
             for j in range(4):
-                print (self.tabla[i][j].getColor())
+                texto += str(self.tabla[i][j].getColor()) + " "
+            print(texto)
         print ('\n  -------  \n')
         
     def ObtenerColor(self,i,j):
@@ -93,5 +95,3 @@ class Tabla(object):
         
     def GuardarPeso(self, peso):
         self.peso = peso
-
-

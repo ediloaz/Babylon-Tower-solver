@@ -1,5 +1,6 @@
-import numpy as np
+
 import Tabla as Tabla
+
 #funciones
 
 
@@ -54,3 +55,4 @@ Tabla = Tabla.Tabla(0,idnuevo)
 
     
 main()
+    
