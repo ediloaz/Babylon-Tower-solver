@@ -19,10 +19,11 @@ def Algoritmo(g):
         for j in range(Filas):
             #color que queremos sacarle la distancia
             color = Tabla.ObtenerColor(i,j)
-            if (color != 'X' or color != 'O' ):
+            print ("color: ", color)
+            if (color == "R" or color == "G" or color == "B" or color == "Y" ):
                 (idestino,jdestino) = Tabla.CalcularIJdelColorMasCercano(i,j)
                 DistanciaCalculada = CalcularDistancia(i, j, idestino, jdestino)
-                print (DistanciaCalculada)
+                print (idestino, jdestino, DistanciaCalculada)
                 Sum = Sum + DistanciaCalculada
     
     print ((g + (1/20) * Sum))

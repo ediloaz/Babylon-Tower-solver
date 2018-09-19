@@ -96,8 +96,8 @@ class Tabla(object):
         for i in range(Columnas):
             for j in range(Filas):
                 ColorActual = self.tabla[i][j].getColor()
-                if ( ColorBuscando == ColorActual and i != i1 and j != j1  ):
-                    DistanciaActual = CalcularDistancia (i1, j1, i, j)
+                if ( ColorBuscando == ColorActual and (i != i1 or j != j1)  ):
+                    DistanciaActual = self.CalcularDistancia (i1, j1, i, j)
                     if (DistanciaActual < Distancia ):
                         Distancia = DistanciaActual
                         iFinal = i
