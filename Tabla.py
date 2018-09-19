@@ -28,11 +28,8 @@ class ListaDeTablas(object):
 
     def Comparar(self, Tabla):
         for tabla_de_lista in self.lista:
-            print("list")
             tabla_de_lista.PrintTorre()
-            print("nueva")
             Tabla.PrintTorre()
-            print()
             if (tabla_de_lista.tabla == Tabla.tabla):
                 return True
         return False
@@ -53,12 +50,15 @@ class Tabla(object):
 
     def getID(self):
         return self.id
+    
     def setID(self, ID):
         self.id = ID
+        
     def getIDpadre(self):
-        return self.id
-    def setIDpadre((self, ID):
-        self.id = ID
+        return self.idpadre
+    
+    def setIDpadre(self, IDpadre):
+        self.idpadre = IDpadre
     
 
     def getTabla(self):
@@ -185,6 +185,25 @@ class Tabla(object):
         
     def GuardarPeso(self, peso):
         self.peso = peso
+
+    def Hijo(self, lastid):
+        nuevo = Tabla(self.id, lastid)
+        nuevo.Llenar("Inicial")
+        
+    
+        for i in range(5):
+            for j in range(4):
+                nuevo.tabla[i][j].setColor(str(self.tabla[i][j].getColor()))
+                print(nuevo.tabla[i][j].color, self.tabla[i][j].color)
+
+        print(" / / / / / /")
+        self.PrintTorre()
+        print(1)
+        nuevo.PrintTorre()
+        print(" / / / / / /")
+        return nuevo
+                
+        
 
 # definir id y idpadre
 
