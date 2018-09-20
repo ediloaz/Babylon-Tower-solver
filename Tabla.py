@@ -26,11 +26,30 @@ class ListaDeTablas(object):
     def Agregar(self, Tabla):
         self.lista.append(Tabla)
 
+    def Quitar(self, Tabla):
+        self.lista.remove(Tabla)
+
+    def Pop(self):
+        if len(self.lista) > 0:
+            return self.lista[-1]
+        else:
+            print("La lista de NO visitados ya está vacia")
+            exit()
+    
+    def CompararTabla(self, matriz1, matriz2):
+        for i in range(5):
+            for j in range(4):
+                if matriz1[i][j].color != matriz2[i][j].color:
+                    return False
+        return True
+    
     def Comparar(self, Tabla):
         for tabla_de_lista in self.lista:
-            tabla_de_lista.PrintTorre()
-            Tabla.PrintTorre()
-            if (tabla_de_lista.tabla == Tabla.tabla):
+##            print("tontera")
+##            tabla_de_lista.PrintTorre()
+##            Tabla.PrintTorre()
+##            print("55'\n\n")
+            if self.CompararTabla(tabla_de_lista.tabla,Tabla.tabla):
                 return True
         return False
 
@@ -66,6 +85,12 @@ class Tabla(object):
     
     def setTabla(self, matriz):
         self.tabla = matriz
+
+    def getG(self):
+        return self.g
+
+    def setG(self, G):
+        self.g = G
         
     def EsLaTablaMeta(self):
         if (TablaMeta.tabla == self.tabla):
@@ -164,12 +189,6 @@ class Tabla(object):
                     
         return (iFinal,jFinal)
 
-    def CopiarTabla(self, Fuente):
-        for i in range(5):
-            for j in range(4):
-                print(222222, Fuente.tabla[i][j].color)
-                self.tabla[i][j].color = Fuente.tabla[i][j].color
-                print(1111111, self.tabla[i][j].color)
         
     def PrintTorre(self):
         for i in range(5):
@@ -177,7 +196,7 @@ class Tabla(object):
             for j in range(4):
                 texto += str(self.tabla[i][j].getColor()) + " "
             print(texto)
-        print ('\n  -------  \n')
+        print()
         
     def ObtenerColor(self,i,j):
        return self.tabla[i][j].getColor()
@@ -186,23 +205,6 @@ class Tabla(object):
     def GuardarPeso(self, peso):
         self.peso = peso
 
-    def Hijo(self, lastid):
-        nuevo = Tabla(self.id, lastid)
-        nuevo.Llenar("Inicial")
-        
-    
-        for i in range(5):
-            for j in range(4):
-                nuevo.tabla[i][j].setColor(str(self.tabla[i][j].getColor()))
-                print(nuevo.tabla[i][j].color, self.tabla[i][j].color)
-
-        print(" / / / / / /")
-        self.PrintTorre()
-        print(1)
-        nuevo.PrintTorre()
-        print(" / / / / / /")
-        return nuevo
-                
         
 
 # definir id y idpadre

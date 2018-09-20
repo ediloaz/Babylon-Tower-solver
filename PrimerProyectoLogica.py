@@ -1,10 +1,24 @@
+# Main logical-file of Babylon Tower Solver
+# 
+# Tecnológico de Costa Rica
+# Computing Engineering School
+# Course
+#   Inteligencia Artificial
+#   Teacher Jorge Vargas
+# Programmers
+#   Edisson López @ediloaz
+#   Alonso Rivas
+# September, 2018
+#
 
+#
+# Área de imports
 import Tabla as Tabla
 from copy import deepcopy
 
 
-#funciones
-
+#
+# Área de funciones
 
 def CalcularDistancia (iacutal, jactual, idestino, jdestino):
     j = abs(jactual-jdestino) 
@@ -13,10 +27,10 @@ def CalcularDistancia (iacutal, jactual, idestino, jdestino):
     D = abs(iacutal-idestino) + j
     return D 
 
-
-
-def Algoritmo(g, tabla):
-    Sum=0
+# Antes llamada "Algoritmo"
+def Peso(tabla):
+    Sum = 0
+    g = tabla.getG()
     for i in range(Columnas):
         for j in range(Filas):
             #color que queremos sacarle la distancia
@@ -28,89 +42,120 @@ def Algoritmo(g, tabla):
             print ("Meta:",idestino,",",jdestino, "distancia",DistanciaCalculada)
             Sum = Sum + DistanciaCalculada
             print()
-    
-    print ((g + (1/20) * Sum))
-    #Tabla.GuardarPeso(self, (g + 1/20 * Sum))
-    return 
+    peso = (g + (1/20) * Sum)
+    Tabla.GuardarPeso(peso)
+    return peso
 
 def AumentarLastID():
     global last_id
     last_id += 1
 
+def LastID():
+    global last_id
+    return last_id
 
-def CrearNuevaTablaFila(TablaIntermedia, fila_a_girar):
-    AumentarLastID()
-    id_padre = TablaIntermedia.GetId() 
-    nueva_tabla = Tabla.Tabla(id_padre, last_id)
-    nueva_tabla.Llenar("Inicial")
-    
-    TablaIntermedia.GirarFilaIzquierda(fila_a_girar)
-    TablaIntermedia.PrintTorre()
-    nueva_tabla = TablaIntermedia.CopiarTabla(nueva_tabla)
-    #matriz = TablaIntermedia.getTabla()
-    #nueva_tabla.setTabla(matriz)
-    TablaIntermedia.GirarFilaDerecha(fila_a_girar)
-    
-    print("se reci")
-    nueva_tabla.PrintTorre()
-    return nueva_tabla
+def Largo(lista):
+    print("Largo: ", len(lista.lista))
+
+def Visitado(Tabla):
+    lista_NO_visitados.Quitar(Tabla)
+    lista_visitados.Agregar(Tabla)
 
 # Saca de la lista de no visitados a una tabla y la mete en la de visitados. retorna dicha tabla
-def SiguienteTabla():
-    pass
+# Busca en la lista de NO visitados, el que tiene peso menor. Y lo devuelve como la tabla Padre
+# quitandolo de dicha lista y metiendolo en la lista de SI visitados
+def SiguienteNodo():
+    # Ahorita solo coge el último
+    Nodo = lista_NO_visitados.Pop()
+    Visitado(Nodo)
+    return Nodo
 
 def NuevaTablaIzquierda(TablaPadre, numero_fila):
     nueva_tabla = deepcopy(TablaPadre)
-    nueva_tabla.setID(last_id)
-    nueva_tabla.setIDpadre(TablaPadre.getID())
+    nueva_tabla.setID(last_id)                                      # Asigna ID
+    nueva_tabla.setIDpadre(TablaPadre.getID())      # Asigna ID padre
+    nueva_tabla.setG(TablaPadre.getG()+1)               # Asigna g
     nueva_tabla.GirarFilaIzquierda(numero_fila)
-    if lista_visitados.Comparar(nueva_tabla):
+    if lista_NO_visitados.Comparar(nueva_tabla):
         return False
     else:
-        lista_visitados.Agregar(nueva_tabla)
+        lista_NO_visitados.Agregar(nueva_tabla)
+        AumentarLastID()
         return nueva_tabla
 
-def CreacionDeTablas(TablaPadre):
-    # Hacia derecha
+def NuevaTablaDerecha(TablaPadre, numero_fila):
+    nueva_tabla = deepcopy(TablaPadre)
+    nueva_tabla.setID(last_id)                                      # Asigna ID
+    nueva_tabla.setIDpadre(TablaPadre.getID())      # Asigna ID padre
+    nueva_tabla.setG(TablaPadre.getG()+1)               # Asigna g
+    nueva_tabla.GirarFilaDerecha(numero_fila)
+    if lista_NO_visitados.Comparar(nueva_tabla):       # ¿Está visitado?
+        return False
+    else:
+        lista_NO_visitados.Agregar(nueva_tabla)            # Se agrega a la lista de visitados
+        AumentarLastID()
+        return nueva_tabla
+
+# Crea a parti r de una tabla las siguientes 12 tablas.
+def Ramificacion(TablaPadre):
+    # Hacia izquierda
+    print("- - - - - - - - - - - - - - - - - - ")
+    print("Con giro a la izquierda")
     for i in range(5):
+        Largo(lista_NO_visitados)
+        Largo(lista_visitados)
         nueva_tabla = NuevaTablaIzquierda(TablaPadre, i)
         if (nueva_tabla == False):
-            print("se encontro una igual")
+            print("Se encontro una igual. Se omitió la tabla, se cierra el nodo" )
         else:
-            #Algoritmo(1, nueva_tabla)
-            pass
+            Peso(nueva_tabla)
+            print("Nueva tabla: ", i+1)
+            nueva_tabla.PrintTorre()
+            
         
-        print("nueva")
-        nueva_tabla.PrintTorre()
-        AumentarLastID
-"""
-    for i in range(5):
-        nueva_tabla = CrearNuevaTablaFila(TablaIntermedia, i)
-        if (nueva_tabla.EsLaTablaMeta() ):
-            Finalizado(tabla)
-        elif (lista_visitados.Comparar(nueva_tabla)):
-            print("se encontro una igual")
+    # Hacia derecha
+    print("- - - - - - - - - - - - - - - - - - ")
+    print("Con giro a la derecha")
+    for i in range(4):
+        Largo(lista_NO_visitados)
+        Largo(lista_visitados)
+        nueva_tabla = NuevaTablaDerecha(TablaPadre, i)
+        if (nueva_tabla == False):
+            print("Se encontro una igual. Se omitió la tabla, se cierra el nodo" )
         else:
-            Algoritmo(1, nueva_tabla)
-        input()
-        
-"""            
+            Peso(nueva_tabla)
+            print("Nueva tabla: ", i+6)
+            nueva_tabla.PrintTorre()
+
+    # Hacia Abajo
+
+    # Hacia Arriba
+
+    
+    
             
 def Finalizado(tabla):
     pass
 
+def Astar():
+    tabla_padre = TablaInicial
+    while True:
+        print("Pasada por el While True")
+        Ramificacion(tabla_padre)
+        tabla_padre = SiguienteNodo()
+
 def main():
-    
     print("inicial")
-    TablaInicial.Llenar("inicial")   
+    TablaInicial.Llenar("inicial")
+    TablaInicial.setG(0)
     TablaInicial.PrintTorre()
-    
-    
     print("meta")
     Tabla.LlenarTablaMeta()
     Tabla.PrintTablaMeta()
-
-    CreacionDeTablas(TablaInicial)
+    print(" - - - - - - - - - - - - ")
+    print()
+    
+    Astar()     # Algoritmo de A estrellas
     
     #Tabla.GirarFilaIzquierda(1)
     #Tabla.PrintTorre()
@@ -134,8 +179,7 @@ TablaInicial = Tabla.Tabla(last_id, 0)
 TablaMeta = Tabla.Tabla(-1, -1)
 
 lista_visitados = Tabla.ListaDeTablas()
-lista_visitados.Agregar(TablaInicial)
-
-    
+lista_NO_visitados = Tabla.ListaDeTablas()
+lista_NO_visitados.Agregar(TablaInicial)    
 main()
     
