@@ -30,21 +30,17 @@ def CalcularDistancia (iacutal, jactual, idestino, jdestino):
 # Antes llamada "Algoritmo"
 def Peso(tabla):
     Sum = 0
-    g = tabla.getG()
-    for i in range(Columnas):
-        for j in range(Filas):
-            #color que queremos sacarle la distancia
+    g = tabla.getG()            # Guarda el g (acumulado) de la tabla
+    for i in range(5):          # Filas
+        for j in range(4):      # Columnas
             color = tabla.ObtenerColor(i,j)
-            print ("Color: ", color)
-            #if (color == "R" or color == "G" or color == "B" or color == "Y" ):
-            (idestino,jdestino) = tabla.CalcularIJdelColorMasCercano(i,j)
+            (idestino,jdestino) = tabla.CalcularIJdelColorMasCercano(i,j)   # REVISAR NO ESTÁ TRABAJANDO BIEN
+                                                                                                                    # Dos celdas distintas no pueden escoger la misma celda destino
             DistanciaCalculada = CalcularDistancia(i, j, idestino, jdestino)
-            print ("Meta:",idestino,",",jdestino, "distancia",DistanciaCalculada)
-            Sum = Sum + DistanciaCalculada
-            print()
+            Sum += DistanciaCalculada
     peso = (g + (1/20) * Sum)
-    Tabla.GuardarPeso(peso)
-    return peso
+    tabla.GuardarPeso(peso)
+    
 
 def AumentarLastID():
     global last_id
@@ -55,20 +51,23 @@ def LastID():
     return last_id
 
 def Largo(lista):
-    print("Largo: ", len(lista.lista))
+    return len(lista.lista)
 
 def Visitado(Tabla):
     lista_NO_visitados.Quitar(Tabla)
     lista_visitados.Agregar(Tabla)
+
 
 # Saca de la lista de no visitados a una tabla y la mete en la de visitados. retorna dicha tabla
 # Busca en la lista de NO visitados, el que tiene peso menor. Y lo devuelve como la tabla Padre
 # quitandolo de dicha lista y metiendolo en la lista de SI visitados
 def SiguienteNodo():
     # Ahorita solo coge el último
-    Nodo = lista_NO_visitados.Pop()
-    Visitado(Nodo)
-    return Nodo
+    TablaMenorPeso = lista_NO_visitados.TablaMenorPeso()
+    print("\nTabla escogida como la de menor PESO:")
+    TablaMenorPeso.PrintTorreDetallada()
+    # Visitado(TablaMenorPeso)      # Este visitado se hace al terminar la función "Ramificacion"
+    return TablaMenorPeso
 
 def NuevaTablaIzquierda(TablaPadre, numero_fila):
     nueva_tabla = deepcopy(TablaPadre)
@@ -98,38 +97,43 @@ def NuevaTablaDerecha(TablaPadre, numero_fila):
 
 # Crea a partir de una tabla las siguientes 12 tablas.
 def Ramificacion(TablaPadre):
+    
     # Hacia izquierda
     print("- - - - - - - - - - - - - - - - - - ")
     print("Con giro a la izquierda")
     for i in range(5):
-        Largo(lista_NO_visitados)
-        Largo(lista_visitados)
         nueva_tabla = NuevaTablaIzquierda(TablaPadre, i)
         if (nueva_tabla == False):
             print("Se encontro una igual. Se omitió la tabla, se cierra el nodo" )
         else:
-            Peso(nueva_tabla)
+            Peso(nueva_tabla)           # Asigna el peso a la tabla
             print("Nueva tabla: ", i+1)
-            nueva_tabla.PrintTorre()
+            nueva_tabla.PrintTorreDetallada()
+    print("Largo de tabla_visitados: ", Largo(lista_visitados))
+    print("Largo de tabla_NO_visitados: ", Largo(lista_NO_visitados))
+    
             
         
     # Hacia derecha
     print("- - - - - - - - - - - - - - - - - - ")
     print("Con giro a la derecha")
     for i in range(4):
-        Largo(lista_NO_visitados)
-        Largo(lista_visitados)
         nueva_tabla = NuevaTablaDerecha(TablaPadre, i)
         if (nueva_tabla == False):
             print("Se encontro una igual. Se omitió la tabla, se cierra el nodo" )
         else:
-            Peso(nueva_tabla)
+            Peso(nueva_tabla)       # Asigna el peso a la tabla
             print("Nueva tabla: ", i+6)
-            nueva_tabla.PrintTorre()
+            nueva_tabla.PrintTorreDetallada()
+    print("Largo de tabla_visitados: ", Largo(lista_visitados))
+    print("Largo de tabla_NO_visitados: ", Largo(lista_NO_visitados))
 
     # Hacia Abajo
 
     # Hacia Arriba
+
+    #Ya se usó, entonces se saca de la lista de NO-visitadas
+    Visitado(TablaPadre)
 
     
     
@@ -137,36 +141,30 @@ def Ramificacion(TablaPadre):
 def Finalizado(tabla):
     pass
 
-def Astar():
+# Solo ramifica (12 ramas de tablas nuevas) a partir de TABLAPADRE y luego escoge la
+# siguiente TABLAPADRE a partir de la lista_NO_visitados
+def A_Estrella():
     tabla_padre = TablaInicial
     while True:
         print("Pasada por el While True")
         Ramificacion(tabla_padre)
         tabla_padre = SiguienteNodo()
+        input("\n\n Pasada completa, ENTER para continuar \n\n")
 
 def main():
-    print("inicial")
+    print("Tabla inicial")
     TablaInicial.Llenar("inicial")
     TablaInicial.setG(0)
-    TablaInicial.PrintTorre()
-    print("meta")
+    TablaInicial.PrintTorreDetallada()
+    print("Tabla meta")
     Tabla.LlenarTablaMeta()
-    Tabla.PrintTablaMeta()
+    Tabla.PrintTablaMetaDetallada()
     print(" - - - - - - - - - - - - ")
     print()
     
-    Astar()     # Algoritmo de A estrellas
-    
-    #Tabla.GirarFilaIzquierda(1)
-    #Tabla.PrintTorre()
-    #Tabla.GirarFilaDerecha(2)
-    #Tabla.RotarElOAbajo(0,0)
+    A_Estrella()     # Algoritmo de A estrellas
 
-    #Tabla.RotarElOArriba(1, 0)
-    #Tabla.PrintTorre()
-
-    
-
+    # end line -    
 
 #Se crea la matriz
 colores = ['B','G','Y','R'] 
@@ -174,12 +172,16 @@ Filas = 4
 Columnas = Filas+1
 last_id = 1
 
-    
-TablaInicial = Tabla.Tabla(last_id, 0)
-TablaMeta = Tabla.Tabla(-1, -1)
+# ID para tabla inicial: 0
+# ID del padre: -1 (no tiene)
+TablaInicial = Tabla.Tabla(-1, 0)
+# ID para tabla META: -2
+# ID del padre: -1 (no tiene)
+
 
 lista_visitados = Tabla.ListaDeTablas()
 lista_NO_visitados = Tabla.ListaDeTablas()
-lista_NO_visitados.Agregar(TablaInicial)    
+lista_NO_visitados.Agregar(TablaInicial)
+
 main()
     
