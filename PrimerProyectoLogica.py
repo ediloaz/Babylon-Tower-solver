@@ -96,7 +96,7 @@ def NuevaTablaDerecha(TablaPadre, numero_fila):
         AumentarLastID()
         return nueva_tabla
 
-# Crea a parti r de una tabla las siguientes 12 tablas.
+# Crea a partir de una tabla las siguientes 12 tablas.
 def Ramificacion(TablaPadre):
     # Hacia izquierda
     print("- - - - - - - - - - - - - - - - - - ")
