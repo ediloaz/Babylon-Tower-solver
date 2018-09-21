@@ -151,22 +151,21 @@ class Tabla(object):
 
     def RotarElOArriba(self, PosicionI, PosicionJ):
         if (PosicionI == 0 ):
-            return 0
+            return False
         else:
             color = self.tabla[PosicionI][PosicionJ]
             self.tabla[PosicionI][PosicionJ] = self.tabla[PosicionI-1][PosicionJ]
             self.tabla[PosicionI-1][PosicionJ] = color
-            return 1
+            return True
 
     def RotarElOAbajo(self, PosicionI, PosicionJ):
-        if (PosicionI == Columnas-1 or self.tabla[PosicionI][PosicionJ] != 'O' ):
-            print ('Error')
+        if (PosicionI == Columnas-1):
+            return False
         else:
             color = self.tabla[PosicionI][PosicionJ]
-            
             self.tabla[PosicionI][PosicionJ] = self.tabla[PosicionI+1][PosicionJ]
-            
             self.tabla[PosicionI+1][PosicionJ] = color
+            return True
     
     
     def CalcularDistancia (self, iacutal, jactual, idestino, jdestino):
