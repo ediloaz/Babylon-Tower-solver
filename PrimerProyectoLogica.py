@@ -149,7 +149,7 @@ def A_Estrella():
         print("Pasada por el While True")
         Ramificacion(tabla_padre)
         tabla_padre = SiguienteNodo()
-        input("\n\n Pasada completa, ENTER para continuar \n\n")
+        # input("\n\n Pasada completa, ENTER para continuar \n\n")
 
 def main():
     print("Tabla inicial")
