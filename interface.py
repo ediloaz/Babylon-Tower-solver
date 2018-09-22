@@ -34,7 +34,6 @@ class Background(pygame.sprite.Sprite):
         self.rect.left, self.rect.top = location
 
 def SetBackground():
-    
     path = "./images/background/pattern.png"
     #pattern = pygame.image.load(path)
     BackGround = Background(path, [0,0])
