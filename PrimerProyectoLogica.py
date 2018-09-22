@@ -228,7 +228,7 @@ def main():
     # end line -    
 
 #Se crea la matriz
-colores = ['B','G','Y','R'] 
+colores = ['R','G','B','Y'] 
 Filas = 4
 Columnas = Filas+1
 last_id = 1

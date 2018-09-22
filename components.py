@@ -220,6 +220,23 @@ class Ball(object):
     def setIndex(self, index):
         self.index = index
 
+    def setColor(self, color):
+        if (color == "R"):
+            self.setIndex("red")
+        elif (color == "G"):
+            self.setIndex("green")
+        elif (color == "B"):
+            self.setIndex("blue")
+        elif (color == "Y"):
+            self.setIndex("yellow")
+        elif (color == "X"):
+            self.setIndex("x")
+        elif (color == "O"):
+            self.setIndex("o")
+        else:
+            print("Error in setColor()", self.index, color)
+            self.setIndex(self.index)
+    
     def setHover(self):
         if not (self.index[-5:] == "hover"):
             self.index += "_hover"
@@ -280,6 +297,14 @@ class Ball(object):
 class Tower(object):
     def __init__(self, position):
         self.balls = []
+
+    def addBall(self, color):
+        self.balls.append(color)
+        
+    def DefineBalls(self, Tabla):
+        for i in Tabla.tabla:
+            for j in i:
+                addBall(j)
         
     def draw(self, screen):
         pass
