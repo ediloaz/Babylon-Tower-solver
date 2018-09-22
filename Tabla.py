@@ -142,36 +142,30 @@ class Tabla(object):
         
     #RotarColumnas
             
-    def PosO():
-        i1=5
-        j=5
+    def PosO(self):
         for i in range(Columnas):
-            try:
-                j = (Torre[0].index('O'))
-                i1=i
-            except ValueError:
-                print ('a')
+            for j in range(Filas):
+                if (self.tabla[i][j].getColor()=='O'):
+                    return (i,j)
             
-        print (i1,j)
-
 
     def RotarElOArriba(self, PosicionI, PosicionJ):
-        if (PosicionI == 0 or self.tabla[PosicionI][PosicionJ] != 'O' ):
-            print ('Error')
+        if (PosicionI == 0 ):
+            return False
         else:
             color = self.tabla[PosicionI][PosicionJ]
             self.tabla[PosicionI][PosicionJ] = self.tabla[PosicionI-1][PosicionJ]
             self.tabla[PosicionI-1][PosicionJ] = color
+            return True
 
     def RotarElOAbajo(self, PosicionI, PosicionJ):
-        if (PosicionI == Columnas-1 or self.tabla[PosicionI][PosicionJ] != 'O' ):
-            print ('Error')
+        if (PosicionI == Columnas-1):
+            return False
         else:
             color = self.tabla[PosicionI][PosicionJ]
-            
             self.tabla[PosicionI][PosicionJ] = self.tabla[PosicionI+1][PosicionJ]
-            
             self.tabla[PosicionI+1][PosicionJ] = color
+            return True
     
     
     def CalcularDistancia (self, iacutal, jactual, idestino, jdestino):

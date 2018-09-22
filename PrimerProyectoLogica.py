@@ -95,6 +95,36 @@ def NuevaTablaDerecha(TablaPadre, numero_fila):
         AumentarLastID()
         return nueva_tabla
 
+def NuevaTablaArriba(TablaPadre, numero_fila):
+    nueva_tabla = deepcopy(TablaPadre)
+    nueva_tabla.setID(last_id)                                      # Asigna ID
+    nueva_tabla.setIDpadre(TablaPadre.getID())      # Asigna ID padre
+    nueva_tabla.setG(TablaPadre.getG()+1)               # Asigna g
+    (i,j) = TablaPadre.PosO()
+    nueva_tabla.RotarElOArriba(i,j)
+    if lista_NO_visitados.Comparar(nueva_tabla):       # ¿Está visitado?
+        return False
+    else:
+        lista_NO_visitados.Agregar(nueva_tabla)            # Se agrega a la lista de visitados
+        AumentarLastID()
+        return nueva_tabla
+
+
+def NuevaTablaAbajo(TablaPadre, numero_fila):
+    nueva_tabla = deepcopy(TablaPadre)
+    nueva_tabla.setID(last_id)                                      # Asigna ID
+    nueva_tabla.setIDpadre(TablaPadre.getID())      # Asigna ID padre
+    nueva_tabla.setG(TablaPadre.getG()+1)               # Asigna g
+    (i,j) = TablaPadre.PosO()
+    nueva_tabla.RotarElOAbajo(i,j)
+    if lista_NO_visitados.Comparar(nueva_tabla):       # ¿Está visitado?
+        return False
+    else:
+        lista_NO_visitados.Agregar(nueva_tabla)            # Se agrega a la lista de visitados
+        AumentarLastID()
+        return nueva_tabla
+
+
 # Crea a partir de una tabla las siguientes 12 tablas.
 def Ramificacion(TablaPadre):
     
@@ -108,19 +138,19 @@ def Ramificacion(TablaPadre):
         else:
             Peso(nueva_tabla)           # Asigna el peso a la tabla
             print("Nueva tabla: ", i+1)
+            print('\n')
             nueva_tabla.PrintTorreDetallada()
     print("Largo de tabla_visitados: ", Largo(lista_visitados))
     print("Largo de tabla_NO_visitados: ", Largo(lista_NO_visitados))
     
             
-        
     # Hacia derecha
     print("- - - - - - - - - - - - - - - - - - ")
     print("Con giro a la derecha")
     for i in range(4):
         nueva_tabla = NuevaTablaDerecha(TablaPadre, i)
         if (nueva_tabla == False):
-            print("Se encontro una igual. Se omitió la tabla, se cierra el nodo" )
+            print("Se encontro una igual o no es posible hacer el movimiento. Se omitió la tabla, se cierra el nodo" )
         else:
             Peso(nueva_tabla)       # Asigna el peso a la tabla
             print("Nueva tabla: ", i+6)
@@ -128,9 +158,36 @@ def Ramificacion(TablaPadre):
     print("Largo de tabla_visitados: ", Largo(lista_visitados))
     print("Largo de tabla_NO_visitados: ", Largo(lista_NO_visitados))
 
-    # Hacia Abajo
 
     # Hacia Arriba
+    print("- - - - - - - - - - - - - - - - - - ")
+    print("Con giro hacia arriba")
+    nueva_tabla = NuevaTablaArriba(TablaPadre, i)
+    if (nueva_tabla == False):
+        print("Se encontro una igual o no es posible hacer el movimiento. Se omitió la tabla, se cierra el nodo" )
+    else:
+        Peso(nueva_tabla)           # Asigna el peso a la tabla
+        print("Nueva tabla: ", i+1)
+        print('\n')
+        nueva_tabla.PrintTorreDetallada()
+    print("Largo de tabla_visitados: ", Largo(lista_visitados))
+    print("Largo de tabla_NO_visitados: ", Largo(lista_NO_visitados))
+
+
+    # Hacia Abajo
+    print("- - - - - - - - - - - - - - - - - - ")
+    print("Con giro hacia abajo")
+    nueva_tabla = NuevaTablaAbajo(TablaPadre, i)
+    if (nueva_tabla == False):
+        print("Se encontro una igual. Se omitió la tabla, se cierra el nodo" )
+    else:
+        Peso(nueva_tabla)           # Asigna el peso a la tabla
+        print("Nueva tabla: ", i+1)
+        print('\n')
+        nueva_tabla.PrintTorreDetallada()
+    print("Largo de tabla_visitados: ", Largo(lista_visitados))
+    print("Largo de tabla_NO_visitados: ", Largo(lista_NO_visitados))
+
 
     #Ya se usó, entonces se saca de la lista de NO-visitadas
     Visitado(TablaPadre)
@@ -138,8 +195,10 @@ def Ramificacion(TablaPadre):
     
     
             
-def Finalizado(tabla):
-    pass
+def Finalizado(Tabla):
+    if(Tabla.EsLaTablaMeta() ):
+        return True
+    return False
 
 # Solo ramifica (12 ramas de tablas nuevas) a partir de TABLAPADRE y luego escoge la
 # siguiente TABLAPADRE a partir de la lista_NO_visitados
@@ -149,7 +208,9 @@ def A_Estrella():
         print("Pasada por el While True")
         Ramificacion(tabla_padre)
         tabla_padre = SiguienteNodo()
-        # input("\n\n Pasada completa, ENTER para continuar \n\n")
+        if (Finalizado(tabla_padre)==True):
+            break
+        #input("\n\n Pasada completa, ENTER para continuar \n\n")
 
 def main():
     print("Tabla inicial")
@@ -163,7 +224,7 @@ def main():
     print()
     
     A_Estrella()     # Algoritmo de A estrellas
-
+    print ("Se encontro Resultado")
     # end line -    
 
 #Se crea la matriz
