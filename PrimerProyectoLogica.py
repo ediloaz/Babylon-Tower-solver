@@ -150,7 +150,7 @@ def Ramificacion(TablaPadre):
     for i in range(4):
         nueva_tabla = NuevaTablaDerecha(TablaPadre, i)
         if (nueva_tabla == False):
-            print("Se encontro una igual. Se omitió la tabla, se cierra el nodo" )
+            print("Se encontro una igual o no es posible hacer el movimiento. Se omitió la tabla, se cierra el nodo" )
         else:
             Peso(nueva_tabla)       # Asigna el peso a la tabla
             print("Nueva tabla: ", i+6)
@@ -164,7 +164,7 @@ def Ramificacion(TablaPadre):
     print("Con giro hacia arriba")
     nueva_tabla = NuevaTablaArriba(TablaPadre, i)
     if (nueva_tabla == False):
-        print("Se encontro una igual. Se omitió la tabla, se cierra el nodo" )
+        print("Se encontro una igual o no es posible hacer el movimiento. Se omitió la tabla, se cierra el nodo" )
     else:
         Peso(nueva_tabla)           # Asigna el peso a la tabla
         print("Nueva tabla: ", i+1)
@@ -195,8 +195,10 @@ def Ramificacion(TablaPadre):
     
     
             
-def Finalizado(tabla):
-    pass
+def Finalizado(Tabla):
+    if(Tabla.EsLaTablaMeta() ):
+        return True
+    return False
 
 # Solo ramifica (12 ramas de tablas nuevas) a partir de TABLAPADRE y luego escoge la
 # siguiente TABLAPADRE a partir de la lista_NO_visitados
@@ -206,7 +208,9 @@ def A_Estrella():
         print("Pasada por el While True")
         Ramificacion(tabla_padre)
         tabla_padre = SiguienteNodo()
-        # input("\n\n Pasada completa, ENTER para continuar \n\n")
+        if (Finalizado(tabla_padre)==True):
+            break
+        #input("\n\n Pasada completa, ENTER para continuar \n\n")
 
 def main():
     print("Tabla inicial")
@@ -220,7 +224,7 @@ def main():
     print()
     
     A_Estrella()     # Algoritmo de A estrellas
-
+    print ("Se encontro Resultado")
     # end line -    
 
 #Se crea la matriz
