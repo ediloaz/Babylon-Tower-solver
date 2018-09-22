@@ -1,7 +1,8 @@
 # File of components for PyGame
+#   write here the components
 #
-
-# write here the components
+# For create big text (doom effect): https://www.messletters.com/en/big-text/
+# 
 
 import pygame, sys
 from pygame.locals import *
@@ -68,6 +69,19 @@ def DefineImages(text):
         exit()
     return dictionary
 
+
+
+
+
+
+##  ______         _    _                   _____  _                  
+##  | ___ \       | |  | |                 /  __ \| |                 
+##  | |_/ / _   _ | |_ | |_   ___   _ __   | /  \/| |  __ _  ___  ___ 
+##  | ___ \| | | || __|| __| / _ \ | '_ \  | |    | | / _` |/ __|/ __|
+##  | |_/ /| |_| || |_ | |_ | (_) || | | | | \__/\| || (_| |\__ \\__ \
+##  \____/  \__,_| \__| \__| \___/ |_| |_|  \____/|_| \__,_||___/|___/                                                                                                            
+##
+## 
 class Button(object):
     def __init__(self, SIZE, position, type_of):
 
@@ -131,102 +145,150 @@ class Button(object):
                 self._index = "normal"
 
 
+    ## End of the class
+    ## 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##  ______         _  _   _____  _                  
+##  | ___ \       | || | /  __ \| |                 
+##  | |_/ /  __ _ | || | | /  \/| |  __ _  ___  ___ 
+##  | ___ \ / _` || || | | |    | | / _` |/ __|/ __|
+##  | |_/ /| (_| || || | | \__/\| || (_| |\__ \\__ \
+##  \____/  \__,_||_||_|  \____/|_| \__,_||___/|___/
+##
+##  
 class Ball(object):
     def __init__(self, position):
-
+        
         # Definition: set of images
-        self._images = DefineImages("ball")
-
+        self.images = []
+        self.DefineImages()
+        
         # Definition: Size and Pos as object's variable
-        self._size = self._images["normal"].get_rect().size
-        self._position = position
-        self._type_of = type_of
-        self._button_active = False
+        self.size = self.images["blue"].get_rect().size
+        self.position = position
+        # self._type_of = type_of
+        self.button_active = False
         
         # Definition: Position and Size of Component
-        self._rect = pygame.Rect(self._position,  self._size)
+        self.rect = pygame.Rect(self.position,  self.size)
         
         # Initial State
-        self._index = "normal"
+        self.index = "blue"
 
         # Draw the component
-        pygame.display.set_mode(self._images["normal"].get_rect().size,0,32)
+        pygame.display.set_mode(self.images["blue"].get_rect().size,0,32)
 
         # Convert from images to objects
-        self._images["normal"].convert()
-        self._images["hover"].convert()
-        self._images["active"].convert()
+        self.images["blue"].convert()
+        #self.images["blue_normal"].convert()
+        self.images["blue_hover"].convert()
+
+    def DefineImages(self):
+        self.images = {
+            "red" : LoadImage("./images/balls/red.png"),
+            "red_hover" : LoadImage("./images/balls/red_hover.png"),
+            "green" : LoadImage("./images/balls/green.png"),
+            "green_hover" : LoadImage("./images/balls/green_hover.png"),
+            "blue" : LoadImage("./images/balls/blue.png"),
+            "blue_hover" : LoadImage("./images/balls/blue_hover.png"),
+            "yellow" : LoadImage("./images/balls/yellow.png"),
+            "yellow_hover" : LoadImage("./images/balls/yellow_hover.png"),
+            "x" : LoadImage("./images/balls/x.png"),
+            "x_hover" : LoadImage("./images/balls/x_hover.png"),
+            "o" : LoadImage("./images/balls/o.png"),
+            "o_hover" : LoadImage("./images/balls/o_hover.png")
+            }
+        
+    def setIndex(self, index):
+        self.index = index
+
+    def setHover(self):
+        if not (self.index[-5:] == "hover"):
+            self.index += "_hover"
+
+    def setNormal(self):
+        if (self.index[-5:] == "hover"):
+            self.index = self.index[:-6]
+
+    def NextIndex(self):
+        if (self.index[0] == "r"):
+            self.setIndex("green")
+        elif (self.index[0] == "g"):
+            self.setIndex("blue")
+        elif (self.index[0] == "b"):
+            self.setIndex("yellow")
+        elif (self.index[0] == "y"):
+            self.setIndex("x")
+        elif (self.index[0] == "x"):
+            self.setIndex("o")
+        elif (self.index[0] == "o"):
+            self.setIndex("red")
+        else:
+            print("Error in NextIndex()", self.index)
+            self.setIndex(self.index)
 
     def draw(self, screen):
-        screen.blit(self._images[self._index], self._rect)
+        screen.blit(self.images[self.index], self.rect)
 
-   
-       
     def event_handler(self, event):
         # Clicked
-        if (event.type == pygame.MOUSEBUTTONDOWN) and (event.button == 1) and (self._rect.collidepoint(event.pos)):
-            self._index = "active"
+        if (event.type == pygame.MOUSEBUTTONDOWN) and (event.button == 1) and (self.rect.collidepoint(event.pos)):
             self.NextIndex()
             
         # Hover
-        elif self._rect.collidepoint(pygame.mouse.get_pos()):
-            self._index = "hover"
+        elif self.rect.collidepoint(pygame.mouse.get_pos()):
+            self.setHover()
         # Normal
         else:
-            if self._button_active == False:
-                self._index = "normal"
+            self.setNormal()
+
+    
+    ## End of the class
+    ## 
 
 
 
 
 
+##   _____                                _____  _                  
+##  |_   _|                              /  __ \| |                 
+##    | |    ___  __      __  ___  _ __  | /  \/| |  __ _  ___  ___ 
+##    | |   / _ \ \ \ /\ / / / _ \| '__| | |    | | / _` |/ __|/ __|
+##    | |  | (_) | \ V  V / |  __/| |    | \__/\| || (_| |\__ \\__ \
+##    \_/   \___/   \_/\_/   \___||_|     \____/|_| \__,_||___/|___/
+##                                                                  
+##                                                                  
 
-
-class PickColor(object):
+class Tower(object):
     def __init__(self, position):
-        self._size = (120,30)
-        self._position = position
+        self.balls = []
         
-        self._images = [
-                pygame.image.load("./images/balls/Blue.png"),
-                pygame.image.load("./images/balls/Yellow.png"),
-                pygame.image.load("./images/balls/Red.png"),
-                pygame.image.load("./images/balls/Green.png")
-            ]
-
-        self._rect = self._images[0].get_rect()
-        print("size:",self._rect)
-
-        self._index = 0
-
-        pygame.display.set_mode(self._images[0].get_rect().size,0,32)
-        
-        self._images[0].convert()
-        self._images[1].convert()
-        self._images[2].convert()
-        self._images[3].convert()
-
     def draw(self, screen):
-        screen.blit(self._images[self._index], self._position)
+        pass
 
     def event_handler(self, event):
-        # Clicked
-        if event.type == pygame.MOUSEBUTTONDOWN: # is some button clicked
-            print("s",event.button)
-            if event.button == 1: # is left button clicked
-                print("a")
-                if self._rect.collidepoint(event.pos): # is mouse over button
-                    print("b")
-                    self._index = (self._index+1) % 3
-        # Hover
-        elif self._rect.collidepoint(pygame.mouse.get_pos()):
-            pass
-        # Normal
-        else:
-            self._index = self._index
+        pass
+
+    ## End of the class
+    ## 
 
 
 

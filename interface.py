@@ -17,13 +17,13 @@ import components as components
 
 
 # Global variables/constants
-SCREEN_SIZE = (1000, 650)
+SCREEN_SIZE = (1200, 650)
 BG_COLOUR   = (250, 250, 250)
 screen = 0
 
 button_accept = components.Button(SCREEN_SIZE, (200, 600), "accept")
 button_upload = components.Button(SCREEN_SIZE, (200, 500), "upload")
-pick_color    = components.PickColor((220, 0))
+ball    = components.Ball((220, 0))
 
 
 class Background(pygame.sprite.Sprite):
@@ -92,7 +92,7 @@ def run():
             # --- button events --- #
             button_accept.event_handler(event)
             button_upload.event_handler(event)
-            pick_color.event_handler(event)
+            ball.event_handler(event)
                         
 
         # --- Draws --- #
@@ -100,7 +100,7 @@ def run():
         #screen.fill(BG_COLOUR)
         button_accept.draw(screen)
         button_upload.draw(screen)
-        pick_color.draw(screen)
+        ball.draw(screen)
         # pygame.draw.aaline(screen, LINE_COLOUR, (1, 1), (639, 399))
         pygame.display.flip()
         
