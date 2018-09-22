@@ -163,8 +163,7 @@ class Ball(object):
     def draw(self, screen):
         screen.blit(self._images[self._index], self._rect)
 
-   def NextIndex(self):
-       
+   
        
     def event_handler(self, event):
         # Clicked

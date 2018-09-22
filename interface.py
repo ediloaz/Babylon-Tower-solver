@@ -3,7 +3,7 @@
 # Tecnológico de Costa Rica
 # Computing Engineering School
 # Course
-#   Inteligencia Artificial
+#   Artificial Intelligence
 #   Teacher Jorge Vargas
 # Programmers
 #   Edisson López @ediloaz
@@ -13,17 +13,34 @@
 
 import pygame, sys
 from pygame.locals import *
+import components as components
 
-import components as components;
 
-# declarations
-SIZE = (1000, 650)
+# Global variables/constants
+SCREEN_SIZE = (1000, 650)
 BG_COLOUR   = (250, 250, 250)
+screen = 0
 
-
-button_accept = components.Button(SIZE, (200, 600), "accept")
-button_upload = components.Button(SIZE, (200, 500), "upload")
+button_accept = components.Button(SCREEN_SIZE, (200, 600), "accept")
+button_upload = components.Button(SCREEN_SIZE, (200, 500), "upload")
 pick_color    = components.PickColor((220, 0))
+
+
+class Background(pygame.sprite.Sprite):
+    def __init__(self, image_file, location):
+        pygame.sprite.Sprite.__init__(self)  #call Sprite initializer
+        self.image = pygame.image.load(image_file)
+        self.rect = self.image.get_rect()
+        self.rect.left, self.rect.top = location
+
+def SetBackground():
+    
+    path = "./images/background/pattern.png"
+    #pattern = pygame.image.load(path)
+    BackGround = Background(path, [0,0])
+    Screen().fill([255, 255, 255])
+    Screen().blit(BackGround.image, BackGround.rect)
+    
 
 def ExitGame():
     pygame.display.quit()
@@ -38,9 +55,13 @@ def SetIcon(screen):
     pygame.display.set_icon(icon)
     return screen
 
+def Screen():
+    global screen
+    return screen
+
 def CreateScreen():
-    
-    screen = pygame.display.set_mode(SIZE)
+    global screen
+    screen = pygame.display.set_mode(SCREEN_SIZE)
     pygame.display.set_caption("Babylon Tower Solver")
     screen = SetIcon(screen)
     
@@ -76,7 +97,8 @@ def run():
                         
 
         # --- Draws --- #
-        screen.fill(BG_COLOUR)
+        SetBackground()                         # set pattern as background
+        #screen.fill(BG_COLOUR)
         button_accept.draw(screen)
         button_upload.draw(screen)
         pick_color.draw(screen)
