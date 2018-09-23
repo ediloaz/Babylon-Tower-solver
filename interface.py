@@ -23,8 +23,14 @@ screen = 0
 
 button_accept = components.Button(SCREEN_SIZE, (200, 600), "accept")
 button_upload = components.Button(SCREEN_SIZE, (200, 500), "upload")
-ball    = components.Ball((220, 0))
-
+initial_tower = components.Tower()
+initial_tower.setPosition((100,50))
+initial_tower.DefineBallsTesting()
+goal_tower  = components.Tower()
+goal_tower.setPosition((400,50))
+goal_tower.DefineBallsTesting()
+#ball    = components.Ball()
+#ball.setPosition((120, 0))
 
 class Background(pygame.sprite.Sprite):
     def __init__(self, image_file, location):
@@ -92,7 +98,9 @@ def run():
             # --- button events --- #
             button_accept.event_handler(event)
             button_upload.event_handler(event)
-            ball.event_handler(event)
+            # ball.event_handler(event)
+            initial_tower.event_handler(event)
+            goal_tower.event_handler(event)
                         
 
         # --- Draws --- #
@@ -100,7 +108,9 @@ def run():
         #screen.fill(BG_COLOUR)
         button_accept.draw(screen)
         button_upload.draw(screen)
-        ball.draw(screen)
+        initial_tower.draw(screen)
+        goal_tower.draw(screen)
+        # ball.draw(screen)
         # pygame.draw.aaline(screen, LINE_COLOUR, (1, 1), (639, 399))
         pygame.display.flip()
         

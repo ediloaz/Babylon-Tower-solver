@@ -18,62 +18,6 @@ def hex2rgb(hex_code):
 
 
 
-# --- Classes ---
-
-def GetWidth(thing):
-    return thing.get_rect().size[0]
-
-def GetHeight(thing):
-    return thing.get_rect().size[1]
-
-def GetNewDimensions(image):
-    height_destiny = 40
-    width_source = GetWidth(image)
-    height_source = GetHeight(image)
-    width_destiny = width_source*height_destiny/height_source
-    size_destiny = (int(width_destiny), int(height_destiny))
-    return size_destiny
-    
-def LoadImage(path):
-    image = pygame.image.load(path)
-    new_size = GetNewDimensions(image)
-    image = pygame.transform.scale(image, new_size)
-    return image
-
-def DefineImages(text):
-    if text == "accept":
-        dictionary = {
-            "normal" : LoadImage("./images/buttons/button_accept_normal.png"),
-            "hover" : LoadImage("./images/buttons/button_accept_hover.png"),
-            "active" : LoadImage("./images/buttons/button_accept_active.png")
-            }
-    elif text == "upload":
-        dictionary = {
-            "normal" : LoadImage("./images/buttons/button_upload_normal.png"),
-            "hover" : LoadImage("./images/buttons/button_upload_hover.png"),
-            "active" : LoadImage("./images/buttons/button_upload_active.png")
-            }
-    elif text == "ball":
-        dictionary = {
-            "blue_normal" : LoadImage("./images/balls/Blue.png"),
-            "blue_hover" : LoadImage("./images/balls/Blue.png"),
-            "red_normal" : LoadImage("./images/balls/Red.png"),
-            "red_hover" : LoadImage("./images/balls/Red.png"),
-            "yellow_normal" : LoadImage("./images/balls/Yellow.png"),
-            "yellow_hover" : LoadImage("./images/balls/Yellow.png"),
-            "green_normal" : LoadImage("./images/balls/Green.png"),
-            "green_hover" : LoadImage("./images/balls/Green.png"),
-            }
-    else:
-        print("Sucedió un error del sistema")
-        exit()
-    return dictionary
-
-
-
-
-
-
 ##  ______         _    _                   _____  _                  
 ##  | ___ \       | |  | |                 /  __ \| |                 
 ##  | |_/ / _   _ | |_ | |_   ___   _ __   | /  \/| |  __ _  ___  ___ 
@@ -86,13 +30,13 @@ class Button(object):
     def __init__(self, SIZE, position, type_of):
 
         # Definition: set of images
-        self._images = DefineImages(type_of)
+        self._images = self.DefineImages(type_of)
 
         # Definition: Size and Pos as object's variable
         self._size = self._images["normal"].get_rect().size
 
         width_screen = SIZE[0]
-        width_object = GetWidth(self._images["normal"])
+        width_object = self.GetWidth(self._images["normal"])
         width = width_screen/2 - width_object/2
         height = position[1]
         self._position = (width, height)
@@ -113,6 +57,45 @@ class Button(object):
         self._images["hover"].convert()
         self._images["active"].convert()
 
+    def GetWidth(self, image):
+        return image.get_rect().size[0]
+
+    def GetHeight(self, image):
+        return image.get_rect().size[1]
+
+    def GetNewDimensions(self, image):
+        height_destiny = 30             # Define the HEIGHT size
+        width_source = self.GetWidth(image)
+        height_source = self.GetHeight(image)
+        width_destiny = width_source*height_destiny/height_source
+        size_destiny = (int(width_destiny), int(height_destiny))
+        return size_destiny
+        
+    def LoadImage(self, path):
+        image = pygame.image.load(path)
+        new_size = self.GetNewDimensions(image)
+        image = pygame.transform.scale(image, new_size)
+        return image
+
+    def DefineImages(self, text):
+        if text == "accept":
+            dictionary = {
+                "normal" : self.LoadImage("./images/buttons/button_accept_normal.png"),
+                "hover" : self.LoadImage("./images/buttons/button_accept_hover.png"),
+                "active" : self.LoadImage("./images/buttons/button_accept_active.png")
+                }
+        elif text == "upload":
+            dictionary = {
+                "normal" : self.LoadImage("./images/buttons/button_upload_normal.png"),
+                "hover" : self.LoadImage("./images/buttons/button_upload_hover.png"),
+                "active" : self.LoadImage("./images/buttons/button_upload_active.png")
+                }
+        else:
+            print("Sucedió un error del sistema")
+            exit()
+        return dictionary
+
+    
     def draw(self, screen):
         screen.blit(self._images[self._index], self._rect)
 
@@ -157,15 +140,6 @@ class Button(object):
 
 
 
-
-
-
-
-
-
-
-
-
 ##  ______         _  _   _____  _                  
 ##  | ___ \       | || | /  __ \| |                 
 ##  | |_/ /  __ _ | || | | /  \/| |  __ _  ___  ___ 
@@ -175,7 +149,7 @@ class Button(object):
 ##
 ##  
 class Ball(object):
-    def __init__(self, position):
+    def __init__(self):
         
         # Definition: set of images
         self.images = []
@@ -183,38 +157,50 @@ class Ball(object):
         
         # Definition: Size and Pos as object's variable
         self.size = self.images["blue"].get_rect().size
-        self.position = position
-        # self._type_of = type_of
-        self.button_active = False
-        
-        # Definition: Position and Size of Component
-        self.rect = pygame.Rect(self.position,  self.size)
+        self.position = 0
         
         # Initial State
         self.index = "blue"
 
-        # Draw the component
-        pygame.display.set_mode(self.images["blue"].get_rect().size,0,32)
+    def setPosition(self, position):
+        self.position = position
+        # Definition: Position and Size of Component
+        self.rect = pygame.Rect(self.position,  self.size)
 
-        # Convert from images to objects
-        self.images["blue"].convert()
-        #self.images["blue_normal"].convert()
-        self.images["blue_hover"].convert()
+    def GetWidth(self, image):
+        return image.get_rect().size[0]
 
+    def GetHeight(self, image):
+        return image.get_rect().size[1]
+
+    def GetNewDimensions(self, image):
+        height_destiny = 40             # Define the HEIGHT size
+        width_source = self.GetWidth(image)
+        height_source = self.GetHeight(image)
+        width_destiny = width_source*height_destiny/height_source
+        size_destiny = (int(width_destiny), int(height_destiny))
+        return size_destiny
+        
+    def LoadImage(self, path):
+        image = pygame.image.load(path)
+        new_size = self.GetNewDimensions(image)
+        image = pygame.transform.scale(image, new_size)
+        return image
+        
     def DefineImages(self):
         self.images = {
-            "red" : LoadImage("./images/balls/red.png"),
-            "red_hover" : LoadImage("./images/balls/red_hover.png"),
-            "green" : LoadImage("./images/balls/green.png"),
-            "green_hover" : LoadImage("./images/balls/green_hover.png"),
-            "blue" : LoadImage("./images/balls/blue.png"),
-            "blue_hover" : LoadImage("./images/balls/blue_hover.png"),
-            "yellow" : LoadImage("./images/balls/yellow.png"),
-            "yellow_hover" : LoadImage("./images/balls/yellow_hover.png"),
-            "x" : LoadImage("./images/balls/x.png"),
-            "x_hover" : LoadImage("./images/balls/x_hover.png"),
-            "o" : LoadImage("./images/balls/o.png"),
-            "o_hover" : LoadImage("./images/balls/o_hover.png")
+            "red" : self.LoadImage("./images/balls/red.png"),
+            "red_hover" : self.LoadImage("./images/balls/red_hover.png"),
+            "green" : self.LoadImage("./images/balls/green.png"),
+            "green_hover" : self.LoadImage("./images/balls/green_hover.png"),
+            "blue" : self.LoadImage("./images/balls/blue.png"),
+            "blue_hover" : self.LoadImage("./images/balls/blue_hover.png"),
+            "yellow" : self.LoadImage("./images/balls/yellow.png"),
+            "yellow_hover" : self.LoadImage("./images/balls/yellow_hover.png"),
+            "x" : self.LoadImage("./images/balls/x.png"),
+            "x_hover" : self.LoadImage("./images/balls/x_hover.png"),
+            "o" : self.LoadImage("./images/balls/o.png"),
+            "o_hover" : self.LoadImage("./images/balls/o_hover.png")
             }
         
     def setIndex(self, index):
@@ -273,6 +259,19 @@ class Ball(object):
         # Hover
         elif self.rect.collidepoint(pygame.mouse.get_pos()):
             self.setHover()
+            if (event.type == pygame.KEYDOWN):
+                if (event.key == pygame.K_r or event.key == pygame.K_1):
+                    self.setIndex("red")
+                elif (event.key == pygame.K_g or event.key == pygame.K_2):
+                    self.setIndex("green")
+                elif (event.key == pygame.K_b or event.key == pygame.K_3):
+                    self.setIndex("blue")
+                elif (event.key == pygame.K_y or event.key == pygame.K_4):
+                    self.setIndex("yellow")
+                elif (event.key == pygame.K_x or event.key == pygame.K_5):
+                    self.setIndex("x")
+                elif (event.key == pygame.K_o or event.key == pygame.K_6):
+                    self.setIndex("o")
         # Normal
         else:
             self.setNormal()
@@ -295,22 +294,59 @@ class Ball(object):
 ##                                                                  
 
 class Tower(object):
-    def __init__(self, position):
+    def __init__(self):
         self.balls = []
+        self.x_start = 1     # First pixel in the X axis
+        self.y_start = 1     # First pixel in the Y axis
 
-    def addBall(self, color):
-        self.balls.append(color)
+    def setXStart(self, pos):
+        self.x_start = pos
+
+    def getXStart(self):
+        return self.x_start
+
+    def setYStart(self, pos):
+        self.y_start = pos
+
+    def getYStart(self):
+        return self.y_start
+
+    def setPosition(self, position):
+        self.setXStart(position[0])
+        self.setYStart(position[1])
+        
+    def addBall(self, ball):
+        self.balls.append(ball)
         
     def DefineBalls(self, Tabla):
-        for i in Tabla.tabla:
-            for j in i:
-                addBall(j)
-        
+        for i in range(5):
+            for j in range(4):
+                color = Tabla.tabla[i][j].getColor()    
+
+    def DefineBallsTesting(self):
+        for i in range(4):
+            for j in range(5):
+                new_ball = Ball()
+                width  = 55    # width of the image + Space between
+                height = 45   # height of the image + Space between
+                x_pos = self.getXStart() + (i*width) # i starts at 0
+                y_pos = self.getYStart() + (j*height)# i starts at 0
+                position = (x_pos, y_pos)
+                new_ball.setPosition(position)
+                self.addBall(new_ball)
+                #temp_XStart += width    # Just it (X axis)
+            #temp_XStart  = self.getXStart()  # Restart (X axis)
+            #temp_YStart += height       # Just it (Y axis)
+            
+                
+    
     def draw(self, screen):
-        pass
+        for ball in self.balls:
+            ball.draw(screen)
 
     def event_handler(self, event):
-        pass
+        for ball in self.balls:
+            ball.event_handler(event)
 
     ## End of the class
     ## 
