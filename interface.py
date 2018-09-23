@@ -115,8 +115,8 @@ def run():
         pygame.display.flip()
         
     ExitGame();
-run()
 
+# run()
 
 
 

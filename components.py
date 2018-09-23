@@ -284,6 +284,8 @@ class Ball(object):
 
 
 
+
+
 ##   _____                                _____  _                  
 ##  |_   _|                              /  __ \| |                 
 ##    | |    ___  __      __  ___  _ __  | /  \/| |  __ _  ___  ___ 
@@ -327,19 +329,14 @@ class Tower(object):
         for i in range(4):
             for j in range(5):
                 new_ball = Ball()
-                width  = 55    # width of the image + Space between
-                height = 45   # height of the image + Space between
+                width  = 55     # width of the image + Space between
+                height = 45     # height of the image + Space between
                 x_pos = self.getXStart() + (i*width) # i starts at 0
                 y_pos = self.getYStart() + (j*height)# i starts at 0
                 position = (x_pos, y_pos)
                 new_ball.setPosition(position)
                 self.addBall(new_ball)
-                #temp_XStart += width    # Just it (X axis)
-            #temp_XStart  = self.getXStart()  # Restart (X axis)
-            #temp_YStart += height       # Just it (Y axis)
-            
-                
-    
+  
     def draw(self, screen):
         for ball in self.balls:
             ball.draw(screen)
@@ -350,6 +347,9 @@ class Tower(object):
 
     ## End of the class
     ## 
+
+
+
 
 
 
