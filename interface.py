@@ -14,7 +14,8 @@
 import pygame, sys
 from pygame.locals import *
 import components as components
-
+import Tabla as Tabla
+import Controller as controller
 
 # Global variables/constants
 SCREEN_SIZE = (1200, 650)
@@ -109,12 +110,18 @@ def run():
 
 button_accept = components.Button(SCREEN_SIZE, (200, 600), "accept")
 button_upload = components.Button(SCREEN_SIZE, (200, 500), "upload")
+initial_table = Tabla.Tabla(-1, -2)
+initial_table.Llenar("inicial")
 initial_tower = components.Tower()
 initial_tower.setPosition((100,50))
-initial_tower.DefineBallsTesting()
+initial_tower.DefineBalls(initial_table)
+
+goal_table = Tabla.Tabla(-1, -2)
+goal_table.Llenar("meta")
 goal_tower  = components.Tower()
 goal_tower.setPosition((400,50))
-goal_tower.DefineBallsTesting()
+goal_tower.DefineBalls(goal_table)
+#goal_tower.DefineBallsTesting()
 run()
 
 

@@ -118,7 +118,7 @@ class Tabla(object):
                 for j in range(Filas):
                     self.tabla[i+1][j]= celda(self.id, colores[j])  #colores[j]
 
-        elif (tipo == "final"):
+        elif (tipo == "meta"):
             for i in range(Columnas-1):
                 for j in range(Filas):
                     self.tabla[i+1][j]= celda(self.id, colores[(j+2)%4])  #colores[j]

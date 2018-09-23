@@ -9,6 +9,7 @@ from pygame.locals import *
 from pygame import *
 import tkinter as tk
 from tkinter import filedialog
+import Tabla as Tabla
 
 
 def hex2rgb(hex_code):
@@ -321,16 +322,28 @@ class Tower(object):
         self.balls.append(ball)
         
     def DefineBalls(self, Tabla):
+        width  = 55     # width of the image + Space between
+        height = 45     # height of the image + Space between
         for i in range(5):
             for j in range(4):
-                color = Tabla.tabla[i][j].getColor()    
+                #Tabla.PrintTorreDetallada()
+                #print(i,j)
+                color = Tabla.tabla[i][j].getColor()
+                new_ball = Ball()
+                new_ball.setColor(color)
+                x_pos = self.getXStart() + (j*width) # i starts at 0
+                y_pos = self.getYStart() + (i*height)# i starts at 0
+                position = (x_pos, y_pos)
+                new_ball.setPosition(position)
+                self.addBall(new_ball)
+                
 
     def DefineBallsTesting(self):
+        width  = 55     # width of the image + Space between
+        height = 45     # height of the image + Space between
         for i in range(4):
             for j in range(5):
                 new_ball = Ball()
-                width  = 55     # width of the image + Space between
-                height = 45     # height of the image + Space between
                 x_pos = self.getXStart() + (i*width) # i starts at 0
                 y_pos = self.getYStart() + (j*height)# i starts at 0
                 position = (x_pos, y_pos)

@@ -19,6 +19,10 @@ from copy import deepcopy
 # Global variables/constants
 LAST_ID = 1
 
+# Recibe
+def RecibirInformacionDesdeInterfaz():
+    ResetLastID()
+    #
 
 def CalcularDistancia (iacutal, jactual, idestino, jdestino):
     j = abs(jactual-jdestino) 
@@ -50,6 +54,10 @@ def LastID():
     global LAST_ID
     return LAST_ID
 
+def ResetLastID():
+    global LAST_ID
+    LAST_ID = 1
+    
 def Largo(lista):
     return len(lista.lista)
 
