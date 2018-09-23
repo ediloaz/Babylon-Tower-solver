@@ -11,14 +11,11 @@
 # September, 2018
 #
 
-#
-# Área de imports
-import Tabla as Tabla
+
 from copy import deepcopy
-import Interface as Interface
-import Logic as Logic
-#
-# Área de funciones
+import Interface as View
+import PrimerProyectoLogica as Logic
+
 """
 def main():
     print("Tabla inicial")

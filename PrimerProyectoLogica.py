@@ -16,9 +16,9 @@
 import Tabla as Tabla
 from copy import deepcopy
 
+# Global variables/constants
+LAST_ID = 1
 
-#
-# Área de funciones
 
 def CalcularDistancia (iacutal, jactual, idestino, jdestino):
     j = abs(jactual-jdestino) 
@@ -43,12 +43,12 @@ def Peso(tabla):
     
 
 def AumentarLastID():
-    global last_id
-    last_id += 1
+    global LAST_ID
+    LAST_ID += 1
 
 def LastID():
-    global last_id
-    return last_id
+    global LAST_ID
+    return LAST_ID
 
 def Largo(lista):
     return len(lista.lista)
@@ -71,7 +71,7 @@ def SiguienteNodo():
 
 def NuevaTablaIzquierda(TablaPadre, numero_fila):
     nueva_tabla = deepcopy(TablaPadre)
-    nueva_tabla.setID(last_id)                                      # Asigna ID
+    nueva_tabla.setID(LastID())                                      # Asigna ID
     nueva_tabla.setIDpadre(TablaPadre.getID())      # Asigna ID padre
     nueva_tabla.setG(TablaPadre.getG()+1)               # Asigna g
     nueva_tabla.GirarFilaIzquierda(numero_fila)
@@ -84,7 +84,7 @@ def NuevaTablaIzquierda(TablaPadre, numero_fila):
 
 def NuevaTablaDerecha(TablaPadre, numero_fila):
     nueva_tabla = deepcopy(TablaPadre)
-    nueva_tabla.setID(last_id)                                      # Asigna ID
+    nueva_tabla.setID(LastID())                                      # Asigna ID
     nueva_tabla.setIDpadre(TablaPadre.getID())      # Asigna ID padre
     nueva_tabla.setG(TablaPadre.getG()+1)               # Asigna g
     nueva_tabla.GirarFilaDerecha(numero_fila)
@@ -97,7 +97,7 @@ def NuevaTablaDerecha(TablaPadre, numero_fila):
 
 def NuevaTablaArriba(TablaPadre, numero_fila):
     nueva_tabla = deepcopy(TablaPadre)
-    nueva_tabla.setID(last_id)                                      # Asigna ID
+    nueva_tabla.setID(LastID())                                      # Asigna ID
     nueva_tabla.setIDpadre(TablaPadre.getID())      # Asigna ID padre
     nueva_tabla.setG(TablaPadre.getG()+1)               # Asigna g
     (i,j) = TablaPadre.PosO()
@@ -112,7 +112,7 @@ def NuevaTablaArriba(TablaPadre, numero_fila):
 
 def NuevaTablaAbajo(TablaPadre, numero_fila):
     nueva_tabla = deepcopy(TablaPadre)
-    nueva_tabla.setID(last_id)                                      # Asigna ID
+    nueva_tabla.setID(LastID())                                      # Asigna ID
     nueva_tabla.setIDpadre(TablaPadre.getID())      # Asigna ID padre
     nueva_tabla.setG(TablaPadre.getG()+1)               # Asigna g
     (i,j) = TablaPadre.PosO()
@@ -227,11 +227,8 @@ def main():
     print ("Se encontro Resultado")
     # end line -    
 
-#Se crea la matriz
-colores = ['R','G','B','Y'] 
-Filas = 4
-Columnas = Filas+1
-last_id = 1
+
+
 
 # ID para tabla inicial: 0
 # ID del padre: -1 (no tiene)

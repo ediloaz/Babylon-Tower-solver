@@ -21,16 +21,7 @@ SCREEN_SIZE = (1200, 650)
 BG_COLOUR   = (250, 250, 250)
 screen = 0
 
-button_accept = components.Button(SCREEN_SIZE, (200, 600), "accept")
-button_upload = components.Button(SCREEN_SIZE, (200, 500), "upload")
-initial_tower = components.Tower()
-initial_tower.setPosition((100,50))
-initial_tower.DefineBallsTesting()
-goal_tower  = components.Tower()
-goal_tower.setPosition((400,50))
-goal_tower.DefineBallsTesting()
-#ball    = components.Ball()
-#ball.setPosition((120, 0))
+
 
 class Background(pygame.sprite.Sprite):
     def __init__(self, image_file, location):
@@ -116,7 +107,15 @@ def run():
         
     ExitGame();
 
-# run()
+button_accept = components.Button(SCREEN_SIZE, (200, 600), "accept")
+button_upload = components.Button(SCREEN_SIZE, (200, 500), "upload")
+initial_tower = components.Tower()
+initial_tower.setPosition((100,50))
+initial_tower.DefineBallsTesting()
+goal_tower  = components.Tower()
+goal_tower.setPosition((400,50))
+goal_tower.DefineBallsTesting()
+run()
 
 
 
