@@ -73,19 +73,20 @@ def run():
     clock = pygame.time.Clock()
     running = True;
     while running:
-        #time_passed = clock.tick(30)
+        # time_passed = clock.tick(30)
+        stage = components.interface()
+        # Form interface
+        if (stage == 1):
 
-        # --- events --- #
-        for event in pygame.event.get():
-            if (event.type == pygame.QUIT):
-                running = False;
-            # --- Keydown events --- #
-            elif (event.type == pygame.KEYDOWN):
-                if (event.key == pygame.K_ESCAPE):
-                    print("Escape")
+            # --- events --- #
+            for event in pygame.event.get():
+                if (event.type == pygame.QUIT):
                     running = False;
-                elif (event.key == pygame.K_1):
-                    print("Uno")
+                # --- Keydown events --- #
+                elif (event.type == pygame.KEYDOWN):
+                    if (event.key == pygame.K_ESCAPE):
+                        print("Escape")
+                        running = False;
 
             # --- button events --- #
             button_accept.event_handler(event)
@@ -94,17 +95,13 @@ def run():
             components.initial_tower.event_handler(event)
             components.goal_tower.event_handler(event)
                         
-
-        # --- Draws --- #
-        SetBackground()                         # set pattern as background
-        #screen.fill(BG_COLOUR)
-        button_accept.draw(screen)
-        button_upload.draw(screen)
-        components.initial_tower.draw(screen)
-        components.goal_tower.draw(screen)
-        # ball.draw(screen)
-        # pygame.draw.aaline(screen, LINE_COLOUR, (1, 1), (639, 399))
-        pygame.display.flip()
+            # --- Draws --- #
+            SetBackground()                         # set pattern as background
+            button_accept.draw(screen)
+            button_upload.draw(screen)
+            components.initial_tower.draw(screen)
+            components.goal_tower.draw(screen)
+            pygame.display.flip()
         
     ExitGame();
 

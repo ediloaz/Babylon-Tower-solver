@@ -15,6 +15,7 @@
 # Área de imports
 import Tabla as Tabla
 from copy import deepcopy
+import Controller as Controller
 
 # Global variables/constants
 LAST_ID = 1
@@ -24,10 +25,15 @@ def RecibirInformacionDesdeInterfaz(initial_table, goal_table):
     ResetLastID()
     Tabla.setTablaInicial(initial_table)
     Tabla.setTablaMeta(goal_table)
-    # Aquí llama a main() y main() retorna DOS listas:
+    # Aquí llama a main() y main() retorna UNA lista:
     #   1 => Las tablas con la solución
-    #   2 => Los movimientos para la solución (abajo se definen los códigos para cada movimiento)
-    # lista = main() 
+    # lista = main()
+    initial_table.setMovimiento(1)
+    goal_table.setMovimiento(3)
+    lista = [initial_table, goal_table, initial_table, goal_table, initial_table, goal_table]
+
+    # Usamos a Controller.py
+    Controller.SendListToInterface(lista)
     # end -- 
 
 def CalcularDistancia (iacutal, jactual, idestino, jdestino):
@@ -150,6 +156,7 @@ def Ramificacion(TablaPadre):
         if (nueva_tabla == False):
             print("Se encontro una igual. Se omitió la tabla, se cierra el nodo" )
         else:
+            nueva_tabla.setMovimiento(1+i)  # Va del 1 al 5
             Peso(nueva_tabla)           # Asigna el peso a la tabla
             print("Nueva tabla: ", i+1)
             print('\n')
@@ -166,6 +173,7 @@ def Ramificacion(TablaPadre):
         if (nueva_tabla == False):
             print("Se encontro una igual o no es posible hacer el movimiento. Se omitió la tabla, se cierra el nodo" )
         else:
+            nueva_tabla.setMovimiento(6+i) # Va del 6 al 10
             Peso(nueva_tabla)       # Asigna el peso a la tabla
             print("Nueva tabla: ", i+6)
             nueva_tabla.PrintTorreDetallada()
@@ -180,6 +188,7 @@ def Ramificacion(TablaPadre):
     if (nueva_tabla == False):
         print("Se encontro una igual o no es posible hacer el movimiento. Se omitió la tabla, se cierra el nodo" )
     else:
+        nueva_tabla.setMovimiento(11)   # 11: Espacio en blanco hacia arriba
         Peso(nueva_tabla)           # Asigna el peso a la tabla
         print("Nueva tabla: ", i+1)
         print('\n')
@@ -195,6 +204,7 @@ def Ramificacion(TablaPadre):
     if (nueva_tabla == False):
         print("Se encontro una igual. Se omitió la tabla, se cierra el nodo" )
     else:
+        nueva_tabla.setMovimiento(12) # 12: Espacio en blanco hacia abajo
         Peso(nueva_tabla)           # Asigna el peso a la tabla
         print("Nueva tabla: ", i+1)
         print('\n')
@@ -269,5 +279,5 @@ lista_NO_visitados.Agregar(Tabla.TablaInicial)
 # 9: Giro a la derecha, fila 4
 # 10: Giro a la derecha, fila 5
 # 11: Espacio en blanco hacia arriba
-# 12: Espacio en blanco hacia abajo
+# 12: 
 #

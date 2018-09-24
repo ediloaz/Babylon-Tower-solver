@@ -18,7 +18,16 @@ def hex2rgb(hex_code):
     rgb_code = tuple(int(hex_code[i:i+2], 16) for i in (0, 2 ,4))
     return rgb_code;
 
-
+def interface():
+    # return the stage of the interface
+    # codes:
+    #
+    # 0 = Loading Components
+    # 1 = Form
+    # 2 = Thinking
+    # 3 = Show the answer
+    #
+    return 1
 
 ##  ______         _    _                   _____  _                  
 ##  | ___ \       | |  | |                 /  __ \| |                 
@@ -123,6 +132,11 @@ class Button(object):
             pass
         root.destroy()
 
+    def Accept(self):
+        initial_tower.SaveDataToInitialTable()
+        goal_tower.SaveDataToGoalTable()
+        Controller.SendTablesToLogic(Tabla.getTablaInicial(), Tabla.getTablaMeta())
+    
     def event_handler(self, event):
         # Clicked
         if (event.type == pygame.MOUSEBUTTONDOWN) and (event.button == 1) and (self._rect.collidepoint(event.pos)):
@@ -132,9 +146,7 @@ class Button(object):
                 self.ChooseFile()
                 self._button_active = False
             elif (self._type_of == "accept"):
-                initial_tower.SaveDataToInitialTable()
-                goal_tower.SaveDataToGoalTable()
-                Controller.SendTablesToLogic(Tabla.getTablaInicial(), Tabla.getTablaMeta())
+                self.Accept()
         # Hover
         elif self._rect.collidepoint(pygame.mouse.get_pos()):
             self._index = "hover"

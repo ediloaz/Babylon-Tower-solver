@@ -70,13 +70,16 @@ class Tabla(object):
         self.peso = 0
         self.tabla = []
         self.g = 0
+        self.movimiento = 0
         
         
         for i in range(Columnas):
             a = [celda(self.id, 'X')] * Filas
             self.tabla.append(a)
 
-
+    def setMovimiento(self, movimiento):
+        self.movimiento = movimiento
+    
     def getID(self):
         return self.id
     
@@ -293,3 +296,20 @@ def PrintTablaMetaDetallada():
     TablaMeta.PrintTorreDetallada()
 
 
+
+
+# Códigos para cada movimiento
+#
+# 1: Giro a la izquierda, fila 1
+# 2: Giro a la izquierda, fila 2
+# 3: Giro a la izquierda, fila 3
+# 4: Giro a la izquierda, fila 4
+# 5: Giro a la izquierda, fila 5
+# 6: Giro a la derecha, fila 1
+# 7: Giro a la derecha, fila 2
+# 8: Giro a la derecha, fila 3
+# 9: Giro a la derecha, fila 4
+# 10: Giro a la derecha, fila 5
+# 11: Espacio en blanco hacia arriba
+# 12: Espacio en blanco hacia abajo
+#
