@@ -6,13 +6,16 @@
 #
 
 import csv
-
+import Tabla as Tabla
 class CSV_Manager(object):
     def __init__(self):
-        path = ""       # with "babylon tower" extention .by
-        initial_table = []
-        goal_table = []
-        
+        self.path = ""       # with "babylon tower" extention .by
+        self.initial_table = Tabla.getTablaInicial()
+        self.goal_table = Tabla.getTablaMeta()
+
+    def getInitialTable(self):
+        return self.initial_table
+    
     def setPath(self, path):
         self.path = path
 
@@ -25,7 +28,7 @@ class CSV_Manager(object):
         else:
             return False
     
-    def LoadData(self):
+    def LoadDataOLD(self):
         try:
             with open(self.path) as csv_file:
                 csv_reader = csv.reader(csv_file, delimiter=',')
@@ -34,6 +37,7 @@ class CSV_Manager(object):
                 self.goal_table = []
                 for row in csv_reader:
                     if (line_count == 0):
+                        
                         count = 0
                         temp_list = []
                         for i in row:
@@ -63,29 +67,41 @@ class CSV_Manager(object):
         except:
             print("The file not existed")
 
+    def LoadData(self):
+        with open(self.path) as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter=',')
+            line_count = 0
+            for row in csv_reader:
+                if (line_count == 0):
+                    self.initial_table.Llenar(row)
+                elif (line_count == 1):
+                    print(row)
+                    self.goal_table.Llenar(row)
+                line_count += 1
+            if (line_count > 2):
+                print ("The file had more lines. Just take the two first")
+
+    def getInitialTable(self):
+        return self.initial_table
+
+    def getGoalTable(self):
+        return self.goal_table
+
     def PrintInitialTable(self):
         print()
         print("Initial Table")
-        for fila in self.initial_table:
-            text = ""
-            for i in fila:
-                text += str(i) + " "
-            print(text)
+        self.initial_table.PrintTorreDetallada()
         print(" - - - - - - - ")
 
     def PrintGoalTable(self):
         print()
         print("Goal Table")
-        for fila in self.goal_table:
-            text = ""
-            for i in fila:
-                text += str(i) + " "
-            print(text)
+        self.goal_table.PrintTorreDetallada()
         print(" - - - - - - - ")
 
             
     # Check the format of Initial table
-    def CorrectFormatInitial(self):
+    def CorrectFormatInitialOLD(self):
         r_color = 0         # it must be 4
         g_color = 0         # it must be 4
         b_color = 0         # it must be 4
@@ -106,7 +122,7 @@ class CSV_Manager(object):
             return False
 
     # Check the format of Goal table
-    def CorrectFormatGoal(self):
+    def CorrectFormatGoalOLD(self):
         r_color = 0         # it must be 4
         g_color = 0         # it must be 4
         b_color = 0         # it must be 4
@@ -127,7 +143,9 @@ class CSV_Manager(object):
             return False
         
     def CorrectFormat(self):
-        return (self.CorrectFormatInitial() and self.CorrectFormatGoal())
+        print(self.initial_table.CorrectFormat())
+        print(self.goal_table.CorrectFormat())
+        return (self.initial_table.CorrectFormat()[0] and self.goal_table.CorrectFormat()[0])
 
     # return -2 => Wrong path
     # return -1 => Wrong format

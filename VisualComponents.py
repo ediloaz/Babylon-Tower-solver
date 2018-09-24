@@ -108,23 +108,12 @@ class Button(object):
             file_path = filedialog.askopenfilename(filetypes=(("Babylon files", "*.by"),("All files", "*.*") ))
             csv_object = csv.CSV_Manager()
             answer = csv_object.LoadCSV(file_path)
+            print("answer: ",answer)
             if (answer == 0):   ## Worked
-                csv_object.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                
+                print("Definimos estas nuevas tablas:")
+                initial_tower.DefineBalls(csv_object.getInitialTable())
+                goal_tower.DefineBalls(csv_object.getGoalTable())
+                print("Hasta acá")
             elif (answer == -1):
                 pass
             elif (answer == -2):
@@ -389,5 +378,26 @@ class Tower(object):
 
 
 
+def ConfigTowerInitial():
+    global initial_tower
+    initial_table = Tabla.Tabla(-1, 0)
+    initial_table.Llenar("inicial")
+    initial_tower.setPosition((100,50))
+    initial_tower.DefineBalls(initial_table)
 
 
+def ConfigTowerGoal():
+    global goal_tower
+    goal_table = Tabla.Tabla(-1, -2)
+    goal_table.Llenar("meta")
+    goal_tower.setPosition((400,50))
+    goal_tower.DefineBalls(goal_table)
+
+
+# At the start of the program
+# Initial Tower
+initial_tower = Tower()
+ConfigTowerInitial()
+# Goal Tower
+goal_tower  = Tower()
+ConfigTowerGoal()

@@ -13,9 +13,11 @@
 
 import pygame, sys
 from pygame.locals import *
-import components as components
+import VisualComponents as components
 import Tabla as Tabla
 import Controller as controller
+
+
 
 # Global variables/constants
 SCREEN_SIZE = (1200, 650)
@@ -65,12 +67,10 @@ def CreateScreen():
     return screen
 
 def run():
+    print("Cargando la interfaz")
     pygame.init()
-    
     screen = CreateScreen()
-    
     clock = pygame.time.Clock()
-
     running = True;
     while running:
         #time_passed = clock.tick(30)
@@ -91,8 +91,8 @@ def run():
             button_accept.event_handler(event)
             button_upload.event_handler(event)
             # ball.event_handler(event)
-            initial_tower.event_handler(event)
-            goal_tower.event_handler(event)
+            components.initial_tower.event_handler(event)
+            components.goal_tower.event_handler(event)
                         
 
         # --- Draws --- #
@@ -100,8 +100,8 @@ def run():
         #screen.fill(BG_COLOUR)
         button_accept.draw(screen)
         button_upload.draw(screen)
-        initial_tower.draw(screen)
-        goal_tower.draw(screen)
+        components.initial_tower.draw(screen)
+        components.goal_tower.draw(screen)
         # ball.draw(screen)
         # pygame.draw.aaline(screen, LINE_COLOUR, (1, 1), (639, 399))
         pygame.display.flip()
@@ -110,18 +110,10 @@ def run():
 
 button_accept = components.Button(SCREEN_SIZE, (200, 600), "accept")
 button_upload = components.Button(SCREEN_SIZE, (200, 500), "upload")
-initial_table = Tabla.Tabla(-1, -2)
-initial_table.Llenar("inicial")
-initial_tower = components.Tower()
-initial_tower.setPosition((100,50))
-initial_tower.DefineBalls(initial_table)
 
-goal_table = Tabla.Tabla(-1, -2)
-goal_table.Llenar("meta")
-goal_tower  = components.Tower()
-goal_tower.setPosition((400,50))
-goal_tower.DefineBalls(goal_table)
-#goal_tower.DefineBallsTesting()
+
+
+
 run()
 
 
