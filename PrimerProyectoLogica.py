@@ -245,5 +245,5 @@ lista_visitados = Tabla.ListaDeTablas()
 lista_NO_visitados = Tabla.ListaDeTablas()
 lista_NO_visitados.Agregar(Tabla.TablaInicial)
 
-main()
+# main()
     

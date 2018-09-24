@@ -279,6 +279,10 @@ def getTablaMeta():
     global TablaMeta
     return TablaMeta
 
+def setTablaMeta(tabla):
+    global TablaMeta
+    TablaMeta = tabla
+
 def LlenarTablaMeta():
     TablaMeta.Llenar("final")
 

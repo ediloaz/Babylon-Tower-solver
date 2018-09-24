@@ -75,7 +75,6 @@ class CSV_Manager(object):
                 if (line_count == 0):
                     self.initial_table.Llenar(row)
                 elif (line_count == 1):
-                    print(row)
                     self.goal_table.Llenar(row)
                 line_count += 1
             if (line_count > 2):
@@ -162,6 +161,6 @@ class CSV_Manager(object):
         return 0
         
 
-csv_file = CSV_Manager()
-print(csv_file.LoadCSV("./data.by"))
+# csv_file = CSV_Manager()
+# print(csv_file.LoadCSV("./data.by"))
 

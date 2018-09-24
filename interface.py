@@ -67,7 +67,7 @@ def CreateScreen():
     return screen
 
 def run():
-    print("Cargando la interfaz")
+    print("Interfaz cargada")
     pygame.init()
     screen = CreateScreen()
     clock = pygame.time.Clock()

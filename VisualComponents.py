@@ -11,7 +11,7 @@ import tkinter as tk
 from tkinter import filedialog
 import Tabla as Tabla
 import CSV_Manager as csv
-
+import Controller as Controller
 
 def hex2rgb(hex_code):
     hex_code = hex_code.lstrip('#')
@@ -118,8 +118,7 @@ class Button(object):
                 pass
             elif (answer == -2):
                 print("The path is wrong... I will close it", file_path)
-                exit()
-            
+                # exit()
         except:
             pass
         root.destroy()
@@ -132,8 +131,10 @@ class Button(object):
                 self._button_active = True
                 self.ChooseFile()
                 self._button_active = False
-            
-            
+            elif (self._type_of == "accept"):
+                initial_tower.SaveDataToInitialTable()
+                goal_tower.SaveDataToGoalTable()
+                Controller.SendTablesToLogic(Tabla.getTablaInicial(), Tabla.getTablaMeta())
         # Hover
         elif self._rect.collidepoint(pygame.mouse.get_pos()):
             self._index = "hover"
@@ -221,6 +222,26 @@ class Ball(object):
     def setIndex(self, index):
         self.index = index
 
+    def getIndex(self):
+        return self.index
+    
+    def getColor(self):
+        if (self.getIndex()[0] == "r"):
+            return "R"
+        elif (self.getIndex()[0] == "g"):
+            return "G"
+        elif (self.getIndex()[0] == "b"):
+            return "B"
+        elif (self.getIndex()[0] == "y"):
+            return "Y"
+        elif (self.getIndex()[0] == "x"):
+            return "X"
+        elif (self.getIndex()[0] == "o"):
+            return "O"
+        else:
+            print("Se encontro el color: ", self.getIndex()[0])
+            return "Y"
+            
     def setColor(self, color):
         if (color == "R"):
             self.setIndex("red")
@@ -328,6 +349,22 @@ class Tower(object):
     def getYStart(self):
         return self.y_start
 
+    def SaveDataToInitialTable(self):
+        table = Tabla.getTablaInicial()
+        lista_de_colores = []
+        for ball in self.balls:
+            lista_de_colores += [ball.getColor()]
+        table.Llenar(lista_de_colores)
+        Tabla.setTablaInicial(table)
+        
+    def SaveDataToGoalTable(self):
+        table = Tabla.getTablaMeta()
+        lista_de_colores = []
+        for ball in self.balls:
+            lista_de_colores += [ball.getColor()]
+        table.Llenar(lista_de_colores)
+        Tabla.setTablaMeta(table)
+        
     def setPosition(self, position):
         self.setXStart(position[0])
         self.setYStart(position[1])
@@ -378,6 +415,7 @@ class Tower(object):
 
 
 
+
 def ConfigTowerInitial():
     global initial_tower
     initial_table = Tabla.Tabla(-1, 0)
@@ -393,7 +431,7 @@ def ConfigTowerGoal():
     goal_tower.setPosition((400,50))
     goal_tower.DefineBalls(goal_table)
 
-
+print("Configurando componentes visuales")
 # At the start of the program
 # Initial Tower
 initial_tower = Tower()
