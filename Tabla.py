@@ -122,7 +122,41 @@ class Tabla(object):
             for i in range(Columnas-1):
                 for j in range(Filas):
                     self.tabla[i+1][j]= celda(self.id, colores[(j+2)%4])  #colores[j]
-        
+        elif (type(tipo) == list):
+            lista_de_colores = tipo
+            for i in range(5):
+                for j in range(4):
+                    self.tabla[i][j]= celda(self.id, lista_de_colores[i*4+j].upper())  #colores[j]
+
+    # Check the format of Initial table
+    def CorrectFormat(self):
+        r_color = 0         # it must be 4
+        g_color = 0         # it must be 4
+        b_color = 0         # it must be 4
+        y_color = 0         # it must be 4
+        x_color = 0         # it must be 3
+        o_color = 0         # it must be 1
+        lista_de_colores = []
+        for i in range(5):
+            temp_lista = []
+            for j in range(4):
+                temp_lista += [self.tabla[i][j].getColor()]
+            lista_de_colores += [temp_lista]
+        for row in lista_de_colores:
+            r_color += row.count("R")
+            g_color += row.count("G")
+            b_color += row.count("B")
+            y_color += row.count("Y")
+            x_color += row.count("X")
+            o_color += row.count("O")
+        if (r_color == 4 and g_color == 4 and b_color == 4 and
+            y_color == 4 and x_color == 3 and o_color == 1):
+            tupla = (True, r_color, g_color, b_color, y_color, x_color, o_color)
+            return tupla
+        else:
+            tupla = (False, r_color, g_color, b_color, y_color, x_color, o_color)
+            return tupla
+    
     #Rotar Filas
     #solo se gira un movimiento en las filas
     def rotate(self,l, n):
@@ -226,9 +260,24 @@ class Tabla(object):
 
         
 
-# definir id y idpadre
-
+# ID para tabla inicial: 0
+# ID del padre: -1 (no tiene)
+TablaInicial = Tabla(-1, 0)
+# ID para tabla META: -2
+# ID del padre: -1 (no tiene)
 TablaMeta = Tabla(-1, -2)
+
+def getTablaInicial():
+    global TablaInicial
+    return TablaInicial
+
+def setTablaInicial(tabla):
+    global TablaInicial
+    TablaInicial = tabla
+
+def getTablaMeta():
+    global TablaMeta
+    return TablaMeta
 
 def LlenarTablaMeta():
     TablaMeta.Llenar("final")

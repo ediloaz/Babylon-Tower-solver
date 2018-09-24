@@ -10,6 +10,7 @@ from pygame import *
 import tkinter as tk
 from tkinter import filedialog
 import Tabla as Tabla
+import CSV_Manager as csv
 
 
 def hex2rgb(hex_code):
@@ -105,7 +106,31 @@ class Button(object):
         root.withdraw()
         try:
             file_path = filedialog.askopenfilename(filetypes=(("Babylon files", "*.by"),("All files", "*.*") ))
-            print (file_path)
+            csv_object = csv.CSV_Manager()
+            answer = csv_object.LoadCSV(file_path)
+            if (answer == 0):   ## Worked
+                csv_object.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+            elif (answer == -1):
+                pass
+            elif (answer == -2):
+                print("The path is wrong... I will close it", file_path)
+                exit()
+            
         except:
             pass
         root.destroy()

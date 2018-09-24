@@ -211,20 +211,20 @@ def Finalizado(Tabla):
 # Solo ramifica (12 ramas de tablas nuevas) a partir de TABLAPADRE y luego escoge la
 # siguiente TABLAPADRE a partir de la lista_NO_visitados
 def A_Estrella():
-    tabla_padre = TablaInicial
+    tabla_padre = Tabla.TablaInicial
     while True:
         print("Pasada por el While True")
         Ramificacion(tabla_padre)
         tabla_padre = SiguienteNodo()
         if (Finalizado(tabla_padre)==True):
             break
-        #input("\n\n Pasada completa, ENTER para continuar \n\n")
+        input("\n\n Pasada completa, ENTER para continuar \n\n")
 
 def main():
     print("Tabla inicial")
-    TablaInicial.Llenar("inicial")
-    TablaInicial.setG(0)
-    TablaInicial.PrintTorreDetallada()
+    Tabla.TablaInicial.Llenar("inicial")
+    Tabla.TablaInicial.setG(0)
+    Tabla.TablaInicial.PrintTorreDetallada()
     print("Tabla meta")
     Tabla.LlenarTablaMeta()
     Tabla.PrintTablaMetaDetallada()
@@ -238,16 +238,12 @@ def main():
 
 
 
-# ID para tabla inicial: 0
-# ID del padre: -1 (no tiene)
-TablaInicial = Tabla.Tabla(-1, 0)
-# ID para tabla META: -2
-# ID del padre: -1 (no tiene)
+
 
 
 lista_visitados = Tabla.ListaDeTablas()
 lista_NO_visitados = Tabla.ListaDeTablas()
-lista_NO_visitados.Agregar(TablaInicial)
+lista_NO_visitados.Agregar(Tabla.TablaInicial)
 
 main()
     
