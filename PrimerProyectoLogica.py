@@ -20,9 +20,15 @@ from copy import deepcopy
 LAST_ID = 1
 
 # Recibe
-def RecibirInformacionDesdeInterfaz():
+def RecibirInformacionDesdeInterfaz(initial_table, goal_table):
     ResetLastID()
-    #
+    Tabla.setTablaInicial(initial_table)
+    Tabla.setTablaMeta(goal_table)
+    # Aquí llama a main() y main() retorna DOS listas:
+    #   1 => Las tablas con la solución
+    #   2 => Los movimientos para la solución (abajo se definen los códigos para cada movimiento)
+    # lista = main() 
+    # end -- 
 
 def CalcularDistancia (iacutal, jactual, idestino, jdestino):
     j = abs(jactual-jdestino) 
@@ -247,3 +253,21 @@ lista_NO_visitados.Agregar(Tabla.TablaInicial)
 
 # main()
     
+
+
+
+# Códigos para cada movimiento
+#
+# 1: Giro a la izquierda, fila 1
+# 2: Giro a la izquierda, fila 2
+# 3: Giro a la izquierda, fila 3
+# 4: Giro a la izquierda, fila 4
+# 5: Giro a la izquierda, fila 5
+# 6: Giro a la derecha, fila 1
+# 7: Giro a la derecha, fila 2
+# 8: Giro a la derecha, fila 3
+# 9: Giro a la derecha, fila 4
+# 10: Giro a la derecha, fila 5
+# 11: Espacio en blanco hacia arriba
+# 12: Espacio en blanco hacia abajo
+#
