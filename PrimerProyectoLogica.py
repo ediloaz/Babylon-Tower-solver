@@ -168,7 +168,7 @@ def Ramificacion(TablaPadre):
     # Hacia derecha
     print("- - - - - - - - - - - - - - - - - - ")
     print("Con giro a la derecha")
-    for i in range(4):
+    for i in range(5):
         nueva_tabla = NuevaTablaDerecha(TablaPadre, i)
         if (nueva_tabla == False):
             print("Se encontro una igual o no es posible hacer el movimiento. Se omitió la tabla, se cierra el nodo" )
