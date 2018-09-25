@@ -18,7 +18,12 @@ def hex2rgb(hex_code):
     rgb_code = tuple(int(hex_code[i:i+2], 16) for i in (0, 2 ,4))
     return rgb_code;
 
+def setStage(p_stage):
+    global stage
+    stage = p_stage
+
 def interface():
+    global stage
     # return the stage of the interface
     # codes:
     #
@@ -27,7 +32,7 @@ def interface():
     # 2 = Thinking
     # 3 = Show the answer
     #
-    return 1
+    return stage
 
 ##  ______         _    _                   _____  _                  
 ##  | ___ \       | |  | |                 /  __ \| |                 
@@ -133,9 +138,11 @@ class Button(object):
         root.destroy()
 
     def Accept(self):
+        setStage(2)
         initial_tower.SaveDataToInitialTable()
         goal_tower.SaveDataToGoalTable()
         Controller.SendTablesToLogic(Tabla.getTablaInicial(), Tabla.getTablaMeta())
+        
     
     def event_handler(self, event):
         # Clicked
@@ -146,7 +153,24 @@ class Button(object):
                 self.ChooseFile()
                 self._button_active = False
             elif (self._type_of == "accept"):
-                self.Accept()
+                print(111)
+                initial_tower.SaveDataToInitialTable()
+                goal_tower.SaveDataToGoalTable()
+                condition1 = Tabla.TablaInicial.CorrectFormat()[0]
+                condition2 = Tabla.TablaMeta.CorrectFormat()[0]
+                if (condition1 and condition2):
+                    print("Tablas bien configuradas")
+                    self.Accept()
+                elif (condition1):  # Solo la tabla inicial está mal
+                    texto = "Tabla meta está mal configurada"
+                    print(texto)
+                elif (condition2):  # Solo la tabla meta está mal
+                    texto = "Tabla inicial está mal configurada"
+                    print(texto)
+                else:
+                    texto = "Ambas tablas están mal configuradas"
+                    print(texto)
+                
         # Hover
         elif self._rect.collidepoint(pygame.mouse.get_pos()):
             self._index = "hover"
@@ -430,24 +454,32 @@ class Tower(object):
 
 def ConfigTowerInitial():
     global initial_tower
+    #initial_tower = Tower()
     initial_table = Tabla.Tabla(-1, 0)
     initial_table.Llenar("inicial")
-    initial_tower.setPosition((100,50))
+    initial_tower.setPosition((250,100))
     initial_tower.DefineBalls(initial_table)
 
 
 def ConfigTowerGoal():
     global goal_tower
+    #goal_tower  = Tower()
     goal_table = Tabla.Tabla(-1, -2)
-    goal_table.Llenar("meta")
-    goal_tower.setPosition((400,50))
+    goal_table.Llenar("inicial")
+    goal_tower.setPosition((550,100))
     goal_tower.DefineBalls(goal_table)
 
-print("Configurando componentes visuales")
+def ConfigTowers():
+    ConfigTowerInitial()
+    ConfigTowerGoal()
+
+
 # At the start of the program
+
 # Initial Tower
 initial_tower = Tower()
-ConfigTowerInitial()
 # Goal Tower
 goal_tower  = Tower()
-ConfigTowerGoal()
+# Stage
+stage = 0
+

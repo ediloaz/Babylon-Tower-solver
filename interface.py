@@ -33,9 +33,10 @@ class Background(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.left, self.rect.top = location
 
-def SetBackground():
+def SetBackground(stage):
+    if (stage == 0):
+        pass
     path = "./images/background/pattern.png"
-    #pattern = pygame.image.load(path)
     BackGround = Background(path, [0,0])
     Screen().fill([255, 255, 255])
     Screen().blit(BackGround.image, BackGround.rect)
@@ -67,17 +68,25 @@ def CreateScreen():
     return screen
 
 def run():
-    print("Interfaz cargada")
     pygame.init()
     screen = CreateScreen()
     clock = pygame.time.Clock()
     running = True;
+    # stage = 0;          # "Cargando componentes visuales"
     while running:
-        # time_passed = clock.tick(30)
+        time_passed = clock.tick(30)
         stage = components.interface()
         # Form interface
-        if (stage == 1):
-
+        if (stage == 0):
+            # Not events #
+            # Draws #
+            print("Configurando componentes visuales")
+            SetBackground(0)
+            pygame.display.flip()
+            components.ConfigTowers()
+            components.setStage(1)
+            print("Interfaz cargada")
+        elif (stage == 1):
             # --- events --- #
             for event in pygame.event.get():
                 if (event.type == pygame.QUIT):
@@ -88,15 +97,15 @@ def run():
                         print("Escape")
                         running = False;
 
-            # --- button events --- #
-            button_accept.event_handler(event)
-            button_upload.event_handler(event)
-            # ball.event_handler(event)
-            components.initial_tower.event_handler(event)
-            components.goal_tower.event_handler(event)
+                # --- button events --- #
+                button_accept.event_handler(event)
+                button_upload.event_handler(event)
+                # ball.event_handler(event)
+                components.initial_tower.event_handler(event)
+                components.goal_tower.event_handler(event)
                         
             # --- Draws --- #
-            SetBackground()                         # set pattern as background
+            SetBackground(1)                         # set pattern as background
             button_accept.draw(screen)
             button_upload.draw(screen)
             components.initial_tower.draw(screen)

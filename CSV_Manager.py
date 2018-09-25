@@ -142,8 +142,8 @@ class CSV_Manager(object):
             return False
         
     def CorrectFormat(self):
-        print(self.initial_table.CorrectFormat())
-        print(self.goal_table.CorrectFormat())
+        print("Formato de la tabla inicial: ", self.initial_table.CorrectFormat())
+        print("Formato de la tabla meta: ", self.goal_table.CorrectFormat())
         return (self.initial_table.CorrectFormat()[0] and self.goal_table.CorrectFormat()[0])
 
     # return -2 => Wrong path
@@ -154,8 +154,6 @@ class CSV_Manager(object):
         if not (self.IsPath()):
             return -2           # wrong path
         self.LoadData()
-        self.PrintInitialTable()
-        self.PrintGoalTable()
         if not (self.CorrectFormat()):
             return -1           # wrong format
         return 0

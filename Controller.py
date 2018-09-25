@@ -19,10 +19,10 @@ import PrimerProyectoLogica as Logic
 # True:  Working in the logic part
 # False: Not Working in the logic part
 def SendTablesToLogic(initial_table, goal_table):
-    print("Llegué bien")
+    print()
+    print("Tablas recibidas")
     initial_table.PrintTorreDetallada()
     goal_table.PrintTorreDetallada()
-    print("Llamando a la parte lógica")
     Logic.RecibirInformacionDesdeInterfaz(initial_table, goal_table)
     # Aquí va a durar una eternidad, entonces hay que
     # pintar una interfaz de "cargando" desde la Interfaz
