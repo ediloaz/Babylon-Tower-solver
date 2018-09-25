@@ -14,7 +14,7 @@
 
 from copy import deepcopy
 import PrimerProyectoLogica as Logic
-
+import time
 
 # True:  Working in the logic part
 # False: Not Working in the logic part
@@ -23,9 +23,13 @@ def SendTablesToLogic(initial_table, goal_table):
     print("Tablas recibidas")
     initial_table.PrintTorreDetallada()
     goal_table.PrintTorreDetallada()
+    print("Antes de dormir")
+    time.sleep(3)
+    print("Después de dormir")
     Logic.RecibirInformacionDesdeInterfaz(initial_table, goal_table)
     # Aquí va a durar una eternidad, entonces hay que
     # pintar una interfaz de "cargando" desde la Interfaz
 
-def SendListToInterface(list_solution):
-    print("Se recibió una lista de largo ", len(list_solution))
+def SendSolutionToInterface():
+    return Logic.EnviarInformacionHaciaInterfaz()
+    

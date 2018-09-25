@@ -13,6 +13,10 @@ import Tabla as Tabla
 import CSV_Manager as csv
 import Controller as Controller
 
+
+# Global variables/constants
+stage = 0
+
 def hex2rgb(hex_code):
     hex_code = hex_code.lstrip('#')
     rgb_code = tuple(int(hex_code[i:i+2], 16) for i in (0, 2 ,4))
@@ -22,18 +26,19 @@ def setStage(p_stage):
     global stage
     stage = p_stage
 
-def interface():
+def NextStage():
     global stage
-    # return the stage of the interface
-    # codes:
-    #
-    # 0 = Loading Components
-    # 1 = Form
-    # 2 = Thinking
-    # 3 = Show the answer
-    #
+    stage = Stage()+1
+
+def Stage():
+    global stage
     return stage
 
+def Stage2():
+    initial_tower.SaveDataToInitialTable()
+    goal_tower.SaveDataToGoalTable()
+    Controller.SendTablesToLogic(Tabla.getTablaInicial(), Tabla.getTablaMeta())
+    
 ##  ______         _    _                   _____  _                  
 ##  | ___ \       | |  | |                 /  __ \| |                 
 ##  | |_/ / _   _ | |_ | |_   ___   _ __   | /  \/| |  __ _  ___  ___ 
@@ -139,11 +144,8 @@ class Button(object):
 
     def Accept(self):
         setStage(2)
-        initial_tower.SaveDataToInitialTable()
-        goal_tower.SaveDataToGoalTable()
-        Controller.SendTablesToLogic(Tabla.getTablaInicial(), Tabla.getTablaMeta())
         
-    
+        
     def event_handler(self, event):
         # Clicked
         if (event.type == pygame.MOUSEBUTTONDOWN) and (event.button == 1) and (self._rect.collidepoint(event.pos)):
@@ -153,7 +155,6 @@ class Button(object):
                 self.ChooseFile()
                 self._button_active = False
             elif (self._type_of == "accept"):
-                print(111)
                 initial_tower.SaveDataToInitialTable()
                 goal_tower.SaveDataToGoalTable()
                 condition1 = Tabla.TablaInicial.CorrectFormat()[0]
@@ -479,11 +480,8 @@ def ConfigTowers():
 
 
 # At the start of the program
-
 # Initial Tower
 initial_tower = Tower()
 # Goal Tower
 goal_tower  = Tower()
-# Stage
-stage = 1
 

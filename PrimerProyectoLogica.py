@@ -15,10 +15,10 @@
 # Área de imports
 import Tabla as Tabla
 from copy import deepcopy
-import Controller as Controller
 
 # Global variables/constants
 LAST_ID = 1
+SOLUCION = []       # AQUÍ VAN LAS TABLAS DE LA SOLUCIÓN
 
 # Recibe
 def RecibirInformacionDesdeInterfaz(initial_table, goal_table):
@@ -30,11 +30,13 @@ def RecibirInformacionDesdeInterfaz(initial_table, goal_table):
     # lista = main()
     initial_table.setMovimiento(1)
     goal_table.setMovimiento(3)
-    lista = [initial_table, goal_table, initial_table, goal_table, initial_table, goal_table]
-
-    # Usamos a Controller.py
-    Controller.SendListToInterface(lista)
+    global SOLUCION
+    SOLUCION = [initial_table, goal_table, initial_table, goal_table, initial_table, goal_table]
     # end -- 
+
+def EnviarInformacionHaciaInterfaz():
+    global SOLUCION
+    return SOLUCION
 
 def CalcularDistancia (iacutal, jactual, idestino, jdestino):
     j = abs(jactual-jdestino) 
@@ -246,22 +248,18 @@ def main():
     Tabla.PrintTablaMetaDetallada()
     print(" - - - - - - - - - - - - ")
     print()
-    
+    lista_NO_visitados.Agregar(Tabla.TablaInicial)
     A_Estrella()     # Algoritmo de A estrellas
     print ("Se encontro Resultado")
     # end line -    
 
 
 
-
-
-
-
 lista_visitados = Tabla.ListaDeTablas()
 lista_NO_visitados = Tabla.ListaDeTablas()
-lista_NO_visitados.Agregar(Tabla.TablaInicial)
 
-# main()
+
+# main()        # DESCOMENTAR PARA HACER PRUEBAS LOCALES
     
 
 
