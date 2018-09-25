@@ -407,8 +407,12 @@ class Tower(object):
         
     def addBall(self, ball):
         self.balls.append(ball)
+
+    def removeBalls(self):
+        del self.balls[:]
         
     def DefineBalls(self, Tabla):
+        self.removeBalls()
         width  = 55     # width of the image + Space between
         height = 45     # height of the image + Space between
         for i in range(5):
@@ -481,5 +485,5 @@ initial_tower = Tower()
 # Goal Tower
 goal_tower  = Tower()
 # Stage
-stage = 0
+stage = 1
 
