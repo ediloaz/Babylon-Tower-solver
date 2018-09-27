@@ -285,11 +285,12 @@ def run():
     ExitGame()
             
 
-button_accept = components.Button(SCREEN_SIZE, (200, 600), "accept")
-button_upload = components.Button(SCREEN_SIZE, (200, 500), "upload")
+button_upload = components.Button(SCREEN_SIZE, (120, 422), "upload")
+button_accept = components.Button(SCREEN_SIZE, (120, 556), "accept")
 
 
-running = False
+
+
 run()
 
 

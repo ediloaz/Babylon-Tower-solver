@@ -55,11 +55,8 @@ class Button(object):
 
         # Definition: Size and Pos as object's variable
         self._size = self._images["normal"].get_rect().size
-
-        width_screen = SIZE[0]
-        width_object = self.GetWidth(self._images["normal"])
-        width = width_screen/2 - width_object/2
-        height = position[1]
+        width = position[0]
+        height = position[1]                        # 
         self._position = (width, height)
         self._type_of = type_of
         self._button_active = False
@@ -85,7 +82,7 @@ class Button(object):
         return image.get_rect().size[1]
 
     def GetNewDimensions(self, image):
-        height_destiny = 30             # Define the HEIGHT size
+        height_destiny = 50             # Define the HEIGHT size
         width_source = self.GetWidth(image)
         height_source = self.GetHeight(image)
         width_destiny = width_source*height_destiny/height_source
@@ -371,6 +368,7 @@ class Ball(object):
 class Tower(object):
     def __init__(self):
         self.balls = []
+        self.type = ""
         self.x_start = 1     # First pixel in the X axis
         self.y_start = 1     # First pixel in the Y axis
 
@@ -385,6 +383,9 @@ class Tower(object):
 
     def getYStart(self):
         return self.y_start
+
+    def setType(self, _type):
+        self.type = _type
 
     def SaveDataToInitialTable(self):
         table = Tabla.getTablaInicial()
@@ -441,10 +442,122 @@ class Tower(object):
                 position = (x_pos, y_pos)
                 new_ball.setPosition(position)
                 self.addBall(new_ball)
-  
+
+    def getCountColors(self):
+        color_list = [0,0,0,0,0,0]  #[R,G,B,Y,X,O]
+        for ball in self.balls:
+            if (ball.getColor() == "R"):
+                color_list[0] += 1
+            elif (ball.getColor() == "G"):
+                color_list[1] += 1
+            elif (ball.getColor() == "B"):
+                color_list[2] += 1
+            elif (ball.getColor() == "Y"):
+                color_list[3] += 1
+            elif (ball.getColor() == "X"):
+                color_list[4] += 1
+            elif (ball.getColor() == "O"):
+                color_list[5] += 1
+            else:
+                color_list[0] = -99
+        return color_list
+        
+    def drawNumbers(self, screen):
+        color_list = self.getCountColors()
+        pygame.font.init()
+        myfont = pygame.font.SysFont('Comic Sans MS', 14)
+        # Coordinates
+        color_back = hex2rgb("#9EA6AF")
+        color_bad = hex2rgb("#E74C3C")
+        color_white = (255,255,255)
+        y1 = 495
+        y2 = 528
+        if (self.type == 0):
+            x1 = 575
+            x2 = 655
+            x3 = 732
+            # Red
+            pygame.draw.rect(screen, color_back, (x1,y1,20,20), 0)
+            if (color_list[0] == 4):
+                screen.blit(myfont.render(str(color_list[0]), False, color_white),(x1,y1))
+            else:
+                screen.blit(myfont.render(str(color_list[0]), False, color_bad),(x1,y1))
+            # Green
+            pygame.draw.rect(screen, color_back, (x1,y2,20,20), 0)
+            if (color_list[1] == 4):
+                screen.blit(myfont.render(str(color_list[1]), False, color_white),(x1,y2))
+            else:
+                screen.blit(myfont.render(str(color_list[1]), False, color_bad),(x1,y2))
+            # Blue
+            pygame.draw.rect(screen, color_back, (x2,y2,20,20), 0)
+            if (color_list[2] == 4):
+                screen.blit(myfont.render(str(color_list[2]), False, color_white),(x2,y1))
+            else:
+                screen.blit(myfont.render(str(color_list[2]), False, color_bad),(x2,y1))
+            # Yellow
+            pygame.draw.rect(screen, color_back, (x2,y2,20,20), 0)
+            if (color_list[3] == 4):
+                screen.blit(myfont.render(str(color_list[3]), False, color_white),(x2,y2))
+            else:
+                screen.blit(myfont.render(str(color_list[3]), False, color_bad),(x2,y2))
+            # Block
+            pygame.draw.rect(screen, color_back, (x3,y2,20,20), 0)
+            if (color_list[4] == 3):
+                screen.blit(myfont.render(str(color_list[4]), False, color_white),(x3,y1))
+            else:
+                screen.blit(myfont.render(str(color_list[4]), False, color_bad),(x3,y1))
+            # Empty
+            pygame.draw.rect(screen, color_back, (x3,y2,20,20), 0)
+            if (color_list[5] == 1):
+                screen.blit(myfont.render(str(color_list[5]), False, color_white),(x3,y2))
+            else:
+                screen.blit(myfont.render(str(color_list[5]), False, color_bad),(x3,y2))
+        else:
+            x1 = 575+298
+            x2 = 655+298
+            x3 = 732+298
+            # Red
+            pygame.draw.rect(screen, color_back, (x1,y1,20,20), 0)
+            if (color_list[0] == 4):
+                screen.blit(myfont.render(str(color_list[0]), False, color_white),(x1,y1))
+            else:
+                screen.blit(myfont.render(str(color_list[0]), False, color_bad),(x1,y1))
+            # Green
+            pygame.draw.rect(screen, color_back, (x1,y2,20,20), 0)
+            if (color_list[1] == 4):
+                screen.blit(myfont.render(str(color_list[1]), False, color_white),(x1,y2))
+            else:
+                screen.blit(myfont.render(str(color_list[1]), False, color_bad),(x1,y2))
+            # Blue
+            pygame.draw.rect(screen, color_back, (x2,y2,20,20), 0)
+            if (color_list[2] == 4):
+                screen.blit(myfont.render(str(color_list[2]), False, color_white),(x2,y1))
+            else:
+                screen.blit(myfont.render(str(color_list[2]), False, color_bad),(x2,y1))
+            # Yellow
+            pygame.draw.rect(screen, color_back, (x2,y2,20,20), 0)
+            if (color_list[3] == 4):
+                screen.blit(myfont.render(str(color_list[3]), False, color_white),(x2,y2))
+            else:
+                screen.blit(myfont.render(str(color_list[3]), False, color_bad),(x2,y2))
+            # Block
+            pygame.draw.rect(screen, color_back, (x3,y2,20,20), 0)
+            if (color_list[4] == 3):
+                screen.blit(myfont.render(str(color_list[4]), False, color_white),(x3,y1))
+            else:
+                screen.blit(myfont.render(str(color_list[4]), False, color_bad),(x3,y1))
+            # Empty
+            pygame.draw.rect(screen, color_back, (x3,y2,20,20), 0)
+            if (color_list[5] == 1):
+                screen.blit(myfont.render(str(color_list[5]), False, color_white),(x3,y2))
+            else:
+                screen.blit(myfont.render(str(color_list[5]), False, color_bad),(x3,y2))
+
+        
     def draw(self, screen):
         for ball in self.balls:
             ball.draw(screen)
+        self.drawNumbers(screen)
 
     def event_handler(self, event):
         for ball in self.balls:
@@ -462,6 +575,7 @@ def ConfigTowerInitial():
     #initial_tower = Tower()
     initial_table = Tabla.Tabla(-1, 0)
     initial_table.Llenar("inicial")
+    initial_tower.setType(0)
     initial_tower.setPosition((550,230))
     initial_tower.DefineBalls(initial_table)
 
@@ -471,6 +585,7 @@ def ConfigTowerGoal():
     #goal_tower  = Tower()
     goal_table = Tabla.Tabla(-1, -2)
     goal_table.Llenar("inicial")
+    goal_tower.setType(1)
     goal_tower.setPosition((850,230))
     goal_tower.DefineBalls(goal_table)
 
