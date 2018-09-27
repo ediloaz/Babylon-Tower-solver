@@ -133,6 +133,8 @@ def CreateScreenForm():
     screen = SetIcon(screen)
     return screen
 def runForm():
+    button_upload = components.Button((120, 422), "upload")
+    button_accept = components.Button((120, 556), "accept")
     screen = CreateScreenForm()
     # clock = pygame.time.Clock()
     running = True
@@ -284,11 +286,6 @@ def run():
             runAnswer() 
     ExitGame()
             
-
-button_upload = components.Button(SCREEN_SIZE, (120, 422), "upload")
-button_accept = components.Button(SCREEN_SIZE, (120, 556), "accept")
-
-
 
 
 run()

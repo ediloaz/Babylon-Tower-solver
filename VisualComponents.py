@@ -48,7 +48,7 @@ def Stage2():
 ##
 ## 
 class Button(object):
-    def __init__(self, SIZE, position, type_of):
+    def __init__(self, position, type_of):
 
         # Definition: set of images
         self._images = self.DefineImages(type_of)
