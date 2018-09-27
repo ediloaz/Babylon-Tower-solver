@@ -115,7 +115,7 @@ def runLoading():
 #  |_|   \___/ |_|   |_| |_| |_|   |___/ \___||_|    \___| \___||_| |_|
 #                                                                   
 def getScreenSizeForm():
-    x = 1100
+    x = 1200
     y = 650
     return (x,y)
 def SetBackgroundForm():
@@ -173,7 +173,7 @@ def runForm():
 #                                          __/ |                                       
 #                                         |___/
 def getScreenSizeThinking():
-    x = 1100
+    x = 1200
     y = 650
     return (x,y)
 def SetBackgroundThinking():
@@ -225,7 +225,7 @@ def runThinking():
 #   \__,_||_| |_||___/  \_/\_/   \___||_|      |___/ \___||_|    \___| \___||_| |_|
 #                                                                                                                                                               
 def getScreenSizeAnswer():
-    x = 1100
+    x = 1200
     y = 650
     return (x,y)
 def SetBackgroundAnswer():
