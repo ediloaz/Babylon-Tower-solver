@@ -206,6 +206,10 @@ class Button(object):
 
 
 
+
+
+
+
 ##  ______         _  _   _____  _                  
 ##  | ___ \       | || | /  __ \| |                 
 ##  | |_/ /  __ _ | || | | /  \/| |  __ _  ___  ___ 
@@ -372,6 +376,10 @@ class Ball(object):
 
 
 
+
+
+
+
 ##   _____                                _____  _                  
 ##  |_   _|                              /  __ \| |                 
 ##    | |    ___  __      __  ___  _ __  | /  \/| |  __ _  ___  ___ 
@@ -385,8 +393,9 @@ class Tower(object):
     def __init__(self):
         self.balls = []
         self.type = ""
-        self.x_start = 1     # First pixel in the X axis
-        self.y_start = 1     # First pixel in the Y axis
+        self.x_start = 1        # First pixel in the X axis
+        self.y_start = 1        # First pixel in the Y axis
+        self.message = "Hello"  # Explication of move
 
     def setXStart(self, pos):
         self.x_start = pos
@@ -403,6 +412,39 @@ class Tower(object):
     def setType(self, _type):
         self.type = _type
 
+    def getMessage(self):
+        return self.message
+        
+    def setMessage(self, code):
+        if (code == 0):
+            self.message = "This is the initial table"
+        elif (code == 1):
+            self.message = "turn LEFT the row 1"
+        elif (code == 2):
+            self.message = "turn LEFT the row 2"
+        elif (code == 3):
+            self.message = "turn LEFT the row 3"
+        elif (code == 4):
+            self.message = "turn LEFT the row 4"
+        elif (code == 5):
+            self.message = "turn LEFT the row 5"
+        elif (code == 6):
+            self.message = "turn RIGHT the row 1"
+        elif (code == 7):
+            self.message = "turn RIGHT the row 2"
+        elif (code == 8):
+            self.message = "turn RIGHT the row 3"
+        elif (code == 9):
+            self.message = "turn RIGHT the row 4"
+        elif (code == 10):
+            self.message = "turn RIGHT the row 5"
+        elif (code == 11):
+            self.message = "turn EMPTY SPACE to UP"
+        elif (code == 12):
+            self.message = "turn EMPTY SPACE to DOWN"
+        else:
+            self.message = "nothing, nothing :)"
+    
     def SaveDataToInitialTable(self):
         table = Tabla.getTablaInicial()
         lista_de_colores = []
@@ -481,11 +523,11 @@ class Tower(object):
     def drawNumbers(self, screen):
         color_list = self.getCountColors()
         pygame.font.init()
-        myfont = pygame.font.SysFont('Comic Sans MS', 14)
+        myfont = pygame.font.SysFont('Open Sans', 16)
         # Coordinates
         color_back = hex2rgb("#9EA6AF")
         color_bad = hex2rgb("#E74C3C")
-        color_white = (255,255,255)
+        color_white = hex2rgb("#2C3E50")
         y1 = 495
         y2 = 528
         if (self.type == 0):
@@ -576,6 +618,25 @@ class Tower(object):
             #screen.blit(ball.images[ball.index], ball.rect)
         if (self.type < 2):
             self.drawNumbers(screen)
+        else:
+            myfont = pygame.font.SysFont('Copperplate Gothic', 24)
+            color_font = hex2rgb("#2C3E50")
+            color_back = hex2rgb("#F7E5E4")
+            # Instruction
+            pygame.draw.rect(screen, color_back, (465,118,676,37), 0)
+            screen.blit(myfont.render(self.getMessage(), False, color_font),(470,121))
+            # Number x:804 and y:456
+            color_font = hex2rgb("#2C3E50")
+            color_back = hex2rgb("#FFFFFF")
+            pygame.draw.rect(screen, color_back, (700,450, 240,70), 0)
+            actual_number = str(10)
+            total_number = "(of 240)"
+            myfont = pygame.font.SysFont('Open Sans', 24)
+            screen.blit(myfont.render(actual_number, False, color_font),(800,443)) # Actual number
+            myfont = pygame.font.SysFont('Open Sans', 16)
+            screen.blit(myfont.render(total_number, False, color_font),(875,448)) # Total number
+            
+            
 
     def event_handler(self, event):
         if (self.type < 2):
@@ -591,7 +652,9 @@ def SetTableToAnswerTable(table):
     
 def CreateTowerFromTable(table):
     global answer_tower
+    code = table.getMovimiento()
     answer_tower.setType(2)
+    answer_tower.setMessage(code)
     answer_tower.setPosition((710,210))
     answer_tower.DefineBalls(table)
     

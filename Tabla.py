@@ -79,6 +79,9 @@ class Tabla(object):
 
     def setMovimiento(self, movimiento):
         self.movimiento = movimiento
+
+    def getMovimiento(self):
+        return self.movimiento
     
     def getID(self):
         return self.id
