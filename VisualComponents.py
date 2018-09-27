@@ -573,12 +573,14 @@ class Tower(object):
     def draw(self, screen):
         for ball in self.balls:
             ball.draw(screen)
+            #screen.blit(ball.images[ball.index], ball.rect)
         if (self.type < 2):
             self.drawNumbers(screen)
 
     def event_handler(self, event):
-        for ball in self.balls:
-            ball.event_handler(event)
+        if (self.type < 2):
+            for ball in self.balls:
+                ball.event_handler(event)
 
     ## End of the class
     ## 
