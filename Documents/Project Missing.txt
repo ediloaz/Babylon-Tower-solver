@@ -1,0 +1,19 @@
+Write the things are missing BY STEP:
+
+Loading
+
+Form
+	Logic & Visual: Wait Message after load a .by file
+
+Thinking
+	Logic & Visual: Below Button
+
+Answer
+	Logic & Visual: Both buttons of arrows (and them functions)
+	Logic: 			Numbers of tables
+	Logic & Visual: Button to Again
+	Logic & Visual: Button to save file
+
+General
+	Visual:			Balls
+	Visual:			Buttons (x4)
