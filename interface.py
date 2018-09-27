@@ -36,14 +36,16 @@ class Background(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.left, self.rect.top = location
 
+def hex2rgb(hex_code):
+    hex_code = hex_code.lstrip('#')
+    rgb_code = tuple(int(hex_code[i:i+2], 16) for i in (0, 2 ,4))
+    return rgb_code;
+
 def ExitGame():
     pygame.display.quit()
     pygame.quit()
     sys.exit()
     
-def ConfigureScreen():
-    pass
-
 def SetIcon(screen):
     icon = pygame.image.load('./images/icons/icon_screen.jpg')
     pygame.display.set_icon(icon)
@@ -80,9 +82,9 @@ def getScreenSizeLoading():
     return (x,y)
 def setBackgroundLoading():
     path = "./images/background/stage0.png"
-    BackGround = Background(path, [0,0])
-    Screen().fill([255, 255, 255])
-    Screen().blit(BackGround.image, BackGround.rect)
+    #BackGround = Background(path, [0,0])
+    Screen().fill(hex2rgb("#16a085"))
+    #Screen().blit(BackGround.image, BackGround.rect)
 def CreateScreenLoading():
     global screen
     x_window = getScreenSizeLoading()[0]
