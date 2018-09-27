@@ -11,6 +11,9 @@
 # September, 2018
 #
 
+
+import os           # For center the window
+import ctypes       # For center the window
 import pygame, sys
 from pygame.locals import *
 import VisualComponents as components
@@ -33,8 +36,6 @@ class Background(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.left, self.rect.top = location
 
-
-
 def ExitGame():
     pygame.display.quit()
     pygame.quit()
@@ -48,10 +49,35 @@ def SetIcon(screen):
     pygame.display.set_icon(icon)
     return screen
 
+def getResolution():
+    user32 = ctypes.windll.user32
+    return (user32.GetSystemMetrics(0), user32.GetSystemMetrics(1))
+
+def getPositionStart(x_window, y_window):
+    x_screen = getResolution()[0]
+    y_screen = getResolution()[1]
+    x_start = (x_screen-x_window)/2
+    y_start = (y_screen-y_window)/2
+    return (x_start, y_start)
+
 def Screen():
     global screen
     return screen
 
+
+
+#   _                    _  _                                                      
+#  | |                  | |(_)                                                     
+#  | |  ___    __ _   __| | _  _ __    __ _     ___   ___  _ __   ___   ___  _ __  
+#  | | / _ \  / _` | / _` || || '_ \  / _` |   / __| / __|| '__| / _ \ / _ \| '_ \ 
+#  | || (_) || (_| || (_| || || | | || (_| |   \__ \| (__ | |   |  __/|  __/| | | |
+#  |_| \___/  \__,_| \__,_||_||_| |_| \__, |   |___/ \___||_|    \___| \___||_| |_|
+#                                      __/ |                                       
+#                                     |___/                                        
+def getScreenSizeLoading():
+    x = 300
+    y = 300
+    return (x,y)
 def setBackgroundLoading():
     path = "./images/background/stage0.png"
     BackGround = Background(path, [0,0])
@@ -59,7 +85,11 @@ def setBackgroundLoading():
     Screen().blit(BackGround.image, BackGround.rect)
 def CreateScreenLoading():
     global screen
-    screen = pygame.display.set_mode((400,180))
+    x_window = getScreenSizeLoading()[0]
+    y_window = getScreenSizeLoading()[1]
+    position_start = getPositionStart(x_window, y_window)
+    os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % position_start
+    screen = pygame.display.set_mode((x_window,y_window))
     pygame.display.set_caption("Babylon Tower Solver: Loading")
     screen = SetIcon(screen)
     return screen
@@ -74,6 +104,18 @@ def runLoading():
     components.NextStage()
         
 
+
+#    __                                                                
+#   / _|                                                               
+#  | |_   ___   _ __  _ __ ___      ___   ___  _ __   ___   ___  _ __  
+#  |  _| / _ \ | '__|| '_ ` _ \    / __| / __|| '__| / _ \ / _ \| '_ \ 
+#  | |  | (_) || |   | | | | | |   \__ \| (__ | |   |  __/|  __/| | | |
+#  |_|   \___/ |_|   |_| |_| |_|   |___/ \___||_|    \___| \___||_| |_|
+#                                                                   
+def getScreenSizeForm():
+    x = 1100
+    y = 650
+    return (x,y)
 def SetBackgroundForm():
     path = "./images/background/pattern.png"
     BackGround = Background(path, [0,0])
@@ -81,7 +123,11 @@ def SetBackgroundForm():
     Screen().blit(BackGround.image, BackGround.rect)
 def CreateScreenForm():
     global screen
-    screen = pygame.display.set_mode(SCREEN_SIZE)
+    x_window = getScreenSizeForm()[0]
+    y_window = getScreenSizeForm()[1]
+    position_start = getPositionStart(x_window, y_window)
+    os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % position_start
+    screen = pygame.display.set_mode((x_window,y_window))
     pygame.display.set_caption("Babylon Tower Solver: Form")
     screen = SetIcon(screen)
     return screen
@@ -116,6 +162,18 @@ def runForm():
     
         
 
+#   _    _      _         _     _                                                      
+#  | |  | |    (_)       | |   (_)                                                     
+#  | |_ | |__   _  _ __  | | __ _  _ __    __ _     ___   ___  _ __   ___   ___  _ __  
+#  | __|| '_ \ | || '_ \ | |/ /| || '_ \  / _` |   / __| / __|| '__| / _ \ / _ \| '_ \ 
+#  | |_ | | | || || | | ||   < | || | | || (_| |   \__ \| (__ | |   |  __/|  __/| | | |
+#   \__||_| |_||_||_| |_||_|\_\|_||_| |_| \__, |   |___/ \___||_|    \___| \___||_| |_|
+#                                          __/ |                                       
+#                                         |___/
+def getScreenSizeThinking():
+    x = 1100
+    y = 650
+    return (x,y)
 def SetBackgroundThinking():
     path = "./images/background/pattern.png"
     BackGround = Background(path, [0,0])
@@ -123,7 +181,11 @@ def SetBackgroundThinking():
     Screen().blit(BackGround.image, BackGround.rect)
 def CreateScreenThinking():
     global screen
-    screen = pygame.display.set_mode(SCREEN_SIZE)
+    x_window = getScreenSizeThinking()[0]
+    y_window = getScreenSizeThinking()[1]
+    position_start = getPositionStart(x_window, y_window)
+    os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % position_start
+    screen = pygame.display.set_mode((x_window,y_window))
     pygame.display.set_caption("Babylon Tower Solver: Thinking")
     screen = SetIcon(screen)
     return screen
@@ -152,6 +214,18 @@ def runThinking():
     components.NextStage()
 
 
+
+                                                                                
+                                                                                
+#    __ _  _ __   ___ __      __  ___  _ __     ___   ___  _ __   ___   ___  _ __  
+#   / _` || '_ \ / __|\ \ /\ / / / _ \| '__|   / __| / __|| '__| / _ \ / _ \| '_ \ 
+#  | (_| || | | |\__ \ \ V  V / |  __/| |      \__ \| (__ | |   |  __/|  __/| | | |
+#   \__,_||_| |_||___/  \_/\_/   \___||_|      |___/ \___||_|    \___| \___||_| |_|
+#                                                                                                                                                               
+def getScreenSizeAnswer():
+    x = 1100
+    y = 650
+    return (x,y)
 def SetBackgroundAnswer():
     path = "./images/background/stage0.png"
     BackGround = Background(path, [0,0])
@@ -159,7 +233,11 @@ def SetBackgroundAnswer():
     Screen().blit(BackGround.image, BackGround.rect)
 def CreateScreenAnswer():
     global screen
-    screen = pygame.display.set_mode(SCREEN_SIZE)
+    x_window = getScreenSizeAnswer()[0]
+    y_window = getScreenSizeAnswer()[1]
+    position_start = getPositionStart(x_window, y_window)
+    os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % position_start
+    screen = pygame.display.set_mode((x_window,y_window))
     pygame.display.set_caption("Babylon Tower Solver: Answer")
     screen = SetIcon(screen)
     return screen
@@ -181,6 +259,9 @@ def runAnswer():
         SetBackgroundForm()                         # set pattern as background
         pygame.display.flip()
         
+
+
+
 
 
 def run():
