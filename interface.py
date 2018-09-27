@@ -77,14 +77,13 @@ def Screen():
 #                                      __/ |                                       
 #                                     |___/                                        
 def getScreenSizeLoading():
-    x = 300
-    y = 300
+    x = 400
+    y = 400
     return (x,y)
 def setBackgroundLoading():
-    path = "./images/background/stage0.png"
-    #BackGround = Background(path, [0,0])
-    Screen().fill(hex2rgb("#16a085"))
-    #Screen().blit(BackGround.image, BackGround.rect)
+    path = "./images/background/Loading.png"
+    BackGround = Background(path, [0,0])
+    Screen().blit(BackGround.image, BackGround.rect)
 def CreateScreenLoading():
     global screen
     x_window = getScreenSizeLoading()[0]
@@ -119,7 +118,7 @@ def getScreenSizeForm():
     y = 650
     return (x,y)
 def SetBackgroundForm():
-    path = "./images/background/pattern.png"
+    path = "./images/background/Form.png"
     BackGround = Background(path, [0,0])
     Screen().fill([255, 255, 255])
     Screen().blit(BackGround.image, BackGround.rect)
@@ -173,11 +172,11 @@ def runForm():
 #                                          __/ |                                       
 #                                         |___/
 def getScreenSizeThinking():
-    x = 1200
-    y = 650
+    x = 400
+    y = 400
     return (x,y)
 def SetBackgroundThinking():
-    path = "./images/background/pattern.png"
+    path = "./images/background/Thinking.png"
     BackGround = Background(path, [0,0])
     Screen().fill([255, 255, 255])
     Screen().blit(BackGround.image, BackGround.rect)
@@ -229,7 +228,7 @@ def getScreenSizeAnswer():
     y = 650
     return (x,y)
 def SetBackgroundAnswer():
-    path = "./images/background/stage0.png"
+    path = "./images/background/Answer.png"
     BackGround = Background(path, [0,0])
     Screen().fill([255, 255, 255])
     Screen().blit(BackGround.image, BackGround.rect)
@@ -258,7 +257,7 @@ def runAnswer():
                     components.setStage(4)
             # --- button events --- #
         # --- Draws --- #
-        SetBackgroundForm()                         # set pattern as background
+        SetBackgroundAnswer()                         # set pattern as background
         pygame.display.flip()
         
 
