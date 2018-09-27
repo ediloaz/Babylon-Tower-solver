@@ -245,9 +245,12 @@ def CreateScreenAnswer():
     screen = SetIcon(screen)
     return screen
 def runAnswer():
+    arrow_right = components.Button((960, 304), "arrow_right")
     screen = CreateScreenAnswer()
+    components.CreateTowerFromTable(Tabla.getTablaInicial())
     print("Answer")
     while (components.Stage() == 3):
+        print(11)
         # --- events --- #
         for event in pygame.event.get():
             if (event.type == pygame.QUIT):
@@ -258,8 +261,12 @@ def runAnswer():
                     print("Escape: El jugador va a salir")
                     components.setStage(4)
             # --- button events --- #
+            arrow_right.event_handler(event)
+            components.answer_tower.event_handler(event)
         # --- Draws --- #
         SetBackgroundAnswer()                         # set pattern as background
+        arrow_right.draw(screen)
+        components.answer_tower.draw(screen)
         pygame.display.flip()
         
 

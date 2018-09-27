@@ -19,6 +19,7 @@ from copy import deepcopy
 # Global variables/constants
 LAST_ID = 1
 SOLUCION = []       # AQUÍ VAN LAS TABLAS DE LA SOLUCIÓN
+ID_SOLUCION = 0
 
 # Recibe
 def RecibirInformacionDesdeInterfaz(initial_table, goal_table):
@@ -37,6 +38,12 @@ def RecibirInformacionDesdeInterfaz(initial_table, goal_table):
 def EnviarInformacionHaciaInterfaz():
     global SOLUCION
     return SOLUCION
+
+def EnviarSiguienteTablaSolucion():
+    global SOLUCION, ID_SOLUCION
+    tabla = SOLUCION[ID_SOLUCION]
+    ID_SOLUCION += 1
+    return tabla
 
 def CalcularDistancia (iacutal, jactual, idestino, jdestino):
     j = abs(jactual-jdestino) 

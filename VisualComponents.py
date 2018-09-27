@@ -38,7 +38,8 @@ def Stage2():
     initial_tower.SaveDataToInitialTable()
     goal_tower.SaveDataToGoalTable()
     Controller.SendTablesToLogic(Tabla.getTablaInicial(), Tabla.getTablaMeta())
-    
+
+  
 ##  ______         _    _                   _____  _                  
 ##  | ___ \       | |  | |                 /  __ \| |                 
 ##  | |_/ / _   _ | |_ | |_   ___   _ __   | /  \/| |  __ _  ___  ___ 
@@ -108,6 +109,18 @@ class Button(object):
                 "hover" : self.LoadImage("./images/buttons/button_upload_hover.png"),
                 "active" : self.LoadImage("./images/buttons/button_upload_active.png")
                 }
+        elif text == "arrow_left":
+            dictionary = {
+                "normal" : self.LoadImage("./images/buttons/button_upload_normal.png"),
+                "hover" : self.LoadImage("./images/buttons/button_upload_hover.png"),
+                "active" : self.LoadImage("./images/buttons/button_upload_active.png")
+                }
+        elif text == "arrow_right":
+            dictionary = {
+                "normal" : self.LoadImage("./images/buttons/button_upload_normal.png"),
+                "hover" : self.LoadImage("./images/buttons/button_upload_hover.png"),
+                "active" : self.LoadImage("./images/buttons/button_upload_active.png")
+                }
         else:
             print("Sucedió un error del sistema")
             exit()
@@ -168,6 +181,9 @@ class Button(object):
                 else:
                     texto = "Ambas tablas están mal configuradas"
                     print(texto)
+            elif (self._type_of == "arrow_right"):
+                table = Controller.GetNextTableSolution()
+                SetTableToAnswerTable(table)
                 
         # Hover
         elif self._rect.collidepoint(pygame.mouse.get_pos()):
@@ -557,7 +573,8 @@ class Tower(object):
     def draw(self, screen):
         for ball in self.balls:
             ball.draw(screen)
-        self.drawNumbers(screen)
+        if (self.type < 2):
+            self.drawNumbers(screen)
 
     def event_handler(self, event):
         for ball in self.balls:
@@ -567,22 +584,25 @@ class Tower(object):
     ## 
 
 
-
-
-
+def SetTableToAnswerTable(table):
+    answer_tower.DefineBalls(table)
+    
+def CreateTowerFromTable(table):
+    global answer_tower
+    answer_tower.setType(2)
+    answer_tower.setPosition((710,210))
+    answer_tower.DefineBalls(table)
+    
 def ConfigTowerInitial():
     global initial_tower
-    #initial_tower = Tower()
     initial_table = Tabla.Tabla(-1, 0)
     initial_table.Llenar("inicial")
     initial_tower.setType(0)
     initial_tower.setPosition((550,230))
     initial_tower.DefineBalls(initial_table)
 
-
 def ConfigTowerGoal():
     global goal_tower
-    #goal_tower  = Tower()
     goal_table = Tabla.Tabla(-1, -2)
     goal_table.Llenar("inicial")
     goal_tower.setType(1)
@@ -599,4 +619,5 @@ def ConfigTowers():
 initial_tower = Tower()
 # Goal Tower
 goal_tower  = Tower()
-
+# Answer tower
+answer_tower = Tower()
