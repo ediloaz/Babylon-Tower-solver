@@ -40,7 +40,8 @@ def Stage():
     return stage
 
 def Stage2():
-    global SOLUTION
+    global SOLUTION, id_SOLUTION
+    id_SOLUTION = 0
     initial_tower.SaveDataToInitialTable()
     goal_tower.SaveDataToGoalTable()
     SOLUTION = Controller.SendTablesToLogic(Tabla.getTablaInicial(), Tabla.getTablaMeta())
@@ -156,7 +157,8 @@ class Button(object):
             dictionary = {
                 "normal" : self.LoadImage("./images/buttons/button_accept_normal.png"),
                 "hover" : self.LoadImage("./images/buttons/button_accept_hover.png"),
-                "active" : self.LoadImage("./images/buttons/button_accept_active.png")
+                "active" : self.LoadImage("./images/buttons/button_accept_active.png"),
+                "check" : self.LoadImage("./images/buttons/check_towers.png")
                 }
         elif text == "upload":
             dictionary = {
@@ -201,6 +203,13 @@ class Button(object):
         #elif (self._type_of == "arrow_left" and Controller.getIdSolucion() < 2):
         elif (self._type_of == "arrow_left" and (ActualTableSolution()[1] < 1)):    # first 0 showing 1
             pass
+        elif (self._type_of == "accept" ):
+            initial_tower.SaveDataToInitialTable()
+            goal_tower.SaveDataToGoalTable()
+            if (Tabla.TablaInicial.CorrectFormat()[0]==False or Tabla.TablaMeta.CorrectFormat()[0]==False):
+                screen.blit(self._images["check"], self._rect)
+            else:
+                screen.blit(self._images[self._index], self._rect)
         else:
             screen.blit(self._images[self._index], self._rect)
 
@@ -643,7 +652,19 @@ class Tower(object):
             else:
                 color_list[0] = -99
         return color_list
+
+    def drawErrorMessages(self, screen):
+        initial_tower.SaveDataToInitialTable()
+        goal_tower.SaveDataToGoalTable()
+        if (Tabla.TablaInicial.CorrectFormat()[0]==False or Tabla.TablaMeta.CorrectFormat()[0]==False):
+            color_back = hex2rgb("#16A085")
+            color_font = hex2rgb("#E74C3C")
+            myfont = pygame.font.SysFont('Open Sans', 24)
+            pygame.draw.rect(screen, color_back, (100,530,300,50), 0)
+            screen.blit(myfont.render("! check the towers", False, color_font),(110,530))
+            
         
+    
     def drawNumbers(self, screen):
         color_list = self.getCountColors()
         pygame.font.init()

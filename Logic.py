@@ -27,11 +27,16 @@ ID_SOLUCION = 1
 
 # Recibe
 def RecibirInformacionDesdeInterfaz(initial_table, goal_table):
-    global SOLUCION
+    global SOLUCION, ID_SOLUCION, lista_camino_optimo, lista_visitados, lista_NO_visitados, Encontrado
+    lista_visitados = Tabla.ListaDeTablas()
+    lista_NO_visitados = Tabla.ListaDeTablas()
+    ID_SOLUCION = 1
     SOLUTION = []
+    lista_camino_optimo = []
     ResetLastID()
-    Tabla.setTablaInicial(initial_table)
-    Tabla.setTablaMeta(goal_table)
+    Encontrado = False
+    # Tabla.setTablaInicial(initial_table)
+    # Tabla.setTablaMeta(goal_table)
     Main(initial_table, goal_table)
     # end --
 
@@ -276,7 +281,7 @@ def Ramificacion(TablaPadre):
 # siguiente TABLAPADRE a partir de la lista_NO_visitados
 
 def A_Estrella():
-    global lista_camino_optimo #camino de ids de la respuesta
+    global lista_camino_optimo, Encontrado #camino de ids de la respuesta
     lista_NO_visitados.Agregar(Tabla.TablaInicial)
     tabla_padre = Tabla.TablaInicial
     lista_camino_optimo = [tabla_padre.getID()] + lista_camino_optimo
@@ -346,9 +351,9 @@ lista_NO_visitados = Tabla.ListaDeTablas()
 lista_camino_optimo = []
 Encontrado = False #variable para saber si termino
 
-Tabla.TablaInicial.Llenar("inicial")
-Tabla.LlenarTablaMeta()
-Main(Tabla.TablaInicial, Tabla.TablaMeta)
+#Tabla.TablaInicial.Llenar("inicial")
+#Tabla.LlenarTablaMeta()
+#Main(Tabla.TablaInicial, Tabla.TablaMeta)
 
 # main()        # DESCOMENTAR PARA HACER PRUEBAS LOCALES
     

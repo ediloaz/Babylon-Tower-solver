@@ -23,9 +23,6 @@ def SendTablesToLogic(initial_table, goal_table):
     print("Tablas recibidas")
     initial_table.PrintTorreDetallada()
     goal_table.PrintTorreDetallada()
-    print("Antes de dormir")
-    #time.sleep(3)
-    print("Después de dormir")
     Logic.RecibirInformacionDesdeInterfaz(initial_table, goal_table)
     return Logic.GetSolution()
     # Aquí va a durar una eternidad, entonces hay que
