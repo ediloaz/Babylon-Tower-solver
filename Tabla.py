@@ -111,7 +111,13 @@ class Tabla(object):
         return self.peso
         
     def EsLaTablaMeta(self):
-        if (TablaMeta.tabla == self.tabla):
+        for i in range(5):
+            texto = ""
+            texto1 = ""
+            for j in range(4):
+                texto += str(self.tabla[i][j].getColor()) + " "
+                texto1 += str(TablaMeta.tabla[i][j].getColor()) + " "
+        if (texto == texto1):
             return True
         else:
             return False
@@ -254,7 +260,7 @@ class Tabla(object):
                 texto += str(self.tabla[i][j].getColor()) + " "
             print(texto + "|")
         print("Peso: " + str(self.peso) )
-        print()
+        
     
         
     def ObtenerColor(self,i,j):
@@ -290,7 +296,7 @@ def setTablaMeta(tabla):
     TablaMeta = tabla
 
 def LlenarTablaMeta():
-    TablaMeta.Llenar("final")
+    TablaMeta.Llenar("inicial")
 
 def PrintTablaMeta():
     TablaMeta.PrintTorre()

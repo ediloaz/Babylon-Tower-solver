@@ -19,7 +19,7 @@ from copy import deepcopy
 # Global variables/constants
 LAST_ID = 1
 SOLUCION = []       # AQUÍ VAN LAS TABLAS DE LA SOLUCIÓN
-ID_SOLUCION = 0
+#lista_camino_optimo = [0] # AQUÍ VAN LOS ID de las TABLAS DE LA SOLUCIÓN
 
 # Recibe
 def RecibirInformacionDesdeInterfaz(initial_table, goal_table):
@@ -154,9 +154,22 @@ def NuevaTablaAbajo(TablaPadre, numero_fila):
         return nueva_tabla
 
 
+
+def Finalizado(Tabla):
+    if(Tabla.EsLaTablaMeta()):
+        return True
+    return False
+
+def CaminoOptimo(Tabla):
+    TablaID= Tabla.getID()
+    while ( TablaID != lista_camino_optimo[len(lista_camino_optimo)-1].getID() ):
+        lista_camino_optimo = [TablaID] +lista_camino_optimo
+        TablaID= Tabla.getIDPadre()
+
+        
 # Crea a partir de una tabla las siguientes 12 tablas.
 def Ramificacion(TablaPadre):
-    
+    global Encontrado
     # Hacia izquierda
     print("- - - - - - - - - - - - - - - - - - ")
     print("Con giro a la izquierda")
@@ -170,6 +183,11 @@ def Ramificacion(TablaPadre):
             print("Nueva tabla: ", i+1)
             print('\n')
             nueva_tabla.PrintTorreDetallada()
+            if (Finalizado(nueva_tabla)):
+                #CaminoOptimo(nueva_tabla)
+                CaminoOptimo(Tabla)
+                Encontrado=True
+            
     print("Largo de tabla_visitados: ", Largo(lista_visitados))
     print("Largo de tabla_NO_visitados: ", Largo(lista_NO_visitados))
     
@@ -186,6 +204,9 @@ def Ramificacion(TablaPadre):
             Peso(nueva_tabla)       # Asigna el peso a la tabla
             print("Nueva tabla: ", i+6)
             nueva_tabla.PrintTorreDetallada()
+            if (Finalizado(nueva_tabla)):
+                CaminoOptimo(Tabla)
+                Encontrado=True
     print("Largo de tabla_visitados: ", Largo(lista_visitados))
     print("Largo de tabla_NO_visitados: ", Largo(lista_NO_visitados))
 
@@ -202,6 +223,9 @@ def Ramificacion(TablaPadre):
         print("Nueva tabla: ", i+1)
         print('\n')
         nueva_tabla.PrintTorreDetallada()
+        if (Finalizado(nueva_tabla)):
+            CaminoOptimo(Tabla)
+            Encontrado=True
     print("Largo de tabla_visitados: ", Largo(lista_visitados))
     print("Largo de tabla_NO_visitados: ", Largo(lista_NO_visitados))
 
@@ -218,6 +242,9 @@ def Ramificacion(TablaPadre):
         print("Nueva tabla: ", i+1)
         print('\n')
         nueva_tabla.PrintTorreDetallada()
+        if (Finalizado(nueva_tabla)):
+                CaminoOptimo(Tabla)
+                Encontrado=True
     print("Largo de tabla_visitados: ", Largo(lista_visitados))
     print("Largo de tabla_NO_visitados: ", Largo(lista_NO_visitados))
 
@@ -228,22 +255,26 @@ def Ramificacion(TablaPadre):
     
     
             
-def Finalizado(Tabla):
-    if(Tabla.EsLaTablaMeta() ):
-        return True
-    return False
+
+        
 
 # Solo ramifica (12 ramas de tablas nuevas) a partir de TABLAPADRE y luego escoge la
 # siguiente TABLAPADRE a partir de la lista_NO_visitados
+
 def A_Estrella():
+    global lista_camino_optimo #camino de ids de la respuesta
+    
     tabla_padre = Tabla.TablaInicial
-    while True:
-        print("Pasada por el While True")
-        Ramificacion(tabla_padre)
-        tabla_padre = SiguienteNodo()
-        if (Finalizado(tabla_padre)==True):
-            break
-        input("\n\n Pasada completa, ENTER para continuar \n\n")
+    lista_camino_optimo = [tabla_padre.getID()] + lista_camino_optimo
+    if (Finalizado(tabla_padre)):
+        print ("son iguales")
+##    while True:
+##        print("Pasada por el While True")
+##        Ramificacion(tabla_padre)
+##        tabla_padre = SiguienteNodo()
+##        if (Encontrado==True):
+##            break
+##        input("\n\n Pasada completa, ENTER para continuar \n\n")
 
 def main():
     print("Tabla inicial")
@@ -258,15 +289,17 @@ def main():
     lista_NO_visitados.Agregar(Tabla.TablaInicial)
     A_Estrella()     # Algoritmo de A estrellas
     print ("Se encontro Resultado")
+    print ("Camino optimo: ",lista_camino_optimo)
     # end line -    
 
 
 
 lista_visitados = Tabla.ListaDeTablas()
 lista_NO_visitados = Tabla.ListaDeTablas()
+lista_camino_optimo = []
+Encontrado = False #variable para saber si termino
 
-
-# main()        # DESCOMENTAR PARA HACER PRUEBAS LOCALES
+main()        # DESCOMENTAR PARA HACER PRUEBAS LOCALES
     
 
 
