@@ -161,12 +161,20 @@ def Finalizado(Tabla):
     return False
 
 def CaminoOptimo(Tabla):
+    global lista_camino_optimo #camino de ids de la respuesta
+    global SOLUCION
     TablaID= Tabla.getID()
-    while ( TablaID != lista_camino_optimo[len(lista_camino_optimo)-1].getID() ):
+    while ( TablaID != lista_camino_optimo[len(lista_camino_optimo)-1] ):
         lista_camino_optimo = [TablaID] +lista_camino_optimo
-        TablaID= Tabla.getIDPadre()
-
-        
+        TablaIDPadre= Tabla.getIDpadre()
+        for i in range(lista_visitados.LenLista()):
+            Tabla = lista_visitados.GetLista(i)
+            if (Tabla.getID()==TablaIDPadre):
+                break
+        SOLUCION+= Tabla.tabla
+        TablaID= Tabla.getID()
+    
+    SOLUCION+= Tabla.tabla
 # Crea a partir de una tabla las siguientes 12 tablas.
 def Ramificacion(TablaPadre):
     global Encontrado
@@ -185,7 +193,7 @@ def Ramificacion(TablaPadre):
             nueva_tabla.PrintTorreDetallada()
             if (Finalizado(nueva_tabla)):
                 #CaminoOptimo(nueva_tabla)
-                CaminoOptimo(Tabla)
+                CaminoOptimo(nueva_tabla)
                 Encontrado=True
             
     print("Largo de tabla_visitados: ", Largo(lista_visitados))
@@ -205,7 +213,7 @@ def Ramificacion(TablaPadre):
             print("Nueva tabla: ", i+6)
             nueva_tabla.PrintTorreDetallada()
             if (Finalizado(nueva_tabla)):
-                CaminoOptimo(Tabla)
+                CaminoOptimo(nueva_tabla)
                 Encontrado=True
     print("Largo de tabla_visitados: ", Largo(lista_visitados))
     print("Largo de tabla_NO_visitados: ", Largo(lista_NO_visitados))
@@ -224,7 +232,7 @@ def Ramificacion(TablaPadre):
         print('\n')
         nueva_tabla.PrintTorreDetallada()
         if (Finalizado(nueva_tabla)):
-            CaminoOptimo(Tabla)
+            CaminoOptimo(nueva_tabla)
             Encontrado=True
     print("Largo de tabla_visitados: ", Largo(lista_visitados))
     print("Largo de tabla_NO_visitados: ", Largo(lista_NO_visitados))
@@ -243,7 +251,7 @@ def Ramificacion(TablaPadre):
         print('\n')
         nueva_tabla.PrintTorreDetallada()
         if (Finalizado(nueva_tabla)):
-                CaminoOptimo(Tabla)
+                CaminoOptimo(nueva_tabla)
                 Encontrado=True
     print("Largo de tabla_visitados: ", Largo(lista_visitados))
     print("Largo de tabla_NO_visitados: ", Largo(lista_NO_visitados))
@@ -266,17 +274,16 @@ def A_Estrella():
     
     tabla_padre = Tabla.TablaInicial
     lista_camino_optimo = [tabla_padre.getID()] + lista_camino_optimo
-    if (Finalizado(tabla_padre)):
-        print ("son iguales")
-##    while True:
-##        print("Pasada por el While True")
-##        Ramificacion(tabla_padre)
-##        tabla_padre = SiguienteNodo()
-##        if (Encontrado==True):
-##            break
-##        input("\n\n Pasada completa, ENTER para continuar \n\n")
+    while True:
+        print("Pasada por el While True")
+        Ramificacion(tabla_padre)
+        tabla_padre = SiguienteNodo()
+        if (Encontrado==True):
+            break
+        #input("\n\n Pasada completa, ENTER para continuar \n\n")
 
 def main():
+    global SOLUCION
     print("Tabla inicial")
     Tabla.TablaInicial.Llenar("inicial")
     Tabla.TablaInicial.setG(0)
@@ -286,9 +293,10 @@ def main():
     Tabla.PrintTablaMetaDetallada()
     print(" - - - - - - - - - - - - ")
     print()
+    SOLUCION= SOLUCION + Tabla.TablaInicial.getTabla()
     lista_NO_visitados.Agregar(Tabla.TablaInicial)
     A_Estrella()     # Algoritmo de A estrellas
-    print ("Se encontro Resultado")
+    #print (SOLUCION)
     print ("Camino optimo: ",lista_camino_optimo)
     # end line -    
 

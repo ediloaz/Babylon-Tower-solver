@@ -28,7 +28,13 @@ class ListaDeTablas(object):
 
     def Quitar(self, Tabla):
         self.lista.remove(Tabla)
-
+        
+    def LenLista(self):
+        return len(self.lista)
+    
+    def GetLista(self,i):
+        return self.lista[i]
+    
     def Pop(self):
         if len(self.lista) > 0:
             return self.lista[-1]
@@ -109,15 +115,17 @@ class Tabla(object):
 
     def getPeso(self):
         return self.peso
+
         
     def EsLaTablaMeta(self):
+        texto = ""
+        texto1 = ""
         for i in range(5):
-            texto = ""
-            texto1 = ""
             for j in range(4):
                 texto += str(self.tabla[i][j].getColor()) + " "
                 texto1 += str(TablaMeta.tabla[i][j].getColor()) + " "
         if (texto == texto1):
+            print("\n Esta fue la comparacion de la tabla meta: \n",texto,"\n",texto1,"\n")
             return True
         else:
             return False
@@ -296,7 +304,7 @@ def setTablaMeta(tabla):
     TablaMeta = tabla
 
 def LlenarTablaMeta():
-    TablaMeta.Llenar("inicial")
+    TablaMeta.Llenar("meta")
 
 def PrintTablaMeta():
     TablaMeta.PrintTorre()
