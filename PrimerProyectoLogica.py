@@ -165,7 +165,7 @@ def CaminoOptimo(Tabla):
     global SOLUCION
     TablaID= Tabla.getID()
     while ( TablaID != lista_camino_optimo[len(lista_camino_optimo)-1] ):
-        lista_camino_optimo = [TablaID] +lista_camino_optimo
+        lista_camino_optimo =  lista_camino_optimo + [TablaID]
         TablaIDPadre= Tabla.getIDpadre()
         for i in range(lista_visitados.LenLista()):
             Tabla = lista_visitados.GetLista(i)
@@ -173,7 +173,7 @@ def CaminoOptimo(Tabla):
                 break
         SOLUCION+= Tabla.tabla
         TablaID= Tabla.getID()
-    
+    lista_camino_optimo =  lista_camino_optimo + [TablaID]
     SOLUCION+= Tabla.tabla
 # Crea a partir de una tabla las siguientes 12 tablas.
 def Ramificacion(TablaPadre):
