@@ -250,6 +250,7 @@ def runAnswer():
     arrow_left   = components.Button((598, 280), "arrow_left")
     screen = CreateScreenAnswer()
     components.CreateTowerFromTable(Tabla.getTablaInicial())
+    components.UpdateLenIntructions() # total of tables
     print("Answer")
     count = 0
     while (components.Stage() == 3):

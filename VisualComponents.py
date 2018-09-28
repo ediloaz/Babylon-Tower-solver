@@ -17,6 +17,7 @@ import Controller as Controller
 # Global variables/constants
 stage = 0
 INSTRUCTIONS = ["asd","qwe","swqas","fasd","21ew"]
+LENINSTRUCTIONS = Controller.LongSolution()
 
 def hex2rgb(hex_code):
     hex_code = hex_code.lstrip('#')
@@ -40,7 +41,10 @@ def Stage2():
     goal_tower.SaveDataToGoalTable()
     Controller.SendTablesToLogic(Tabla.getTablaInicial(), Tabla.getTablaMeta())
 
-  
+def UpdateLenIntructions():
+    global LENINSTRUCTIONS
+    LENINSTRUCTIONS = Controller.LongSolution()
+    
 ##  ______         _    _                   _____  _                  
 ##  | ___ \       | |  | |                 /  __ \| |                 
 ##  | |_/ / _   _ | |_ | |_   ___   _ __   | /  \/| |  __ _  ___  ___ 
@@ -141,7 +145,12 @@ class Button(object):
 
     
     def draw(self, screen):
-        screen.blit(self._images[self._index], self._rect)
+        if (self._type_of == "arrow_right" and Controller.getIdSolucion() > (LENINSTRUCTIONS-2)):
+            pass
+        elif (self._type_of == "arrow_left" and Controller.getIdSolucion() < 2):
+            pass
+        else:
+            screen.blit(self._images[self._index], self._rect)
 
     def ChooseFile(self):
         root = tk.Tk()
@@ -191,11 +200,11 @@ class Button(object):
         # Clicked
         if (event.type == pygame.MOUSEBUTTONDOWN) and (event.button == 1) and (self._rect.collidepoint(event.pos)):
             self._index = "active"
-            if (self._type_of == "upload"):
+            if (self._type_of == "upload"):         # UPLOAD - - 
                 self._button_active = True
                 self.ChooseFile()
                 self._button_active = False
-            elif (self._type_of == "accept"):
+            elif (self._type_of == "accept"):       # ACCEPT - -
                 initial_tower.SaveDataToInitialTable()
                 goal_tower.SaveDataToGoalTable()
                 condition1 = Tabla.TablaInicial.CorrectFormat()[0]
@@ -212,14 +221,25 @@ class Button(object):
                 else:
                     texto = "Ambas tablas están mal configuradas"
                     print(texto)
-            elif (self._type_of == "arrow_right"):
-                table = Controller.GetNextTableSolution()
-                SetTableToAnswerTable(table)
-            elif (self._type_of == "save"):
+            elif (self._type_of == "arrow_right"):  # ARROW RIGHT - -
+                if (Controller.getIdSolucion() < (LENINSTRUCTIONS-1)):
+                    tupla    = Controller.GetNextTableSolution()
+                    table    = tupla[0]
+                    id_table = tupla[1]
+                    SetTableToAnswerTable(table)
+                    SetActualNumberToAnswer(id_table)
+            elif (self._type_of == "arrow_left"):  # ARROW LEFT - -
+                if (Controller.getIdSolucion() > 1):
+                    tupla    = Controller.GetPreviousTableSolution()
+                    table    = tupla[0]
+                    id_table = tupla[1]
+                    SetTableToAnswerTable(table)
+                    SetActualNumberToAnswer(id_table)
+            elif (self._type_of == "save"):         # SAVE - - 
                 self._button_active = True
                 self.SaveFile()
                 self._button_active = False
-            elif (self._type_of == "again"):
+            elif (self._type_of == "again"):        # AGAIN - -
                 setStage(0)
             
                 
@@ -426,7 +446,6 @@ class Ball(object):
 ##    \_/   \___/   \_/\_/   \___||_|     \____/|_| \__,_||___/|___/
 ##                                                                  
 ##                                                                  
-
 class Tower(object):
     def __init__(self):
         self.balls = []
@@ -434,6 +453,7 @@ class Tower(object):
         self.x_start = 1        # First pixel in the X axis
         self.y_start = 1        # First pixel in the Y axis
         self.message = "Hello"  # Explication of move
+        self.answer_number = -1
 
     def setXStart(self, pos):
         self.x_start = pos
@@ -449,6 +469,12 @@ class Tower(object):
 
     def setType(self, _type):
         self.type = _type
+
+    def getAnswerNumber(self):
+        return self.answer_number
+
+    def setAnswerNumber(self, number):
+        self.answer_number = number
 
     def getMessage(self):
         return self.message
@@ -657,6 +683,7 @@ class Tower(object):
         if (self.type < 2):
             self.drawNumbers(screen)
         else:
+            global LENINSTRUCTIONS
             myfont = pygame.font.SysFont('Copperplate Gothic', 24)
             color_font = hex2rgb("#2C3E50")
             color_back = hex2rgb("#F7E5E4")
@@ -667,8 +694,8 @@ class Tower(object):
             color_font = hex2rgb("#2C3E50")
             color_back = hex2rgb("#FFFFFF")
             pygame.draw.rect(screen, color_back, (700,450, 240,70), 0)
-            actual_number = str(10)
-            total_number = "(of 240)"
+            actual_number = str(self.getAnswerNumber())
+            total_number = "of  " + str(LENINSTRUCTIONS)
             myfont = pygame.font.SysFont('Open Sans', 24)
             screen.blit(myfont.render(actual_number, False, color_font),(800,443)) # Actual number
             myfont = pygame.font.SysFont('Open Sans', 16)
@@ -687,11 +714,17 @@ class Tower(object):
 
 def SetTableToAnswerTable(table):
     answer_tower.DefineBalls(table)
-    
+    code = table.getMovimiento()
+    answer_tower.setMessage(code)
+
+def SetActualNumberToAnswer(actual_number):
+    answer_tower.setAnswerNumber(actual_number)
+
 def CreateTowerFromTable(table):
     global answer_tower
     code = table.getMovimiento()
     answer_tower.setType(2)
+    answer_tower.setAnswerNumber(1)
     answer_tower.setMessage(code)
     answer_tower.setPosition((710,210))
     answer_tower.DefineBalls(table)
