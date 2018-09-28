@@ -244,14 +244,17 @@ def CreateScreenAnswer():
     screen = SetIcon(screen)
     return screen
 def runAnswer():
-    button_save = components.Button((120, 425), "upload")
-    button_again = components.Button((120, 550), "accept")
-    arrow_right = components.Button((960, 304), "arrow_right")
+    button_save = components.Button((120, 425), "save")
+    button_again = components.Button((120, 550), "again")
+    arrow_right  = components.Button((960, 280), "arrow_right")
+    arrow_left   = components.Button((598, 280), "arrow_left")
     screen = CreateScreenAnswer()
     components.CreateTowerFromTable(Tabla.getTablaInicial())
     print("Answer")
+    count = 0
     while (components.Stage() == 3):
-        print(11)
+        print(count)
+        count += 1
         # --- events --- #
         for event in pygame.event.get():
             if (event.type == pygame.QUIT):
@@ -265,12 +268,14 @@ def runAnswer():
             button_save.event_handler(event)
             button_again.event_handler(event)
             arrow_right.event_handler(event)
+            arrow_left.event_handler(event)
             components.answer_tower.event_handler(event)
         # --- Draws --- #
+        SetBackgroundAnswer()
         button_save.draw(screen)
         button_again.draw(screen)
-        SetBackgroundAnswer()                         # set pattern as background
         arrow_right.draw(screen)
+        arrow_left.draw(screen)
         components.answer_tower.draw(screen)
         pygame.display.flip()
         

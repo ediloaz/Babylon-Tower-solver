@@ -92,8 +92,8 @@ class Button(object):
         
     def LoadImage(self, path):
         image = pygame.image.load(path)
-        new_size = self.GetNewDimensions(image)
-        image = pygame.transform.scale(image, new_size)
+        #new_size = self.GetNewDimensions(image)
+        #image = pygame.transform.scale(image, new_size)
         return image
 
     def DefineImages(self, text):
@@ -123,15 +123,15 @@ class Button(object):
                 }
         elif text == "arrow_left":
             dictionary = {
-                "normal" : self.LoadImage("./images/buttons/button_upload_normal.png"),
-                "hover" : self.LoadImage("./images/buttons/button_upload_hover.png"),
-                "active" : self.LoadImage("./images/buttons/button_upload_active.png")
+                "normal" : self.LoadImage("./images/buttons/arrow_left_normal.png"),
+                "hover" : self.LoadImage("./images/buttons/arrow_left_hover.png"),
+                "active" : self.LoadImage("./images/buttons/arrow_left_active.png")
                 }
         elif text == "arrow_right":
             dictionary = {
-                "normal" : self.LoadImage("./images/buttons/button_upload_normal.png"),
-                "hover" : self.LoadImage("./images/buttons/button_upload_hover.png"),
-                "active" : self.LoadImage("./images/buttons/button_upload_active.png")
+                "normal" : self.LoadImage("./images/buttons/arrow_right_normal.png"),
+                "hover" : self.LoadImage("./images/buttons/arrow_right_hover.png"),
+                "active" : self.LoadImage("./images/buttons/arrow_right_active.png")
                 }
         else:
             print("Sucedió un error del sistema")
@@ -636,7 +636,7 @@ class Tower(object):
             color_back = hex2rgb("#F7E5E4")
             # Instruction
             pygame.draw.rect(screen, color_back, (465,118,676,37), 0)
-            screen.blit(myfont.render(self.getMessage(), False, color_font),(470,121))
+            screen.blit(myfont.render(self.getMessage(), False, color_font),(470,122))
             # Number x:804 and y:456
             color_font = hex2rgb("#2C3E50")
             color_back = hex2rgb("#FFFFFF")
