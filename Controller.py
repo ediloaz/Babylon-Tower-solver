@@ -27,6 +27,7 @@ def SendTablesToLogic(initial_table, goal_table):
     #time.sleep(3)
     print("Después de dormir")
     Logic.RecibirInformacionDesdeInterfaz(initial_table, goal_table)
+    return Logic.GetSolution()
     # Aquí va a durar una eternidad, entonces hay que
     # pintar una interfaz de "cargando" desde la Interfaz
 
@@ -44,3 +45,6 @@ def LongSolution():
 
 def getIdSolucion():
     return Logic.getIdSolucion()
+
+def GetSolutionList():
+    return Logic.GetSolution()

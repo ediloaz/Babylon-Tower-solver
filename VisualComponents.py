@@ -16,8 +16,11 @@ import Controller as Controller
 
 # Global variables/constants
 stage = 0
-INSTRUCTIONS = ["asd","qwe","swqas","fasd","21ew"]
-LENINSTRUCTIONS = Controller.LongSolution()
+# INSTRUCTIONS = ["asd","qwe","swqas","fasd","21ew"]
+# LENINSTRUCTIONS = Controller.LongSolution()
+# Contains all tables of the solution
+SOLUTION = []
+id_SOLUTION = 0
 
 def hex2rgb(hex_code):
     hex_code = hex_code.lstrip('#')
@@ -37,13 +40,62 @@ def Stage():
     return stage
 
 def Stage2():
+    global SOLUTION
     initial_tower.SaveDataToInitialTable()
     goal_tower.SaveDataToGoalTable()
-    Controller.SendTablesToLogic(Tabla.getTablaInicial(), Tabla.getTablaMeta())
+    SOLUTION = Controller.SendTablesToLogic(Tabla.getTablaInicial(), Tabla.getTablaMeta())
 
-def UpdateLenIntructions():
-    global LENINSTRUCTIONS
-    LENINSTRUCTIONS = Controller.LongSolution()
+def NextTableSolution():
+    global SOLUTION, id_SOLUTION
+    id_SOLUTION += 1
+    return (SOLUTION[id_SOLUTION], id_SOLUTION)
+
+def PreviousTableSolution():
+    global SOLUTION, id_SOLUTION
+    id_SOLUTION -= 1
+    return (SOLUTION[id_SOLUTION], id_SOLUTION)
+
+def ActualTableSolution():
+    global SOLUTION, id_SOLUTION
+    return (SOLUTION[id_SOLUTION], id_SOLUTION)
+
+def LenSolution():
+    global SOLUTION
+    return len(SOLUTION)
+
+def getMessage(code):
+    if (code == 0):
+        return "this is the initial table"
+    elif (code == 1):
+        return "turn LEFT the row 1"
+    elif (code == 2):
+        return "turn LEFT the row 2"
+    elif (code == 3):
+        return "turn LEFT the row 3"
+    elif (code == 4):
+        return "turn LEFT the row 4"
+    elif (code == 5):
+        return "turn LEFT the row 5"
+    elif (code == 6):
+        return "turn RIGHT the row 1"
+    elif (code == 7):
+        return "turn RIGHT the row 2"
+    elif (code == 8):
+        return "turn RIGHT the row 3"
+    elif (code == 9):
+        return "turn RIGHT the row 4"
+    elif (code == 10):
+        return "turn RIGHT the row 5"
+    elif (code == 11):
+        return "turn EMPTY SPACE to UP"
+    elif (code == 12):
+        return "turn EMPTY SPACE to DOWN"
+    elif (code == 13):
+        return "this is the goal table"
+    else:
+        print("\n\n\n " + str(code) + "\n\n\n ")
+        return "nothing, nothing :)"
+
     
 ##  ______         _    _                   _____  _                  
 ##  | ___ \       | |  | |                 /  __ \| |                 
@@ -97,8 +149,6 @@ class Button(object):
         
     def LoadImage(self, path):
         image = pygame.image.load(path)
-        #new_size = self.GetNewDimensions(image)
-        #image = pygame.transform.scale(image, new_size)
         return image
 
     def DefineImages(self, text):
@@ -145,9 +195,11 @@ class Button(object):
 
     
     def draw(self, screen):
-        if (self._type_of == "arrow_right" and Controller.getIdSolucion() > (LENINSTRUCTIONS-2)):
+        if (self._type_of == "arrow_right" and (ActualTableSolution()[1]+2 > LenSolution())): # last 7 y showing 8
+        #if (self._type_of == "arrow_right" and Controller.getIdSolucion() > (LENINSTRUCTIONS-2)):
             pass
-        elif (self._type_of == "arrow_left" and Controller.getIdSolucion() < 2):
+        #elif (self._type_of == "arrow_left" and Controller.getIdSolucion() < 2):
+        elif (self._type_of == "arrow_left" and (ActualTableSolution()[1] < 1)):    # first 0 showing 1
             pass
         else:
             screen.blit(self._images[self._index], self._rect)
@@ -178,10 +230,16 @@ class Button(object):
         setStage(2)
 
     def ListToString(self):
-        global INSTRUCTIONS
-        text = ""
-        for i in INSTRUCTIONS:
-            text += str(i)+"\n"
+        global SOLUTION
+        text =  "Starting from the initial table, \n"
+        text += "these are the movements:\n"
+        print(SOLUTION)
+        print(SOLUTION[0])
+        print(SOLUTION[0].getMovimiento())
+        count = 1
+        for i in SOLUTION:
+            text += "  " +str(count) + ". " + str(getMessage(i.getMovimiento())) + ".\n"
+            count += 1
         return text
     
     def SaveFile(self):
@@ -222,19 +280,19 @@ class Button(object):
                     texto = "Ambas tablas están mal configuradas"
                     print(texto)
             elif (self._type_of == "arrow_right"):  # ARROW RIGHT - -
-                if (Controller.getIdSolucion() < (LENINSTRUCTIONS-1)):
-                    tupla    = Controller.GetNextTableSolution()
+                if (ActualTableSolution()[1] < (LenSolution()-1)): #last:7, showing 8
+                    tupla    = NextTableSolution()
                     table    = tupla[0]
                     id_table = tupla[1]
                     SetTableToAnswerTable(table)
-                    SetActualNumberToAnswer(id_table)
+                    SetActualNumberToAnswer(id_table+1)
             elif (self._type_of == "arrow_left"):  # ARROW LEFT - -
-                if (Controller.getIdSolucion() > 1):
-                    tupla    = Controller.GetPreviousTableSolution()
+                if (ActualTableSolution()[1] > 0): # 0 is the first table 
+                    tupla    = PreviousTableSolution()
                     table    = tupla[0]
                     id_table = tupla[1]
                     SetTableToAnswerTable(table)
-                    SetActualNumberToAnswer(id_table)
+                    SetActualNumberToAnswer(id_table+1)
             elif (self._type_of == "save"):         # SAVE - - 
                 self._button_active = True
                 self.SaveFile()
@@ -481,7 +539,7 @@ class Tower(object):
         
     def setMessage(self, code):
         if (code == 0):
-            self.message = "This is the initial table"
+            self.message = "this is the initial table"
         elif (code == 1):
             self.message = "turn LEFT the row 1"
         elif (code == 2):
@@ -506,6 +564,8 @@ class Tower(object):
             self.message = "turn EMPTY SPACE to UP"
         elif (code == 12):
             self.message = "turn EMPTY SPACE to DOWN"
+        elif (code == 13):
+            self.message = "this is the goal table"
         else:
             self.message = "nothing, nothing :)"
     
@@ -683,7 +743,6 @@ class Tower(object):
         if (self.type < 2):
             self.drawNumbers(screen)
         else:
-            global LENINSTRUCTIONS
             myfont = pygame.font.SysFont('Copperplate Gothic', 24)
             color_font = hex2rgb("#2C3E50")
             color_back = hex2rgb("#F7E5E4")
@@ -695,7 +754,7 @@ class Tower(object):
             color_back = hex2rgb("#FFFFFF")
             pygame.draw.rect(screen, color_back, (700,450, 240,70), 0)
             actual_number = str(self.getAnswerNumber())
-            total_number = "of  " + str(LENINSTRUCTIONS)
+            total_number = "of  " + str(LenSolution())
             myfont = pygame.font.SysFont('Open Sans', 24)
             screen.blit(myfont.render(actual_number, False, color_font),(800,443)) # Actual number
             myfont = pygame.font.SysFont('Open Sans', 16)
