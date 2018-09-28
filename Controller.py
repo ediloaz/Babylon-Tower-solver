@@ -13,7 +13,7 @@
 
 
 from copy import deepcopy
-import PrimerProyectoLogicaEDII as Logic
+import Logic as Logic
 import time
 
 # True:  Working in the logic part
@@ -23,10 +23,8 @@ def SendTablesToLogic(initial_table, goal_table):
     print("Tablas recibidas")
     initial_table.PrintTorreDetallada()
     goal_table.PrintTorreDetallada()
-    print("Antes de dormir")
-    #time.sleep(3)
-    print("Después de dormir")
     Logic.RecibirInformacionDesdeInterfaz(initial_table, goal_table)
+    return Logic.GetSolution()
     # Aquí va a durar una eternidad, entonces hay que
     # pintar una interfaz de "cargando" desde la Interfaz
 
@@ -44,3 +42,6 @@ def LongSolution():
 
 def getIdSolucion():
     return Logic.getIdSolucion()
+
+def GetSolutionList():
+    return Logic.GetSolution()

@@ -23,29 +23,34 @@ ID_SOLUCION = 1
 
 # Recibe
 def RecibirInformacionDesdeInterfaz(initial_table, goal_table):
+    global SOLUCION
     ResetLastID()
     Tabla.setTablaInicial(initial_table)
     Tabla.setTablaMeta(goal_table)
     # Aquí llama a main() y main() retorna UNA lista:
     #   1 => Las tablas con la solución
     # lista = main()
-    initial_table.setMovimiento(1)
-    goal_table.setMovimiento(3)
     global SOLUCION
     tabla1 = deepcopy(initial_table)
-    tabla1.setMovimiento(1)
+    tabla1.setMovimiento(5)
     tabla2 = deepcopy(goal_table)
-    tabla2.setMovimiento(2)
+    tabla2.setMovimiento(6)
     tabla3 = deepcopy(initial_table)
-    tabla3.setMovimiento(3)
+    tabla3.setMovimiento(11)
     tabla4 = deepcopy(goal_table)
-    tabla4.setMovimiento(4)
+    tabla4.setMovimiento(12)
     tabla5 = deepcopy(initial_table)
-    tabla5.setMovimiento(5)
+    tabla5.setMovimiento(2)
     tabla6 = deepcopy(goal_table)
-    tabla6.setMovimiento(6)    
+    tabla6.setMovimiento(8)
+    initial_table.setMovimiento(0)
+    goal_table.setMovimiento(13)
     SOLUCION = [initial_table, tabla1, tabla2, tabla3, tabla4, tabla5, tabla6, goal_table]
-    # end -- 
+    # end --
+
+def GetSolution():
+    global SOLUCION
+    return SOLUCION
 
 def EnviarInformacionHaciaInterfaz():
     global SOLUCION

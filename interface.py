@@ -249,12 +249,11 @@ def runAnswer():
     arrow_right  = components.Button((960, 280), "arrow_right")
     arrow_left   = components.Button((598, 280), "arrow_left")
     screen = CreateScreenAnswer()
-    components.CreateTowerFromTable(Tabla.getTablaInicial())
-    components.UpdateLenIntructions() # total of tables
+    answer_table = components.ActualTableSolution()[0]    # 1st table
+    components.CreateTowerFromTable(answer_table)       # Create the tower
     print("Answer")
     count = 0
     while (components.Stage() == 3):
-        print(count)
         count += 1
         # --- events --- #
         for event in pygame.event.get():
@@ -291,9 +290,7 @@ def run():
     components.setStage(0)
     stage = 0
     while stage < 4:
-        print("stageee: ", stage)
         stage = components.Stage()
-        print("stageee desyes: ", stage)
         if (stage == 0):
             runLoading()
         elif (stage == 1):

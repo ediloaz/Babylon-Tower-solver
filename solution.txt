@@ -1,5 +1,7 @@
-asd
-qwe
-swqas
-fasd
-21ew
+Starting from the initial table, 
+these are the movements:
+  1. this is the initial table.
+  2. turn EMPTY SPACE to UP.
+  3. turn EMPTY SPACE to UP.
+  4. turn EMPTY SPACE to UP.
+  5. turn EMPTY SPACE to UP.
