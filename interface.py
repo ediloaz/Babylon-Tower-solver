@@ -133,8 +133,8 @@ def CreateScreenForm():
     screen = SetIcon(screen)
     return screen
 def runForm():
-    button_upload = components.Button((120, 422), "upload")
-    button_accept = components.Button((120, 556), "accept")
+    button_upload = components.Button((120, 425), "upload")
+    button_accept = components.Button((120, 550), "accept")
     screen = CreateScreenForm()
     # clock = pygame.time.Clock()
     running = True
@@ -209,10 +209,9 @@ def runThinking():
                         print("Escape: El jugador va a salir")
                         components.setStage(4)
                 # --- button events --- #
-                #button_accept.event_handler(event)
+                #button_save.event_handler(event)
             # --- Draws --- #
             SetBackgroundThinking()                         # set pattern as background
-            # button_accept.draw(screen)
             pygame.display.flip()
     components.NextStage()
 
@@ -245,6 +244,8 @@ def CreateScreenAnswer():
     screen = SetIcon(screen)
     return screen
 def runAnswer():
+    button_save = components.Button((120, 425), "upload")
+    button_again = components.Button((120, 550), "accept")
     arrow_right = components.Button((960, 304), "arrow_right")
     screen = CreateScreenAnswer()
     components.CreateTowerFromTable(Tabla.getTablaInicial())
@@ -261,9 +262,13 @@ def runAnswer():
                     print("Escape: El jugador va a salir")
                     components.setStage(4)
             # --- button events --- #
+            button_save.event_handler(event)
+            button_again.event_handler(event)
             arrow_right.event_handler(event)
             components.answer_tower.event_handler(event)
         # --- Draws --- #
+        button_save.draw(screen)
+        button_again.draw(screen)
         SetBackgroundAnswer()                         # set pattern as background
         arrow_right.draw(screen)
         components.answer_tower.draw(screen)

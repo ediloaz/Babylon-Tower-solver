@@ -83,7 +83,7 @@ class Button(object):
         return image.get_rect().size[1]
 
     def GetNewDimensions(self, image):
-        height_destiny = 50             # Define the HEIGHT size
+        height_destiny = 45             # Define the HEIGHT size
         width_source = self.GetWidth(image)
         height_source = self.GetHeight(image)
         width_destiny = width_source*height_destiny/height_source
@@ -108,6 +108,18 @@ class Button(object):
                 "normal" : self.LoadImage("./images/buttons/button_upload_normal.png"),
                 "hover" : self.LoadImage("./images/buttons/button_upload_hover.png"),
                 "active" : self.LoadImage("./images/buttons/button_upload_active.png")
+                }
+        elif text == "save":
+            dictionary = {
+                "normal" : self.LoadImage("./images/buttons/button_save_normal.png"),
+                "hover" : self.LoadImage("./images/buttons/button_save_hover.png"),
+                "active" : self.LoadImage("./images/buttons/button_save_active.png")
+                }
+        elif text == "again":
+            dictionary = {
+                "normal" : self.LoadImage("./images/buttons/button_again_normal.png"),
+                "hover" : self.LoadImage("./images/buttons/button_again_hover.png"),
+                "active" : self.LoadImage("./images/buttons/button_again_active.png")
                 }
         elif text == "arrow_left":
             dictionary = {
