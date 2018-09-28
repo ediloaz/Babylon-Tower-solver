@@ -23,8 +23,8 @@ import Controller as controller
 
 
 # Global variables/constants
-SCREEN_SIZE = (1200, 650)
-BG_COLOUR   = (250, 250, 250)
+# SCREEN_SIZE = (1200, 650)
+# BG_COLOUR   = (250, 250, 250)
 screen = 0
 stage = 0
 

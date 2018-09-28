@@ -663,7 +663,7 @@ def ConfigTowerInitial():
     initial_table = Tabla.Tabla(-1, 0)
     initial_table.Llenar("inicial")
     initial_tower.setType(0)
-    initial_tower.setPosition((550,230))
+    initial_tower.setPosition((550,236))
     initial_tower.DefineBalls(initial_table)
 
 def ConfigTowerGoal():
@@ -671,7 +671,7 @@ def ConfigTowerGoal():
     goal_table = Tabla.Tabla(-1, -2)
     goal_table.Llenar("inicial")
     goal_tower.setType(1)
-    goal_tower.setPosition((850,230))
+    goal_tower.setPosition((850,236))
     goal_tower.DefineBalls(goal_table)
 
 def ConfigTowers():
