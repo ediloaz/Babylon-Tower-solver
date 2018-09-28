@@ -13,7 +13,7 @@
 
 
 from copy import deepcopy
-import PrimerProyectoLogica as Logic
+import PrimerProyectoLogicaEDII as Logic
 import time
 
 # True:  Working in the logic part
@@ -35,3 +35,12 @@ def SendSolutionToInterface():
     
 def GetNextTableSolution():
     return Logic.EnviarSiguienteTablaSolucion()
+
+def GetPreviousTableSolution():
+    return Logic.EnviarAnteriorTablaSolucion()
+
+def LongSolution():
+    return Logic.LargoSolucion()
+
+def getIdSolucion():
+    return Logic.getIdSolucion()
