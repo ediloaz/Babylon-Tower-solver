@@ -254,7 +254,6 @@ def runAnswer():
     print("Answer")
     count = 0
     while (components.Stage() == 3):
-        print(count)
         count += 1
         # --- events --- #
         for event in pygame.event.get():
@@ -291,9 +290,7 @@ def run():
     components.setStage(0)
     stage = 0
     while stage < 4:
-        print("stageee: ", stage)
         stage = components.Stage()
-        print("stageee desyes: ", stage)
         if (stage == 0):
             runLoading()
         elif (stage == 1):

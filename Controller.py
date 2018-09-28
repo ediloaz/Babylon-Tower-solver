@@ -13,7 +13,7 @@
 
 
 from copy import deepcopy
-import PrimerProyectoLogicaEDII as Logic
+import Logic as Logic
 import time
 
 # True:  Working in the logic part

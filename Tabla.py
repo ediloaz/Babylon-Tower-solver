@@ -141,7 +141,21 @@ class Tabla(object):
         elif (tipo == "meta"):
             for i in range(Columnas-1):
                 for j in range(Filas):
-                    self.tabla[i+1][j]= celda(self.id, colores[(j+2)%4])  #colores[j]
+                    self.tabla[i+1][j]= celda(self.id, colores[j])  #colores[j]
+            # 1
+            #self.tabla[1][2]= celda(self.id, "Y")  #colores[j]
+            #self.tabla[1][0]= celda(self.id, "B")  #colores[j]
+            #self.tabla[3][3]= celda(self.id, "R")  #colores[j]
+            # 2
+            self.tabla[0][0]= celda(self.id, "X")  #colores[j]
+            self.tabla[0][1]= celda(self.id, "X")  #colores[j]
+            self.tabla[0][2]= celda(self.id, "O")  #colores[j]
+            self.tabla[0][3]= celda(self.id, "X")  #colores[j]
+            # 3
+            #self.tabla[0][0]= celda(self.id, "R")  #colores[j]
+            #self.tabla[4][0]= celda(self.id, "O")  #colores[j]
+            
+                    # self.tabla[i+1][j]= celda(self.id, colores[(j+2)%4])  #colores[j]
         elif (type(tipo) == list):
             lista_de_colores = tipo
             for i in range(5):

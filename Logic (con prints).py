@@ -16,24 +16,28 @@
 import Tabla as Tabla
 from copy import deepcopy
 
+
+
 # Global variables/constants
 LAST_ID = 1
 SOLUCION = []       # AQUÍ VAN LAS TABLAS DE LA SOLUCIÓN
-#lista_camino_optimo = [0] # AQUÍ VAN LOS ID de las TABLAS DE LA SOLUCIÓN
+ID_SOLUCION = 1
+
+
 
 # Recibe
 def RecibirInformacionDesdeInterfaz(initial_table, goal_table):
+    global SOLUCION
+    SOLUTION = []
     ResetLastID()
     Tabla.setTablaInicial(initial_table)
     Tabla.setTablaMeta(goal_table)
-    # Aquí llama a main() y main() retorna UNA lista:
-    #   1 => Las tablas con la solución
-    # lista = main()
-    initial_table.setMovimiento(1)
-    goal_table.setMovimiento(3)
+    Main(initial_table, goal_table)
+    # end --
+
+def GetSolution():
     global SOLUCION
-    SOLUCION = [initial_table, goal_table, initial_table, goal_table, initial_table, goal_table]
-    # end -- 
+    return SOLUCION
 
 def EnviarInformacionHaciaInterfaz():
     global SOLUCION
@@ -41,9 +45,28 @@ def EnviarInformacionHaciaInterfaz():
 
 def EnviarSiguienteTablaSolucion():
     global SOLUCION, ID_SOLUCION
-    tabla = SOLUCION[ID_SOLUCION]
     ID_SOLUCION += 1
-    return tabla
+    tabla = SOLUCION[ID_SOLUCION]
+    return (tabla, ID_SOLUCION)
+
+def EnviarAnteriorTablaSolucion():
+    global SOLUCION, ID_SOLUCION
+    ID_SOLUCION -= 1
+    tabla = SOLUCION[ID_SOLUCION]
+    return (tabla, ID_SOLUCION)
+
+def LargoSolucion():
+    global SOLUCION
+    return len(SOLUCION)
+
+def getIdSolucion():
+    global ID_SOLUCION
+    return ID_SOLUCION
+
+
+
+
+
 
 def CalcularDistancia (iacutal, jactual, idestino, jdestino):
     j = abs(jactual-jdestino) 
@@ -160,24 +183,65 @@ def Finalizado(Tabla):
         return True
     return False
 
-def CaminoOptimo(Tabla):
+def CaminoOptimo(ultima_tabla):
+    global SOLUCION
+    SOLUCION = []
+    print("\n\n\n\n\n\n")
+    print("CAMINO OPTIMO")
+    print("\n\n\n")
+    while (ultima_tabla.getG() > 0):
+        SOLUCION = [ultima_tabla] + SOLUCION
+        ultima_tabla.PrintTorreDetallada()
+        count = 1
+        print("largo:", len(lista_visitados.lista))
+        id_padre = ultima_tabla.getIDpadre()
+        for tabla in lista_visitados.lista:
+            id_actual = tabla.getID()
+            print(str(id_actual) + " = " + str(id_padre))
+            if (id_actual == id_padre):
+                print("- - - - " + str(count) + " - - -")
+                count +=1
+                ultima_tabla = tabla
+                break
+    print("\n\n\n\n\n\n")
+    
+
+def CaminoOptimoOLD(Tabla):
     global lista_camino_optimo #camino de ids de la respuesta
     global SOLUCION
+    print("\n\n\n")
     TablaID= Tabla.getID()
     while ( TablaID != lista_camino_optimo[len(lista_camino_optimo)-1] ):
         lista_camino_optimo =  lista_camino_optimo + [TablaID]
         TablaIDPadre= Tabla.getIDpadre()
+        
         for i in range(lista_visitados.LenLista()):
             Tabla = lista_visitados.GetLista(i)
             if (Tabla.getID()==TablaIDPadre):
                 break
-        SOLUCION+= Tabla.tabla
+        #SOLUCION+= Tabla.tabla # AAAAAA
+        SOLUCION += [Tabla]
+        Tabla.PrintTorreDetallada()
         TablaID= Tabla.getID()
     lista_camino_optimo =  lista_camino_optimo + [TablaID]
-    SOLUCION+= Tabla.tabla
+    SOLUCION += [Tabla]
+    print("\n\n\n")
+    #SOLUCION+= Tabla.tabla  # AAAAAA
+
+
+
+
+
+
+
+    
 # Crea a partir de una tabla las siguientes 12 tablas.
 def Ramificacion(TablaPadre):
     global Encontrado
+
+    #Ya se usó, entonces se saca de la lista de NO-visitadas
+    Visitado(TablaPadre)
+    
     # Hacia izquierda
     print("- - - - - - - - - - - - - - - - - - ")
     print("Con giro a la izquierda")
@@ -257,8 +321,7 @@ def Ramificacion(TablaPadre):
     print("Largo de tabla_NO_visitados: ", Largo(lista_NO_visitados))
 
 
-    #Ya se usó, entonces se saca de la lista de NO-visitadas
-    Visitado(TablaPadre)
+    
 
     
     
@@ -271,7 +334,7 @@ def Ramificacion(TablaPadre):
 
 def A_Estrella():
     global lista_camino_optimo #camino de ids de la respuesta
-    
+    lista_NO_visitados.Agregar(Tabla.TablaInicial)
     tabla_padre = Tabla.TablaInicial
     lista_camino_optimo = [tabla_padre.getID()] + lista_camino_optimo
     while True:
@@ -280,8 +343,23 @@ def A_Estrella():
         tabla_padre = SiguienteNodo()
         if (Encontrado==True):
             break
-        #input("\n\n Pasada completa, ENTER para continuar \n\n")
+        # input("\n\n Pasada completa, ENTER para continuar \n\n")
 
+def PrintSolution():
+    global SOLUCION
+    print("\n\n\n\n")
+    print("Tabla INICIAL")
+    Tabla.TablaInicial.PrintTorreDetallada()
+    print("Tabla META")
+    Tabla.PrintTablaMetaDetallada()
+    print("\n\n Lista de tablas para la SOLUCIÓN:")
+    count = 1
+    for table in SOLUCION:
+        print("Tabla #"+str(count))
+        table.PrintTorreDetallada()
+        count += 1
+    print("\n\n- - - - - - - - - \n\n")
+        
 def main():
     global SOLUCION
     print("Tabla inicial")
@@ -293,13 +371,32 @@ def main():
     Tabla.PrintTablaMetaDetallada()
     print(" - - - - - - - - - - - - ")
     print()
-    SOLUCION= SOLUCION + Tabla.TablaInicial.getTabla()
-    lista_NO_visitados.Agregar(Tabla.TablaInicial)
+    SOLUCION = SOLUCION + [Tabla.TablaInicial]
+
     A_Estrella()     # Algoritmo de A estrellas
+    
     #print (SOLUCION)
     print ("Camino optimo: ",lista_camino_optimo)
+    PrintSolution()
     # end line -    
 
+def Main(tabla_inicial, tabla_meta):
+    global SOLUCION
+    print("Tabla inicial")
+    Tabla.setTablaInicial(tabla_inicial)
+    Tabla.TablaInicial.setG(0)
+    Tabla.TablaInicial.PrintTorreDetallada()
+    print("Tabla meta")
+    Tabla.setTablaMeta(tabla_meta)
+    Tabla.PrintTablaMetaDetallada()
+
+    A_Estrella()     
+    
+    SOLUCION = [Tabla.TablaInicial] + SOLUCION
+
+    print ("Camino optimo: ",lista_camino_optimo)
+    PrintSolution()
+    
 
 
 lista_visitados = Tabla.ListaDeTablas()
@@ -307,7 +404,11 @@ lista_NO_visitados = Tabla.ListaDeTablas()
 lista_camino_optimo = []
 Encontrado = False #variable para saber si termino
 
-main()        # DESCOMENTAR PARA HACER PRUEBAS LOCALES
+Tabla.TablaInicial.Llenar("inicial")
+Tabla.LlenarTablaMeta()
+Main(Tabla.TablaInicial, Tabla.TablaMeta)
+
+# main()        # DESCOMENTAR PARA HACER PRUEBAS LOCALES
     
 
 
