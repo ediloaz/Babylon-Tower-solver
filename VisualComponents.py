@@ -16,6 +16,7 @@ import Controller as Controller
 
 # Global variables/constants
 stage = 0
+INSTRUCTIONS = ["asd","qwe","swqas","fasd","21ew"]
 
 def hex2rgb(hex_code):
     hex_code = hex_code.lstrip('#')
@@ -166,7 +167,25 @@ class Button(object):
 
     def Accept(self):
         setStage(2)
-        
+
+    def ListToString(self):
+        global INSTRUCTIONS
+        text = ""
+        for i in INSTRUCTIONS:
+            text += str(i)+"\n"
+        return text
+    
+    def SaveFile(self):
+        root = tk.Tk()
+        root.withdraw()
+        f = filedialog.asksaveasfile(mode='w', defaultextension=".txt")
+        print(33,f)
+        if f is None: # asksaveasfile return `None` if dialog closed with "cancel".
+            return
+        text = self.ListToString()
+        f.write(text)
+        f.close() # `()` was missing.
+        root.destroy()
         
     def event_handler(self, event):
         # Clicked
@@ -196,6 +215,13 @@ class Button(object):
             elif (self._type_of == "arrow_right"):
                 table = Controller.GetNextTableSolution()
                 SetTableToAnswerTable(table)
+            elif (self._type_of == "save"):
+                self._button_active = True
+                self.SaveFile()
+                self._button_active = False
+            elif (self._type_of == "again"):
+                setStage(0)
+            
                 
         # Hover
         elif self._rect.collidepoint(pygame.mouse.get_pos()):
