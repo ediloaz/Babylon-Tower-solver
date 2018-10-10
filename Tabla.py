@@ -147,13 +147,16 @@ class Tabla(object):
             #self.tabla[1][0]= celda(self.id, "B")  #colores[j]
             #self.tabla[3][3]= celda(self.id, "R")  #colores[j]
             # 2
-            self.tabla[0][0]= celda(self.id, "X")  #colores[j]
-            self.tabla[0][1]= celda(self.id, "X")  #colores[j]
-            self.tabla[0][2]= celda(self.id, "O")  #colores[j]
-            self.tabla[0][3]= celda(self.id, "X")  #colores[j]
+            #self.tabla[0][0]= celda(self.id, "X")  #colores[j]
+            #self.tabla[0][1]= celda(self.id, "X")  #colores[j]
+            #self.tabla[0][2]= celda(self.id, "O")  #colores[j]
+            #self.tabla[0][3]= celda(self.id, "X")  #colores[j]
             # 3
             #self.tabla[0][0]= celda(self.id, "R")  #colores[j]
             #self.tabla[4][0]= celda(self.id, "O")  #colores[j]
+            # 4
+            self.tabla[1][0]= celda(self.id, "G")  #colores[j]
+            self.tabla[1][1]= celda(self.id, "R")  #colores[j]
             
                     # self.tabla[i+1][j]= celda(self.id, colores[(j+2)%4])  #colores[j]
         elif (type(tipo) == list):
@@ -219,6 +222,8 @@ class Tabla(object):
 
     def RotarElOArriba(self, PosicionI, PosicionJ):
         if (PosicionI == 0 ):
+            return False
+        elif self.tabla[PosicionI-1][PosicionJ].getColor() == "X":
             return False
         else:
             color = self.tabla[PosicionI][PosicionJ]

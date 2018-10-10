@@ -27,11 +27,16 @@ ID_SOLUCION = 1
 
 # Recibe
 def RecibirInformacionDesdeInterfaz(initial_table, goal_table):
-    global SOLUCION
+    global SOLUCION, ID_SOLUCION, lista_camino_optimo, lista_visitados, lista_NO_visitados, Encontrado
+    lista_visitados = Tabla.ListaDeTablas()
+    lista_NO_visitados = Tabla.ListaDeTablas()
+    ID_SOLUCION = 1
     SOLUTION = []
+    lista_camino_optimo = []
     ResetLastID()
-    Tabla.setTablaInicial(initial_table)
-    Tabla.setTablaMeta(goal_table)
+    Encontrado = False
+    # Tabla.setTablaInicial(initial_table)
+    # Tabla.setTablaMeta(goal_table)
     Main(initial_table, goal_table)
     # end --
 
@@ -116,8 +121,6 @@ def Visitado(Tabla):
 def SiguienteNodo():
     # Ahorita solo coge el último
     TablaMenorPeso = lista_NO_visitados.TablaMenorPeso()
-    print("\nTabla escogida como la de menor PESO:")
-    TablaMenorPeso.PrintTorreDetallada()
     # Visitado(TablaMenorPeso)      # Este visitado se hace al terminar la función "Ramificacion"
     return TablaMenorPeso
 
@@ -193,43 +196,17 @@ def CaminoOptimo(ultima_tabla):
         SOLUCION = [ultima_tabla] + SOLUCION
         ultima_tabla.PrintTorreDetallada()
         count = 1
-        print("largo:", len(lista_visitados.lista))
         id_padre = ultima_tabla.getIDpadre()
         for tabla in lista_visitados.lista:
             id_actual = tabla.getID()
-            print(str(id_actual) + " = " + str(id_padre))
+            # print(str(id_actual) + " = " + str(id_padre))
             if (id_actual == id_padre):
-                print("- - - - " + str(count) + " - - -")
+                # print("- - - - " + str(count) + " - - -")
                 count +=1
                 ultima_tabla = tabla
                 break
     print("\n\n\n\n\n\n")
     
-
-def CaminoOptimoOLD(Tabla):
-    global lista_camino_optimo #camino de ids de la respuesta
-    global SOLUCION
-    print("\n\n\n")
-    TablaID= Tabla.getID()
-    while ( TablaID != lista_camino_optimo[len(lista_camino_optimo)-1] ):
-        lista_camino_optimo =  lista_camino_optimo + [TablaID]
-        TablaIDPadre= Tabla.getIDpadre()
-        
-        for i in range(lista_visitados.LenLista()):
-            Tabla = lista_visitados.GetLista(i)
-            if (Tabla.getID()==TablaIDPadre):
-                break
-        #SOLUCION+= Tabla.tabla # AAAAAA
-        SOLUCION += [Tabla]
-        Tabla.PrintTorreDetallada()
-        TablaID= Tabla.getID()
-    lista_camino_optimo =  lista_camino_optimo + [TablaID]
-    SOLUCION += [Tabla]
-    print("\n\n\n")
-    #SOLUCION+= Tabla.tabla  # AAAAAA
-
-
-
 
     
 # Crea a partir de una tabla las siguientes 12 tablas.
@@ -240,82 +217,56 @@ def Ramificacion(TablaPadre):
     Visitado(TablaPadre)
     
     # Hacia izquierda
-    print("- - - - - - - - - - - - - - - - - - ")
-    print("Con giro a la izquierda")
     for i in range(5):
         nueva_tabla = NuevaTablaIzquierda(TablaPadre, i)
         if (nueva_tabla == False):
-            print("Se encontro una igual. Se omitió la tabla, se cierra el nodo" )
+            pass
         else:
             nueva_tabla.setMovimiento(1+i)  # Va del 1 al 5
             Peso(nueva_tabla)           # Asigna el peso a la tabla
-            print("Nueva tabla: ", i+1)
-            print('\n')
-            nueva_tabla.PrintTorreDetallada()
             if (Finalizado(nueva_tabla)):
                 #CaminoOptimo(nueva_tabla)
                 CaminoOptimo(nueva_tabla)
                 Encontrado=True
             
-    print("Largo de tabla_visitados: ", Largo(lista_visitados))
-    print("Largo de tabla_NO_visitados: ", Largo(lista_NO_visitados))
-    
-            
     # Hacia derecha
-    print("- - - - - - - - - - - - - - - - - - ")
-    print("Con giro a la derecha")
     for i in range(5):
         nueva_tabla = NuevaTablaDerecha(TablaPadre, i)
         if (nueva_tabla == False):
-            print("Se encontro una igual o no es posible hacer el movimiento. Se omitió la tabla, se cierra el nodo" )
+            pass
         else:
             nueva_tabla.setMovimiento(6+i) # Va del 6 al 10
             Peso(nueva_tabla)       # Asigna el peso a la tabla
-            print("Nueva tabla: ", i+6)
-            nueva_tabla.PrintTorreDetallada()
             if (Finalizado(nueva_tabla)):
                 CaminoOptimo(nueva_tabla)
                 Encontrado=True
-    print("Largo de tabla_visitados: ", Largo(lista_visitados))
-    print("Largo de tabla_NO_visitados: ", Largo(lista_NO_visitados))
 
 
     # Hacia Arriba
-    print("- - - - - - - - - - - - - - - - - - ")
-    print("Con giro hacia arriba")
     nueva_tabla = NuevaTablaArriba(TablaPadre, i)
     if (nueva_tabla == False):
-        print("Se encontro una igual o no es posible hacer el movimiento. Se omitió la tabla, se cierra el nodo" )
+        pass
     else:
         nueva_tabla.setMovimiento(11)   # 11: Espacio en blanco hacia arriba
         Peso(nueva_tabla)           # Asigna el peso a la tabla
-        print("Nueva tabla: ", i+1)
-        print('\n')
-        nueva_tabla.PrintTorreDetallada()
         if (Finalizado(nueva_tabla)):
             CaminoOptimo(nueva_tabla)
             Encontrado=True
-    print("Largo de tabla_visitados: ", Largo(lista_visitados))
-    print("Largo de tabla_NO_visitados: ", Largo(lista_NO_visitados))
 
 
     # Hacia Abajo
-    print("- - - - - - - - - - - - - - - - - - ")
-    print("Con giro hacia abajo")
     nueva_tabla = NuevaTablaAbajo(TablaPadre, i)
     if (nueva_tabla == False):
-        print("Se encontro una igual. Se omitió la tabla, se cierra el nodo" )
+        pass
     else:
         nueva_tabla.setMovimiento(12) # 12: Espacio en blanco hacia abajo
         Peso(nueva_tabla)           # Asigna el peso a la tabla
-        print("Nueva tabla: ", i+1)
-        print('\n')
-        nueva_tabla.PrintTorreDetallada()
         if (Finalizado(nueva_tabla)):
                 CaminoOptimo(nueva_tabla)
                 Encontrado=True
-    print("Largo de tabla_visitados: ", Largo(lista_visitados))
-    print("Largo de tabla_NO_visitados: ", Largo(lista_NO_visitados))
+
+    # print("Largo de tabla_visitados: ", Largo(lista_visitados))
+    # print("Largo de tabla_NO_visitados: ", Largo(lista_NO_visitados))
 
 
     
@@ -330,12 +281,14 @@ def Ramificacion(TablaPadre):
 # siguiente TABLAPADRE a partir de la lista_NO_visitados
 
 def A_Estrella():
-    global lista_camino_optimo #camino de ids de la respuesta
+    global lista_camino_optimo, Encontrado #camino de ids de la respuesta
     lista_NO_visitados.Agregar(Tabla.TablaInicial)
     tabla_padre = Tabla.TablaInicial
     lista_camino_optimo = [tabla_padre.getID()] + lista_camino_optimo
+    c = 0
     while True:
-        print("Pasada por el While True")
+        c += 1
+        print("+ " + str(c))
         Ramificacion(tabla_padre)
         tabla_padre = SiguienteNodo()
         if (Encontrado==True):
@@ -356,27 +309,7 @@ def PrintSolution():
         table.PrintTorreDetallada()
         count += 1
     print("\n\n- - - - - - - - - \n\n")
-        
-def main():
-    global SOLUCION
-    print("Tabla inicial")
-    Tabla.TablaInicial.Llenar("inicial")
-    Tabla.TablaInicial.setG(0)
-    Tabla.TablaInicial.PrintTorreDetallada()
-    print("Tabla meta")
-    Tabla.LlenarTablaMeta()
-    Tabla.PrintTablaMetaDetallada()
-    print(" - - - - - - - - - - - - ")
-    print()
-    SOLUCION = SOLUCION + [Tabla.TablaInicial]
-
-    A_Estrella()     # Algoritmo de A estrellas
-    
-    #print (SOLUCION)
-    print ("Camino optimo: ",lista_camino_optimo)
-    PrintSolution()
-    # end line -    
-
+  
 def Main(tabla_inicial, tabla_meta):
     global SOLUCION
     print("Tabla inicial")
@@ -387,8 +320,9 @@ def Main(tabla_inicial, tabla_meta):
     Tabla.setTablaMeta(tabla_meta)
     Tabla.PrintTablaMetaDetallada()
 
+    print("Befoe A estrella")
     A_Estrella()     
-    
+    print("After A estrella")
     SOLUCION = [Tabla.TablaInicial] + SOLUCION
 
     print ("Camino optimo: ",lista_camino_optimo)
@@ -403,7 +337,7 @@ Encontrado = False #variable para saber si termino
 
 Tabla.TablaInicial.Llenar("inicial")
 Tabla.LlenarTablaMeta()
-Main(Tabla.TablaInicial, Tabla.TablaMeta)
+# Main(Tabla.TablaInicial, Tabla.TablaMeta)
 
 # main()        # DESCOMENTAR PARA HACER PRUEBAS LOCALES
     
