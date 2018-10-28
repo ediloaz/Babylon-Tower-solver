@@ -74,14 +74,11 @@ class Tabla(object):
         self.id = idnuevo
         self.idpadre = idpadre
         self.peso = 0
-        self.tabla = []
+        self.llave = "X"*20
         self.g = 0
         self.movimiento = 0
         
         
-        for i in range(Columnas):
-            a = [celda(self.id, 'X')] * Filas
-            self.tabla.append(a)
 
     def setMovimiento(self, movimiento):
         self.movimiento = movimiento
@@ -100,13 +97,19 @@ class Tabla(object):
     
     def setIDpadre(self, IDpadre):
         self.idpadre = IDpadre
-    
+
+    def getLlave(self):
+        return self.llave
+
+    def setLlave(self, nueva_llave):
+        self.llave = nueva_llave
+    """    
     def getTabla(self):
         return self.tabla
     
     def setTabla(self, matriz):
         self.tabla = matriz
-
+    """
     def getG(self):
         return self.g
 
@@ -116,7 +119,7 @@ class Tabla(object):
     def getPeso(self):
         return self.peso
 
-        
+    """
     def EsLaTablaMeta(self):
         texto = ""
         texto1 = ""
@@ -129,7 +132,14 @@ class Tabla(object):
             return True
         else:
             return False
-    
+    """
+    def EsLaTablaMeta(self):
+        print("\n Esta fue la comparacion de la tabla meta: \n",self.llave,"\n",TablaMeta.llave,"\n")
+        if (self.llave == TablaMeta.llave):
+            return True
+        else:
+            return False
+    """
     def Llenar(self, tipo):
         #Se llena de datos
         self.tabla[0][0]= celda(self.id, 'O')
@@ -155,8 +165,11 @@ class Tabla(object):
             #self.tabla[0][0]= celda(self.id, "R")  #colores[j]
             #self.tabla[4][0]= celda(self.id, "O")  #colores[j]
             # 4
-            self.tabla[1][0]= celda(self.id, "G")  #colores[j]
-            self.tabla[1][1]= celda(self.id, "R")  #colores[j]
+            #self.tabla[1][0]= celda(self.id, "G")  #colores[j]
+            #self.tabla[1][1]= celda(self.id, "R")  #colores[j]
+            # 5
+            self.tabla[1][0]= celda(self.id, "B")  #colores[j]
+            self.tabla[1][2]= celda(self.id, "R")  #colores[j]
             
                     # self.tabla[i+1][j]= celda(self.id, colores[(j+2)%4])  #colores[j]
         elif (type(tipo) == list):
@@ -164,8 +177,31 @@ class Tabla(object):
             for i in range(5):
                 for j in range(4):
                     self.tabla[i][j]= celda(self.id, lista_de_colores[i*4+j].upper())  #colores[j]
-
+    """
+    def Llenar(self,tipo):
+        if (tipo == "inicial"):
+            self.llave  = "OXXX"
+            self.llave += "RGBY"
+            self.llave += "RGBY"
+            self.llave += "RGBY"
+            self.llave += "RGBY"
+        elif (tipo == "meta"):
+            self.llave  = "OXXX"
+            #self.llave += "RGBY"
+            self.llave += "GRBY"
+            self.llave += "RGBY"
+            self.llave += "RGBY"
+            self.llave += "RGBY"
+        else:
+            self.llave  = "XOXX"
+            self.llave += "RGBY"
+            self.llave += "RGBY"
+            self.llave += "RGBY"
+            self.llave += "RGBY"
+            
+    
     # Check the format of Initial table
+    """
     def CorrectFormat(self):
         r_color = 0         # it must be 4
         g_color = 0         # it must be 4
@@ -193,33 +229,94 @@ class Tabla(object):
         else:
             tupla = (False, r_color, g_color, b_color, y_color, x_color, o_color)
             return tupla
+    """
+    def CorrectFormat(self):
+        tupla = (False, 
+                self.llave.count("R"),
+                self.llave.count("G"),
+                self.llave.count("B"),
+                self.llave.count("Y"),
+                self.llave.count("X"),
+                self.llave.count("O"))
+        if (tupla[1] == 4 and
+            tupla[2] == 4 and
+            tupla[3] == 4 and
+            tupla[4] == 4 and
+            tupla[5] == 3 and
+            tupla[6] == 1):
+            tupla[0] = True
+            return tupla
+        else:
+            return tupla
+
+    # Conversiones entre posiciones de FILA y STRING
+    def NumeroFilaToRangoString(self, numero):
+        if (numero == 0):
+            return (0,3)
+        elif (numero == 1):
+            return (4,7)
+        elif (numero == 2):
+            return (8,11)
+        elif (numero == 3):
+            return (12,15)
+        elif (numero == 4):
+            return (16,19)
+        else:
+            print("ERROR EN NumeroFilaToRangoString()")
+            exit()
+    def PosicionStringToPosicionMatriz(self, numero):
+        i = 0
+        while n>3:
+            i += 1
+            n  = n-4
+        j = n
+        return (i,j)
+    def (self, i, j):
+        return (i*4+j)
     
+     
     #Rotar Filas
     #solo se gira un movimiento en las filas
+    """
     def rotate(self,l, n):
         return l[n:] + l[:n]
-
+    """
+    def rotate(self,string, n):
+        return string[n:] + string[:n]
+    """
     def GirarFilaIzquierda(self,NumeroFilaGirar):
         lista = self.tabla[NumeroFilaGirar]
         self.tabla[NumeroFilaGirar] = self.rotate(lista, 1)
-        
+    """
+    def GirarFilaIzquierda(self, numeroFilaGirar):
+        rango = NumeroFilaToRangoString(numeroFilaGirar)
+        fila = self.llave[rango[0]:(rango[1]+1)]
+        fila = self.rotate(fila, 1)
+        self.llave[rango[0]:(rango[1]+1)] = fila
 
+    """
     def GirarFilaDerecha(self , NumeroFilaGirar):
         lista = self.tabla[NumeroFilaGirar]
         self.tabla[NumeroFilaGirar] = self.rotate(lista, 3)
-
+    """
+    def GirarFilaDerecha(self, numeroFilaGirar):
+        rango = NumeroFilaToRangoString(numeroFilaGirar)
+        fila = self.llave[rango[0]:(rango[1]+1)]
+        fila = self.rotate(fila, 3)
+        self.llave[rango[0]:(rango[1]+1)] = fila
     
     
-        
     #RotarColumnas
-            
+    """
     def PosO(self):
         for i in range(Columnas):
             for j in range(Filas):
                 if (self.tabla[i][j].getColor()=='O'):
                     return (i,j)
-            
-
+    """
+    def PosicionO(self):
+        return self.llave.find("O")
+    """
     def RotarElOArriba(self, PosicionI, PosicionJ):
         if (PosicionI == 0 ):
             return False
@@ -230,7 +327,6 @@ class Tabla(object):
             self.tabla[PosicionI][PosicionJ] = self.tabla[PosicionI-1][PosicionJ]
             self.tabla[PosicionI-1][PosicionJ] = color
             return True
-
     def RotarElOAbajo(self, PosicionI, PosicionJ):
         if (PosicionI == Columnas-1):
             return False
@@ -239,7 +335,25 @@ class Tabla(object):
             self.tabla[PosicionI][PosicionJ] = self.tabla[PosicionI+1][PosicionJ]
             self.tabla[PosicionI+1][PosicionJ] = color
             return True
-    
+    """
+    def RotarElOArriba(self):
+        posO = self.PosicionO()
+        (i,j) = PosicionStringToPosicionMatriz(posO)
+        if (i == 0) or self.llave[posO%4]=="X":
+            return False
+        pos_destino = PosicionMatrizToPosicionString(i-1,j)
+        self.llave[posO] = self.llave[pos_destino]
+        self.llave[pos_destino] = "O"
+
+    def RotarElOAbajo(self):
+        posO = self.PosicionO()
+        (i,j) = PosicionStringToPosicionMatriz(posO)
+        if (i == 0) or self.llave[posO%4]=="X":
+            return False
+        pos_destino = PosicionMatrizToPosicionString(i+1,j)
+        self.llave[posO] = self.llave[pos_destino]
+        self.llave[pos_destino] = "O"
+
     
     def CalcularDistancia (self, iacutal, jactual, idestino, jdestino):
         j = abs(jactual-jdestino) 

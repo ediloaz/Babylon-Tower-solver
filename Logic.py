@@ -13,16 +13,18 @@
 
 #
 # Área de imports
+import sys, os
 import Tabla as Tabla
 from copy import deepcopy
-
+import time
 
 
 # Global variables/constants
 LAST_ID = 1
 SOLUCION = []       # AQUÍ VAN LAS TABLAS DE LA SOLUCIÓN
 ID_SOLUCION = 1
-
+_original_stdout = 0
+TIME = [0,0,0]  # (duration, start, final)
 
 
 # Recibe
@@ -69,6 +71,21 @@ def getIdSolucion():
     return ID_SOLUCION
 
 
+
+# Functions of System
+# Disable
+def blockPrint():
+    global _original_stdout
+    print("Print bloqueado!")
+    _original_stdout = sys.stdout
+    sys.stdout = open(os.devnull, 'w')
+
+# Restore
+def enablePrint():
+    global _original_stdout
+    sys.stdout.close()
+    sys.stdout = _original_stdout
+    print("Print habilitado!")
 
 
 
@@ -319,7 +336,7 @@ def A_Estrella():
         if (Encontrado==True):
             break
         # PRINT PRUEBA
-        input("\n\n Pasada completa, ENTER para continuar \n\n")
+        # input("\n\n Pasada completa, ENTER para continuar \n\n")
 
 def PrintSolution():
     global SOLUCION
@@ -334,6 +351,7 @@ def PrintSolution():
         print("Tabla #"+str(count))
         table.PrintTorreDetallada()
         count += 1
+        print()
     print("\n\n- - - - - - - - - \n\n")
   
 def Main(tabla_inicial, tabla_meta):
@@ -352,10 +370,26 @@ def Main(tabla_inicial, tabla_meta):
     SOLUCION = [Tabla.TablaInicial] + SOLUCION
 
     print ("Camino optimo: ",lista_camino_optimo)
+
+    enablePrint()
     PrintSolution()
     
 
 
+def StartTime():
+    global TIME
+    TIME[1] = time.time()
+
+def EndTime():
+    global TIME
+    TIME[2] = time.time()
+    TIME[0] = TIME[2]-TIME[1]
+    print()
+    print("TIEMPO DE SOLUCIÓN: %s segundos " % str(round(TIME[0],2)))
+    print()
+ 
+StartTime()
+blockPrint()
 lista_visitados = Tabla.ListaDeTablas()
 lista_NO_visitados = Tabla.ListaDeTablas()
 lista_camino_optimo = []
@@ -363,10 +397,11 @@ Encontrado = False #variable para saber si termino
 
 Tabla.TablaInicial.Llenar("inicial")
 Tabla.LlenarTablaMeta()
+StartTime()
 Main(Tabla.TablaInicial, Tabla.TablaMeta)
+EndTime()
 
 # main()        # DESCOMENTAR PARA HACER PRUEBAS LOCALES
-    
 
 
 
