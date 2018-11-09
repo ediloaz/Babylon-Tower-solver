@@ -271,7 +271,7 @@ class Tabla(object):
             n  = n-4
         j = n
         return (i,j)
-    def (self, i, j):
+    def AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA(self, i, j):
         return (i*4+j)
     
      
@@ -339,8 +339,8 @@ class Tabla(object):
     def RotarElOArriba(self):
         posO = self.PosicionO()
         (i,j) = PosicionStringToPosicionMatriz(posO)
-        if (i == 0) or self.llave[posO%4]=="X":
-            return False
+        if (i == 0) or self.llave[posO%4]=="X":         # Checks
+            return False                                # Checks
         pos_destino = PosicionMatrizToPosicionString(i-1,j)
         self.llave[posO] = self.llave[pos_destino]
         self.llave[pos_destino] = "O"
@@ -348,12 +348,30 @@ class Tabla(object):
     def RotarElOAbajo(self):
         posO = self.PosicionO()
         (i,j) = PosicionStringToPosicionMatriz(posO)
-        if (i == 0) or self.llave[posO%4]=="X":
-            return False
+        if not (i < 4):                                 # Checks
+            return False                                # Checks
         pos_destino = PosicionMatrizToPosicionString(i+1,j)
         self.llave[posO] = self.llave[pos_destino]
         self.llave[pos_destino] = "O"
 
+    def PesoPorCelda(self):
+        pass
+     
+    def Peso(self):
+        suma = 0
+        g = self.getG()
+        for pos_color in range(len(self.llave)):
+            color_meta = TablaMeta.llave[pos_color]
+            peso_celda = 0
+            aumentador
+            while True:
+                if (self.llave[pos_color] == color_meta):
+                    break
+                
+                pos_color = True
+                peso_celda += 1
+                self.llave[pos_color] == color_meta
+            
     
     def CalcularDistancia (self, iacutal, jactual, idestino, jdestino):
         j = abs(jactual-jdestino) 
@@ -382,7 +400,7 @@ class Tabla(object):
                     
         return (iFinal,jFinal)
 
-        
+    """
     def PrintTorre(self):
         for i in range(5):
             texto = ""
@@ -390,7 +408,14 @@ class Tabla(object):
                 texto += str(self.tabla[i][j].getColor()) + " "
             print(texto)
         print()
-
+    """
+    def PrintTorre(self):
+        print(self.llave[0:3])
+        print(self.llave[4:7])
+        print(self.llave[8:11])
+        print(self.llave[12:15])
+        print(self.llave[16:19])
+    """
     def PrintTorreDetallada(self):
         print("ID: " + str(self.id) )
         print("Padre: " + str(self.idpadre) )
@@ -401,12 +426,18 @@ class Tabla(object):
                 texto += str(self.tabla[i][j].getColor()) + " "
             print(texto + "|")
         print("Peso: " + str(self.peso) )
-        
-    
-        
+    """
+    def PrintTorreDetallada(self):
+        print("ID: " + str(self.id) )
+        print("Padre: " + str(self.idpadre) )
+        print("Valor g: " + str(self.g) )
+        self.PrintTorre()
+        print("Peso: " + str(self.peso) )
+
+    """
     def ObtenerColor(self,i,j):
        return self.tabla[i][j].getColor()
-        
+    """ 
         
     def GuardarPeso(self, peso):
         self.peso = float("{0:.2f}".format(peso))

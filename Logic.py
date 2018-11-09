@@ -99,7 +99,7 @@ def CalcularDistancia (iacutal, jactual, idestino, jdestino):
 
 # Antes llamada "Algoritmo"
 def Peso(tabla):
-    Sum = 0
+    Sum = 0                     
     g = tabla.getG()            # Guarda el g (acumulado) de la tabla
     for i in range(5):          # Filas
         for j in range(4):      # Columnas
