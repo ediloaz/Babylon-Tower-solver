@@ -354,8 +354,7 @@ class Tabla(object):
         self.llave[posO] = self.llave[pos_destino]
         self.llave[pos_destino] = "O"
 
-    def PesoPorCelda(self):
-        pass
+    
      
     def Peso(self):
         suma = 0
@@ -380,12 +379,26 @@ class Tabla(object):
         D = abs(iacutal-idestino) + j
         return D
 
-
-    def CalcularIJdelColorMasCercano(self, i1,j1):
+    def CalcularIJmasCercano(self, i_actual, j_actual):
+        pos_actual = self.PosicionMatrizToPosicionString(i_actual, j_actual)
+        color_actual = TablaMeta.llave[pos_actual]
+        lista = list(tabla.llave)
+        indices = [i for i, x in enumerate(lista) if x == color_actual]
+        ijs = self.IndicesToIJ(indices)
+        
+    def IndicesToIJ(self, indices):
+        ijs = []
+        for i in indices:
+            ijs += [(PosicionStringToPosicionMatriz(i))]
+        return ijs
+            
+        
+    """
+    def CalcularIJdelColorM         asCercano(self, i1,j1):
         
         ColorBuscando = self.tabla[i1][j1].getColor()
         Distancia = 99
-        iFinal = 0
+        iF      inal = 0
         jFinal = 0
         for i in range(Columnas):
             for j in range(Filas):
@@ -399,7 +412,7 @@ class Tabla(object):
                         jFinal = j
                     
         return (iFinal,jFinal)
-
+    """
     """
     def PrintTorre(self):
         for i in range(5):
