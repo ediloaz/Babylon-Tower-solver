@@ -97,6 +97,7 @@ def CalcularDistancia (iacutal, jactual, idestino, jdestino):
     D = abs(iacutal-idestino) + j
     return D 
 
+"""
 # Antes llamada "Algoritmo"
 def Peso(tabla):
     Sum = 0                     
@@ -110,7 +111,7 @@ def Peso(tabla):
             Sum += DistanciaCalculada
     peso = (g/20 + (1/20) * Sum)
     tabla.GuardarPeso(peso)
-    
+"""
 
 def AumentarLastID():
     global LAST_ID
