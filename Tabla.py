@@ -51,7 +51,7 @@ class ListaDeTablas(object):
                 tabla_escogida = tabla
         return tabla_escogida
             
-    
+    """
     def CompararTabla(self, matriz1, matriz2):
         for i in range(5):
             for j in range(4):
@@ -68,7 +68,13 @@ class ListaDeTablas(object):
             if self.CompararTabla(tabla_de_lista.tabla,Tabla.tabla):
                 return True
         return False
-
+    """
+    def Comparar(self, tabla):
+        for tabla_de_lista in self.lista:
+            if tabla_de_lista.llave == tabla.llave:
+                return True
+        return False
+        
 class Tabla(object):
     def __init__(self , idpadre, idnuevo ):
         self.id = idnuevo
@@ -355,7 +361,7 @@ class Tabla(object):
         self.llave[pos_destino] = "O"
 
     
-     
+    """
     def Peso(self):
         suma = 0
         g = self.getG()
@@ -370,6 +376,12 @@ class Tabla(object):
                 pos_color = True
                 peso_celda += 1
                 self.llave[pos_color] == color_meta
+    """
+    def Peso(self):
+        suma = self.CalcularSumaDeDistancias()
+        g = self.getG()
+        peso = (g/20 + (1/20) * suma)
+        self.GuardarPeso(peso)
             
     """
     def CalcularDistancia (self, iacutal, jactual, idestino, jdestino):
@@ -379,8 +391,14 @@ class Tabla(object):
         D = abs(iacutal-idestino) + j
         return D
     """
+    def CalcularSumaDeDistancias(self):
+        suma = 0
+        # Calcula la distancia para todas las posiciones
+        for i in range(20):     
+            suma += self.CalcularMayorCercania(self.PosicionStringToPosicionMatriz(i))
+        return suma
     
-    def CalcularMayorCercania(self, i_actual, j_actual):
+    def CalcularMayorCercania(self, (i_actual, j_actual)):
         pos_actual = self.PosicionMatrizToPosicionString(i_actual, j_actual)
         color_meta = TablaMeta.llave[pos_actual]
         
@@ -391,7 +409,7 @@ class Tabla(object):
 
         # Calcula el IJ más cercano, y su valor de cercanía
         ij_mas_cercano = (-1,-1)
-        mayor_cercania = 9
+        mayor_cercania = 90
         for ij in ijs:
             cercania = abs(i_actual - ij[0]) + abs (j_actual - ij[1])
             if cercania < mayor_cercania:
@@ -406,7 +424,7 @@ class Tabla(object):
     def IndicesToIJ(self, indices):
         ijs = []
         for i in indices:
-            ijs += [(PosicionStringToPosicionMatriz(i))]
+            ijs += [(self.PosicionStringToPosicionMatriz(i))]
         return ijs
             
         
