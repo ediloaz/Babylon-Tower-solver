@@ -371,20 +371,37 @@ class Tabla(object):
                 peso_celda += 1
                 self.llave[pos_color] == color_meta
             
-    
+    """
     def CalcularDistancia (self, iacutal, jactual, idestino, jdestino):
         j = abs(jactual-jdestino) 
         if (j==3):
             j=1
         D = abs(iacutal-idestino) + j
         return D
-
-    def CalcularIJmasCercano(self, i_actual, j_actual):
+    """
+    
+    def CalcularMayorCercania(self, i_actual, j_actual):
         pos_actual = self.PosicionMatrizToPosicionString(i_actual, j_actual)
-        color_actual = TablaMeta.llave[pos_actual]
+        color_meta = TablaMeta.llave[pos_actual]
+        
+        # Posiciones donde están los demás colores en la TABLA ACTUAL
         lista = list(tabla.llave)
         indices = [i for i, x in enumerate(lista) if x == color_actual]
         ijs = self.IndicesToIJ(indices)
+
+        # Calcula el IJ más cercano, y su valor de cercanía
+        ij_mas_cercano = (-1,-1)
+        mayor_cercania = 9
+        for ij in ijs:
+            cercania = abs(i_actual - ij[0]) + abs (j_actual - ij[1])
+            if cercania < mayor_cercania:
+                mayor_cercania = cercania
+                print("EVAL: %i es más cercano que %i" % cercania, mayor_cercania)
+                ij_mas_cercano = ij
+        
+        # IJ más cercano: ij_mas_cercano
+        return mayor_cercania
+                
         
     def IndicesToIJ(self, indices):
         ijs = []
