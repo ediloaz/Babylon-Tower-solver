@@ -612,7 +612,7 @@ class Tower(object):
             for j in range(4):
                 #Tabla.PrintTorreDetallada()
                 #print(i,j)
-                color = Tabla.tabla[i][j].getColor()
+                color = Tabla.getColor(i,j)
                 new_ball = Ball()
                 new_ball.setColor(color)
                 x_pos = self.getXStart() + (j*width) # i starts at 0
@@ -820,7 +820,7 @@ def ConfigTowerInitial():
 def ConfigTowerGoal():
     global goal_tower
     goal_table = Tabla.Tabla(-1, -2)
-    goal_table.Llenar("inicial")
+    goal_table.Llenar("meta")
     goal_tower.setType(1)
     goal_tower.setPosition((850,236))
     goal_tower.DefineBalls(goal_table)

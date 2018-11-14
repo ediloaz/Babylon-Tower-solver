@@ -84,8 +84,12 @@ class Tabla(object):
         self.g = 0
         self.movimiento = 0
         
-        
+    def getColor(self, i, j):
+        return self.llave[self.PosicionMatrizToPosicionString(i,j)]
 
+    def getColorPos(self, posicion):
+        return self.llave[posicion]
+    
     def setMovimiento(self, movimiento):
         self.movimiento = movimiento
 
@@ -192,12 +196,17 @@ class Tabla(object):
             self.llave += "RGBY"
             self.llave += "RGBY"
         elif (tipo == "meta"):
-            self.llave  = "OXXX"
+            self.llave  = "XRXX"
             #self.llave += "RGBY"
-            self.llave += "GRBY"
-            self.llave += "RGBY"
-            self.llave += "RGBY"
-            self.llave += "RGBY"
+            self.llave += "RGBR"
+            self.llave += "YYYY"
+            self.llave += "GOBG"
+            self.llave += "RGBB"
+        elif (type(tipo) == list):
+            lista_de_colores = tipo
+            self.llave = ""
+            for i in range(len(lista_de_colores)):
+                self.llave += lista_de_colores[i].upper()  #colores[j]
         else:
             self.llave  = "XOXX"
             self.llave += "RGBY"
@@ -250,34 +259,26 @@ class Tabla(object):
             tupla[4] == 4 and
             tupla[5] == 3 and
             tupla[6] == 1):
-            tupla[0] = True
+            tupla = (True,4,4,4,4,3,1)
             return tupla
         else:
             return tupla
 
-    # Conversiones entre posiciones de FILA y STRING
+    # Conversión: Posición de fila TO rango en la matriz (0->[0:3],1->[4:7])
     def NumeroFilaToRangoString(self, numero):
-        if (numero == 0):
-            return (0,3)
-        elif (numero == 1):
-            return (4,7)
-        elif (numero == 2):
-            return (8,11)
-        elif (numero == 3):
-            return (12,15)
-        elif (numero == 4):
-            return (16,19)
-        else:
-            print("ERROR EN NumeroFilaToRangoString()")
-            exit()
+        i = numero * 4
+        j = (numero+1)*4-1
+        return (i,j)
+        
     def PosicionStringToPosicionMatriz(self, numero):
         i = 0
-        while n>3:
+        while numero>3:
             i += 1
-            n  = n-4
-        j = n
+            numero  = numero-4
+        j = numero
         return (i,j)
-    def AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA(self, i, j):
+    
+    def PosicionMatrizToPosicionString(self, i, j):
         return (i*4+j)
     
      
@@ -295,10 +296,13 @@ class Tabla(object):
         self.tabla[NumeroFilaGirar] = self.rotate(lista, 1)
     """
     def GirarFilaIzquierda(self, numeroFilaGirar):
-        rango = NumeroFilaToRangoString(numeroFilaGirar)
+        rango = self.NumeroFilaToRangoString(numeroFilaGirar)
+        antes_fila = self.llave[:rango[0]]
+        despues_fila = self.llave[rango[1]+1:]
         fila = self.llave[rango[0]:(rango[1]+1)]
         fila = self.rotate(fila, 1)
-        self.llave[rango[0]:(rango[1]+1)] = fila
+        self.llave = antes_fila + fila + despues_fila
+        
 
     """
     def GirarFilaDerecha(self , NumeroFilaGirar):
@@ -306,11 +310,13 @@ class Tabla(object):
         self.tabla[NumeroFilaGirar] = self.rotate(lista, 3)
     """
     def GirarFilaDerecha(self, numeroFilaGirar):
-        rango = NumeroFilaToRangoString(numeroFilaGirar)
+        rango = self.NumeroFilaToRangoString(numeroFilaGirar)
+        antes_fila = self.llave[:rango[0]]
+        despues_fila = self.llave[rango[1]+1:]
         fila = self.llave[rango[0]:(rango[1]+1)]
         fila = self.rotate(fila, 3)
-        self.llave[rango[0]:(rango[1]+1)] = fila
-    
+        self.llave = antes_fila + fila + despues_fila
+        
     
     #RotarColumnas
     """
@@ -322,6 +328,8 @@ class Tabla(object):
     """
     def PosicionO(self):
         return self.llave.find("O")
+    def PosicionOtupla(self):
+        return self.PosicionStringToPosicionMatriz(self.llave.find("O"))
     """
     def RotarElOArriba(self, PosicionI, PosicionJ):
         if (PosicionI == 0 ):
@@ -342,23 +350,29 @@ class Tabla(object):
             self.tabla[PosicionI+1][PosicionJ] = color
             return True
     """
+    def ChangePositionInString(self, texto, posicion, caracter):
+        lista = list(texto)
+        lista[posicion] = caracter
+        texto = "".join(lista)
+        return texto
+        
     def RotarElOArriba(self):
         posO = self.PosicionO()
-        (i,j) = PosicionStringToPosicionMatriz(posO)
+        (i,j) = self.PosicionStringToPosicionMatriz(posO)
         if (i == 0) or self.llave[posO%4]=="X":         # Checks
             return False                                # Checks
-        pos_destino = PosicionMatrizToPosicionString(i-1,j)
-        self.llave[posO] = self.llave[pos_destino]
-        self.llave[pos_destino] = "O"
+        pos_destino = self.PosicionMatrizToPosicionString(i-1,j)
+        self.llave = self.ChangePositionInString(self.llave, posO, self.llave[pos_destino])
+        self.llave = self.ChangePositionInString(self.llave, pos_destino, "O")
 
     def RotarElOAbajo(self):
         posO = self.PosicionO()
-        (i,j) = PosicionStringToPosicionMatriz(posO)
+        (i,j) = self.PosicionStringToPosicionMatriz(posO)
         if not (i < 4):                                 # Checks
             return False                                # Checks
-        pos_destino = PosicionMatrizToPosicionString(i+1,j)
-        self.llave[posO] = self.llave[pos_destino]
-        self.llave[pos_destino] = "O"
+        pos_destino = self.PosicionMatrizToPosicionString(i+1,j)
+        self.llave = self.ChangePositionInString(self.llave, posO, self.llave[pos_destino])
+        self.llave = self.ChangePositionInString(self.llave, pos_destino, "O")
 
     
     """
@@ -380,7 +394,7 @@ class Tabla(object):
     def Peso(self):
         suma = self.CalcularSumaDeDistancias()
         g = self.getG()
-        peso = (g/20 + (1/20) * suma)
+        peso = (g*2 + (1/20) * suma)
         self.GuardarPeso(peso)
             
     """
@@ -398,13 +412,14 @@ class Tabla(object):
             suma += self.CalcularMayorCercania(self.PosicionStringToPosicionMatriz(i))
         return suma
     
-    def CalcularMayorCercania(self, (i_actual, j_actual)):
+    def CalcularMayorCercania(self, tupla):
+        i_actual, j_actual = tupla[0], tupla[1]
         pos_actual = self.PosicionMatrizToPosicionString(i_actual, j_actual)
         color_meta = TablaMeta.llave[pos_actual]
         
         # Posiciones donde están los demás colores en la TABLA ACTUAL
-        lista = list(tabla.llave)
-        indices = [i for i, x in enumerate(lista) if x == color_actual]
+        lista = list(self.llave)
+        indices = [i for i, x in enumerate(lista) if x == color_meta]
         ijs = self.IndicesToIJ(indices)
 
         # Calcula el IJ más cercano, y su valor de cercanía
@@ -414,7 +429,7 @@ class Tabla(object):
             cercania = abs(i_actual - ij[0]) + abs (j_actual - ij[1])
             if cercania < mayor_cercania:
                 mayor_cercania = cercania
-                print("EVAL: %i es más cercano que %i" % cercania, mayor_cercania)
+                #print("EVAL: "+  str(cercania) +" es más cercano que " + str(mayor_cercania))
                 ij_mas_cercano = ij
         
         # IJ más cercano: ij_mas_cercano
@@ -458,11 +473,11 @@ class Tabla(object):
         print()
     """
     def PrintTorre(self):
-        print(self.llave[0:3])
-        print(self.llave[4:7])
-        print(self.llave[8:11])
-        print(self.llave[12:15])
-        print(self.llave[16:19])
+        print(self.llave[0] + " " + self.llave[1] + " " + self.llave[2] + " " + self.llave[3] )
+        print(self.llave[4] + " " + self.llave[5] + " " + self.llave[6] + " " + self.llave[7] )
+        print(self.llave[8] + " " + self.llave[9] + " " + self.llave[10] + " " + self.llave[11] )
+        print(self.llave[12] + " " + self.llave[13] + " " + self.llave[14] + " " + self.llave[15] )
+        print(self.llave[16] + " " + self.llave[17] + " " + self.llave[18] + " " + self.llave[19] )
     """
     def PrintTorreDetallada(self):
         print("ID: " + str(self.id) )
@@ -475,12 +490,28 @@ class Tabla(object):
             print(texto + "|")
         print("Peso: " + str(self.peso) )
     """
+    def SaveTorreDetallada(self):
+        FILE.write("\n")
+        FILE.write(" - - - - -\n")
+        FILE.write("ID " + str(self.id) + "\n")
+        FILE.write("Padre: " + str(self.idpadre)  + "\n")
+        FILE.write("Valor g: " + str(self.g)  + "\n")
+
+        FILE.write(self.llave[0] + " " + self.llave[1] + " " + self.llave[2] + " " + self.llave[3]  + "\n")
+        FILE.write(self.llave[4] + " " + self.llave[5] + " " + self.llave[6] + " " + self.llave[7]  + "\n")
+        FILE.write(self.llave[8] + " " + self.llave[9] + " " + self.llave[10] + " " + self.llave[11]  + "\n")
+        FILE.write(self.llave[12] + " " + self.llave[13] + " " + self.llave[14] + " " + self.llave[15]  + "\n")
+        FILE.write(self.llave[16] + " " + self.llave[17] + " " + self.llave[18] + " " + self.llave[19]  + "\n")
+        
+        FILE.write("Peso: " + str(self.peso)  + "\n")
+        
     def PrintTorreDetallada(self):
-        print("ID: " + str(self.id) )
+        self.SaveTorreDetallada()
+        """print("ID: " + str(self.id) )
         print("Padre: " + str(self.idpadre) )
         print("Valor g: " + str(self.g) )
         self.PrintTorre()
-        print("Peso: " + str(self.peso) )
+        print("Peso: " + str(self.peso) )"""
 
     """
     def ObtenerColor(self,i,j):
@@ -524,9 +555,9 @@ def PrintTablaMeta():
 def PrintTablaMetaDetallada():
     TablaMeta.PrintTorreDetallada()
 
+FILE = open("REG.txt","w") 
 
-
-
+# 
 # Códigos para cada movimiento
 #
 # 1: Giro a la izquierda, fila 1

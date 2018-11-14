@@ -173,8 +173,8 @@ def NuevaTablaArriba(TablaPadre, numero_fila):
     nueva_tabla.setID(LastID())                                      # Asigna ID
     nueva_tabla.setIDpadre(TablaPadre.getID())      # Asigna ID padre
     nueva_tabla.setG(TablaPadre.getG()+1)               # Asigna g
-    (i,j) = TablaPadre.PosO()
-    nueva_tabla.RotarElOArriba(i,j)
+    # (i,j) = TablaPadre.PosicionOtupla()
+    nueva_tabla.RotarElOArriba()
     if lista_NO_visitados.Comparar(nueva_tabla):       # ¿Está visitado?
         return False
     else:
@@ -188,8 +188,8 @@ def NuevaTablaAbajo(TablaPadre, numero_fila):
     nueva_tabla.setID(LastID())                                      # Asigna ID
     nueva_tabla.setIDpadre(TablaPadre.getID())      # Asigna ID padre
     nueva_tabla.setG(TablaPadre.getG()+1)               # Asigna g
-    (i,j) = TablaPadre.PosO()
-    nueva_tabla.RotarElOAbajo(i,j)
+    # (i,j) = TablaPadre.PosicionOtupla()
+    nueva_tabla.RotarElOAbajo()
     if lista_NO_visitados.Comparar(nueva_tabla):       # ¿Está visitado?
         return False
     else:
@@ -239,72 +239,72 @@ def Ramificacion(TablaPadre):
     Visitado(TablaPadre)
 
     # Encuentra la fila donde está la O (espacio vacío)
-    tupla = TablaPadre.PosO()
-    i = tupla[0]
+    # tupla = TablaPadre.PosicionOtupla()
+    # i = tupla[0]
+
+    
     
     # Hacia izquierda
-    nueva_tabla = NuevaTablaIzquierda(TablaPadre, i)
-    if (nueva_tabla == False):
-        # PRINT PRUEBA
-        print("* * YA EXISE")
-        pass
-    else:
-        # PRINT PRUEBA
-        print("\n\n - - - - - - - - - -  \n TABLA a la IZQUIERDA \n\n")
-        nueva_tabla.PrintTorreDetallada()
-        nueva_tabla.setMovimiento(1+i)  # Va del 1 al 5
-        Peso(nueva_tabla)           # Asigna el peso a la tabla
-        if (Finalizado(nueva_tabla)):
-            #CaminoOptimo(nueva_tabla)
-            CaminoOptimo(nueva_tabla)
-            Encontrado=True
-        
+    print("\n\n - - - - - - - - - -  \n TABLAS a la IZQUIERDA \n\n")
+    for i in range(5):
+        nueva_tabla = NuevaTablaIzquierda(TablaPadre, i)
+        if (nueva_tabla == False):
+            # PRINT PRUEBA
+            print("* * YA EXISE")
+            pass
+        else:
+            nueva_tabla.PrintTorreDetallada()
+            nueva_tabla.setMovimiento(1+i)  # Va del 1 al 5
+            nueva_tabla.Peso()           # Asigna el peso a la tabla
+            if (Finalizado(nueva_tabla)):
+                #CaminoOptimo(nueva_tabla)
+                CaminoOptimo(nueva_tabla)
+                Encontrado=True
+            
     # Hacia derecha
-    nueva_tabla = NuevaTablaDerecha(TablaPadre, i)
-    if (nueva_tabla == False):
-        # PRINT PRUEBA
-        print("* * YA EXISE")
-        pass
-    else:
-        # PRINT PRUEBA
-        print("\n\n - - - - - - - - - -  \n TABLA a la DERECHA \n\n")
-        nueva_tabla.PrintTorreDetallada()
-        nueva_tabla.setMovimiento(6+i) # Va del 6 al 10
-        Peso(nueva_tabla)       # Asigna el peso a la tabla
-        if (Finalizado(nueva_tabla)):
-            CaminoOptimo(nueva_tabla)
-            Encontrado=True
+    print("\n\n - - - - - - - - - -  \n TABLAS a la DERECHA \n\n")
+    for i in range(5):
+        nueva_tabla = NuevaTablaDerecha(TablaPadre, i)
+        if (nueva_tabla == False):
+            # PRINT PRUEBA
+            print("* * YA EXISE")
+            pass
+        else:
+            nueva_tabla.PrintTorreDetallada()
+            nueva_tabla.setMovimiento(6+i) # Va del 6 al 10
+            nueva_tabla.Peso()       # Asigna el peso a la tabla
+            if (Finalizado(nueva_tabla)):
+                CaminoOptimo(nueva_tabla)
+                Encontrado=True
 
 
     # Hacia Arriba
+    print("\n\n - - - - - - - - - -  \n TABLA a ARRIBA \n\n")
     nueva_tabla = NuevaTablaArriba(TablaPadre, i)
     if (nueva_tabla == False):
         # PRINT PRUEBA
         print("* * YA EXISE")
         pass
     else:
-        # PRINT PRUEBA
-        print("\n\n - - - - - - - - - -  \n TABLA a ARRIBA \n\n")
         nueva_tabla.PrintTorreDetallada()
         nueva_tabla.setMovimiento(11)   # 11: Espacio en blanco hacia arriba
-        Peso(nueva_tabla)           # Asigna el peso a la tabla
+        nueva_tabla.Peso()           # Asigna el peso a la tabla
         if (Finalizado(nueva_tabla)):
             CaminoOptimo(nueva_tabla)
             Encontrado=True
 
 
     # Hacia Abajo
+    print("\n\n - - - - - - - - - -  \n TABLA a la ABAJO \n\n")
     nueva_tabla = NuevaTablaAbajo(TablaPadre, i)
     if (nueva_tabla == False):
         # PRINT PRUEBA
         print("* * YA EXISE")
         pass
     else:
-        # PRINT PRUEBA
-        print("\n\n - - - - - - - - - -  \n TABLA a la ABAJO \n\n")
         nueva_tabla.PrintTorreDetallada()
         nueva_tabla.setMovimiento(12) # 12: Espacio en blanco hacia abajo
-        Peso(nueva_tabla)           # Asigna el peso a la tabla
+        nueva_tabla.Peso()           # Asigna el peso a la tabla
         if (Finalizado(nueva_tabla)):
                 CaminoOptimo(nueva_tabla)
                 Encontrado=True
@@ -374,7 +374,7 @@ def Main(tabla_inicial, tabla_meta):
 
     enablePrint()
     PrintSolution()
-    
+    blockPrint()
 
 
 def StartTime():
@@ -389,8 +389,9 @@ def EndTime():
     print("TIEMPO DE SOLUCIÓN: %s segundos " % str(round(TIME[0],2)))
     print()
  
-StartTime()
+
 blockPrint()
+
 lista_visitados = Tabla.ListaDeTablas()
 lista_NO_visitados = Tabla.ListaDeTablas()
 lista_camino_optimo = []
@@ -398,9 +399,9 @@ Encontrado = False #variable para saber si termino
 
 Tabla.TablaInicial.Llenar("inicial")
 Tabla.LlenarTablaMeta()
-StartTime()
-Main(Tabla.TablaInicial, Tabla.TablaMeta)
-EndTime()
+#StartTime()
+# Main(Tabla.TablaInicial, Tabla.TablaMeta)
+#EndTime()
 
 # main()        # DESCOMENTAR PARA HACER PRUEBAS LOCALES
 
