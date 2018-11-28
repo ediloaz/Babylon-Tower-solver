@@ -453,6 +453,8 @@ class Ball(object):
             self.setIndex("blue")
         elif (self.index[0] == "b"):
             self.setIndex("yellow")
+        elif (self.index[0] == "y") and self.position[1] > 280:
+            self.setIndex("o")
         elif (self.index[0] == "y"):
             self.setIndex("x")
         elif (self.index[0] == "x"):
@@ -483,7 +485,7 @@ class Ball(object):
                     self.setIndex("blue")
                 elif (event.key == pygame.K_y or event.key == pygame.K_4):
                     self.setIndex("yellow")
-                elif (event.key == pygame.K_x or event.key == pygame.K_5):
+                elif (event.key == pygame.K_x or event.key == pygame.K_5) and self.position[1] < 280:
                     self.setIndex("x")
                 elif (event.key == pygame.K_o or event.key == pygame.K_6):
                     self.setIndex("o")

@@ -196,12 +196,11 @@ class Tabla(object):
             self.llave += "RGBY"
             self.llave += "RGBY"
         elif (tipo == "meta"):
-            self.llave  = "XRXX"
-            #self.llave += "RGBY"
-            self.llave += "RGBR"
-            self.llave += "YYYY"
-            self.llave += "GOBG"
-            self.llave += "RGBB"
+            self.llave  = "XXOX"
+            self.llave += "RGBY"
+            self.llave += "RGBY"
+            self.llave += "RGBY"
+            self.llave += "RGBY"
         elif (type(tipo) == list):
             lista_de_colores = tipo
             self.llave = ""
@@ -497,10 +496,10 @@ class Tabla(object):
         FILE.write("Padre: " + str(self.idpadre)  + "\n")
         FILE.write("Valor g: " + str(self.g)  + "\n")
 
-        FILE.write(self.llave[0] + " " + self.llave[1] + " " + self.llave[2] + " " + self.llave[3]  + "\n")
-        FILE.write(self.llave[4] + " " + self.llave[5] + " " + self.llave[6] + " " + self.llave[7]  + "\n")
-        FILE.write(self.llave[8] + " " + self.llave[9] + " " + self.llave[10] + " " + self.llave[11]  + "\n")
-        FILE.write(self.llave[12] + " " + self.llave[13] + " " + self.llave[14] + " " + self.llave[15]  + "\n")
+        FILE.write(self.llave[0] + " " + self.llave[1] + " " + self.llave[2] + " " + self.llave[3]  + "  ")
+        FILE.write(self.llave[4] + " " + self.llave[5] + " " + self.llave[6] + " " + self.llave[7]  + "  ")
+        FILE.write(self.llave[8] + " " + self.llave[9] + " " + self.llave[10] + " " + self.llave[11]  + "  ")
+        FILE.write(self.llave[12] + " " + self.llave[13] + " " + self.llave[14] + " " + self.llave[15]  + "  ")
         FILE.write(self.llave[16] + " " + self.llave[17] + " " + self.llave[18] + " " + self.llave[19]  + "\n")
         
         FILE.write("Peso: " + str(self.peso)  + "\n")
@@ -555,7 +554,7 @@ def PrintTablaMeta():
 def PrintTablaMetaDetallada():
     TablaMeta.PrintTorreDetallada()
 
-FILE = open("REG.txt","w") 
+FILE = open("REGA.txt","w") 
 
 # 
 # Códigos para cada movimiento
