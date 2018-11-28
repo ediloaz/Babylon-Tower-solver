@@ -249,17 +249,37 @@ class Button(object):
         for i in SOLUTION:
             text += "  " +str(count) + ". " + str(getMessage(i.getMovimiento())) + ".\n"
             count += 1
+        text += "  *. this is the goal table.\n"
         return text
     
     def SaveFile(self):
         root = tk.Tk()
         root.withdraw()
-        f = filedialog.asksaveasfile(mode='w', defaultextension=".txt")
+        f = filedialog.asksaveasfile(mode='w', defaultextension=".bySolution")
         print(33,f)
         if f is None: # asksaveasfile return `None` if dialog closed with "cancel".
             return
+        text = "Initial Table:"
+        previous_position = 0
+        for ball in initial_tower.balls:
+            if (previous_position != ball.position[1]):
+                previous_position = ball.position[1]
+                text += "\n\t"
+            text += str(ball.getColor()) + " "
+        f.write(text)
+        f.write("\n\n")
+        text = "Goal Table:"
+        previous_position = 0
+        for ball in goal_tower.balls:
+            if (previous_position != ball.position[1]):
+                previous_position = ball.position[1]
+                text += "\n\t"
+            text += str(ball.getColor()) + " "
+        f.write(text)
+        f.write("\n\n\n")
         text = self.ListToString()
         f.write(text)
+        f.write("\n\n -end-line-")
         f.close() # `()` was missing.
         root.destroy()
         

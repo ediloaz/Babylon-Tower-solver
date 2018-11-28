@@ -1,0 +1,9 @@
+Starting from the initial table, 
+these are the movements:
+  1. this is the initial table.
+  2. turn EMPTY SPACE to DOWN.
+  3. turn EMPTY SPACE to DOWN.
+  4. turn LEFT the row 2.
+  5. turn EMPTY SPACE to UP.
+  6. turn EMPTY SPACE to UP.
+  7. turn RIGHT the row 2.

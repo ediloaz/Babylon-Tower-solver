@@ -253,9 +253,9 @@ def Ramificacion(TablaPadre):
             print("* * YA EXISE")
             pass
         else:
-            nueva_tabla.PrintTorreDetallada()
             nueva_tabla.setMovimiento(1+i)  # Va del 1 al 5
             nueva_tabla.Peso()           # Asigna el peso a la tabla
+            nueva_tabla.PrintTorreDetallada()
             if (Finalizado(nueva_tabla)):
                 #CaminoOptimo(nueva_tabla)
                 CaminoOptimo(nueva_tabla)
@@ -270,9 +270,9 @@ def Ramificacion(TablaPadre):
             print("* * YA EXISE")
             pass
         else:
-            nueva_tabla.PrintTorreDetallada()
             nueva_tabla.setMovimiento(6+i) # Va del 6 al 10
             nueva_tabla.Peso()       # Asigna el peso a la tabla
+            nueva_tabla.PrintTorreDetallada()
             if (Finalizado(nueva_tabla)):
                 CaminoOptimo(nueva_tabla)
                 Encontrado=True
@@ -286,9 +286,9 @@ def Ramificacion(TablaPadre):
         print("* * YA EXISE")
         pass
     else:
-        nueva_tabla.PrintTorreDetallada()
         nueva_tabla.setMovimiento(11)   # 11: Espacio en blanco hacia arriba
         nueva_tabla.Peso()           # Asigna el peso a la tabla
+        nueva_tabla.PrintTorreDetallada()
         if (Finalizado(nueva_tabla)):
             CaminoOptimo(nueva_tabla)
             Encontrado=True
@@ -302,9 +302,9 @@ def Ramificacion(TablaPadre):
         print("* * YA EXISE")
         pass
     else:
-        nueva_tabla.PrintTorreDetallada()
         nueva_tabla.setMovimiento(12) # 12: Espacio en blanco hacia abajo
         nueva_tabla.Peso()           # Asigna el peso a la tabla
+        nueva_tabla.PrintTorreDetallada()
         if (Finalizado(nueva_tabla)):
                 CaminoOptimo(nueva_tabla)
                 Encontrado=True

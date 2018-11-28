@@ -144,7 +144,7 @@ class Tabla(object):
             return False
     """
     def EsLaTablaMeta(self):
-        print("\n Esta fue la comparacion de la tabla meta: \n",self.llave,"\n",TablaMeta.llave,"\n")
+        # print("\n Esta fue la comparacion de la tabla meta: \n",self.llave,"\n",TablaMeta.llave,"\n")
         if (self.llave == TablaMeta.llave):
             return True
         else:
@@ -393,7 +393,8 @@ class Tabla(object):
     def Peso(self):
         suma = self.CalcularSumaDeDistancias()
         g = self.getG()
-        peso = (g*2 + (1/20) * suma)
+        # peso = (g + suma*(1/20))
+        peso = (g + suma*(1))
         self.GuardarPeso(peso)
             
     """
@@ -412,7 +413,9 @@ class Tabla(object):
         return suma
     
     def CalcularMayorCercania(self, tupla):
+        # FILE.write("\t") # # # # * * * * * * # # # #
         i_actual, j_actual = tupla[0], tupla[1]
+        # FILE.write("i y j actuales: " + str(i_actual) + " " + str(j_actual)) # # # # * * * * * * # # # #
         pos_actual = self.PosicionMatrizToPosicionString(i_actual, j_actual)
         color_meta = TablaMeta.llave[pos_actual]
         
@@ -432,6 +435,7 @@ class Tabla(object):
                 ij_mas_cercano = ij
         
         # IJ más cercano: ij_mas_cercano
+        # FILE.write(" con SUMA (del más cercano):" + str(mayor_cercania) + "\t") # # # # * * * * * * # # # #
         return mayor_cercania
                 
         
@@ -505,7 +509,7 @@ class Tabla(object):
         FILE.write("Peso: " + str(self.peso)  + "\n")
         
     def PrintTorreDetallada(self):
-        self.SaveTorreDetallada()
+        # self.SaveTorreDetallada()
         """print("ID: " + str(self.id) )
         print("Padre: " + str(self.idpadre) )
         print("Valor g: " + str(self.g) )
