@@ -1,0 +1,32 @@
+Initial Table:
+	O X X X 
+	R R B Y 
+	G G B Y 
+	R G B Y 
+	R G B Y 
+
+Goal Table:
+	X X O X 
+	R G B Y 
+	R G B Y 
+	R G B Y 
+	R G B Y 
+
+
+Starting from the initial table, 
+these are the movements:
+  1. this is the initial table.
+  2. turn RIGHT the row 1.
+  3. turn EMPTY SPACE to DOWN.
+  4. turn RIGHT the row 3.
+  5. turn EMPTY SPACE to DOWN.
+  6. turn LEFT the row 3.
+  7. turn LEFT the row 1.
+  8. turn EMPTY SPACE to UP.
+  9. turn EMPTY SPACE to UP.
+  10. turn LEFT the row 1.
+  11. turn LEFT the row 1.
+  *. this is the goal table.
+
+
+ -end-line-
